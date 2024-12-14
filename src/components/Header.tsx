@@ -1,23 +1,81 @@
-import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+  AppBar,
+  Avatar,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { useNavigate } from "react-router";
+import { MoreVert } from "@mui/icons-material";
+import { useRef, useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButton = useRef(null);
+
+  const { user, logout } = useAuth();
+
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="primary">
       <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
+        <Typography
+          onClick={() => navigate("/")}
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, cursor: "pointer" }}
         >
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Sesizari
         </Typography>
-        <Button color="inherit">Login</Button>
+        <IconButton
+          ref={menuButton}
+          color="default"
+          onClick={() => setMenuOpen(true)}
+        >
+          {user ? (
+            <Avatar
+              sx={{ width: 32, height: 32 }}
+              src={user.photoURL || undefined}
+            >
+              {user.displayName
+                ?.split(" ")
+                .map((x) => x[0].toUpperCase())
+                .join("")}
+            </Avatar>
+          ) : (
+            <MoreVert sx={{ width: 32, height: 32 }} />
+          )}
+        </IconButton>
+        <Menu
+          onClose={() => setMenuOpen(false)}
+          anchorEl={menuButton.current}
+          open={menuOpen}
+        >
+          {!user && (
+            <MenuItem
+              onClick={() => {
+                navigate("/login");
+                setMenuOpen(false);
+              }}
+            >
+              Login
+            </MenuItem>
+          )}
+          {user && (
+            <MenuItem
+              onClick={async () => {
+                await logout();
+                setMenuOpen(false);
+                navigate("/");
+              }}
+            >
+              Logout
+            </MenuItem>
+          )}
+        </Menu>
       </Toolbar>
     </AppBar>
   );

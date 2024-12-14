@@ -6,7 +6,7 @@ function App() {
   return (
     <Stack sx={{ height: "100%" }}>
       <Header />
-      <Box sx={{flex: 'auto', minHeight: 0, overflow: 'auto'}}>
+      <Box sx={{ flex: "auto", minHeight: 0, overflow: "auto" }}>
         <Outlet />
       </Box>
     </Stack>

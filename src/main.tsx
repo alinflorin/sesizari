@@ -1,4 +1,5 @@
 import "./fonts";
+import "leaflet/dist/leaflet.css";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "@mui/material/styles";
@@ -8,6 +9,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import App from "./App";
 import Home from "./routes/Home";
 import About from "./routes/About";
+import Login from "./routes/Login";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme} noSsr>
@@ -17,6 +19,7 @@ createRoot(document.getElementById("root")!).render(
         <Route element={<App />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter>
