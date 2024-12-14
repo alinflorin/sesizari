@@ -1,4 +1,4 @@
-import { LatLngExpression } from "leaflet";
+import { Icon, LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
@@ -43,7 +43,10 @@ export default function Home() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={center}>
+      <Marker
+        icon={new Icon({ iconUrl: "/images/marker-icon.png" })}
+        position={center}
+      >
         <MapControl center={center} />
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
