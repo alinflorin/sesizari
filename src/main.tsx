@@ -11,6 +11,7 @@ import Home from "./routes/Home";
 import About from "./routes/About";
 import Login from "./routes/Login";
 import TenantHome from "./routes/TenantHome";
+import NotFound from "./routes/NotFound";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme} noSsr>
@@ -22,6 +23,8 @@ createRoot(document.getElementById("root")!).render(
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
           <Route path="t/:tenantId" element={<TenantHome />} />
+
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
