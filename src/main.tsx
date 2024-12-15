@@ -10,6 +10,7 @@ import App from "./App";
 import Home from "./routes/Home";
 import About from "./routes/About";
 import Login from "./routes/Login";
+import TenantHome from "./routes/TenantHome";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme} noSsr>
@@ -20,6 +21,7 @@ createRoot(document.getElementById("root")!).render(
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
+          <Route path="t/:tenantId" element={<TenantHome />} />
         </Route>
       </Routes>
     </BrowserRouter>

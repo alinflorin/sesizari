@@ -7,13 +7,14 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { MoreVert } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import useAuth from "../hooks/useAuth";
 
 export default function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef(null);
 
@@ -54,10 +55,21 @@ export default function Header() {
           anchorEl={menuButton.current}
           open={menuOpen}
         >
+          <MenuItem
+            onClick={() => {
+              navigate("/about");
+              setMenuOpen(false);
+            }}
+          >
+            About
+          </MenuItem>
+
           {!user && (
             <MenuItem
               onClick={() => {
-                navigate("/login");
+                navigate(
+                  "/login?returnTo=" + encodeURIComponent(location.pathname)
+                );
                 setMenuOpen(false);
               }}
             >
