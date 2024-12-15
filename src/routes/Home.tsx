@@ -1,19 +1,28 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { Tenant } from "../models/tenant";
-import { getAllTenants } from "../services/tenant.service";
 import { useNavigate } from "react-router";
+import useFirestore from "../hooks/useFirestore";
 
 export default function Home() {
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [selectedTenantId, setSelectedTenantId] = useState("");
   const navigate = useNavigate();
+  const { getAllTenants } = useFirestore();
 
   useEffect(() => {
     (async () => {
       const tenants = await getAllTenants();
       setTenants(tenants);
     })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const goToTenant = useCallback(() => {
@@ -28,16 +37,18 @@ export default function Home() {
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
-        padding: "1rem"
+        padding: "1rem",
       }}
     >
-      <Box sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "1rem",
-        width: "100%"
-      }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1rem",
+          width: "100%",
+        }}
+      >
         <FormControl fullWidth>
           <InputLabel id="tenant-label">Tenant</InputLabel>
           <Select
@@ -53,7 +64,9 @@ export default function Home() {
             ))}
           </Select>
         </FormControl>
-        <Button disabled={!selectedTenantId} onClick={goToTenant}>Enter</Button>
+        <Button disabled={!selectedTenantId} onClick={goToTenant}>
+          Enter
+        </Button>
       </Box>
     </Box>
   );

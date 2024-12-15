@@ -12,6 +12,8 @@ import About from "./routes/About";
 import Login from "./routes/Login";
 import TenantHome from "./routes/TenantHome";
 import NotFound from "./routes/NotFound";
+import Signup from "./routes/Signup";
+import ForgotPassword from "./routes/ForgotPassword";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme} noSsr>
@@ -22,6 +24,8 @@ createRoot(document.getElementById("root")!).render(
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="t/:tenantId" element={<TenantHome />} />
 
           <Route path="*" element={<NotFound />} />
