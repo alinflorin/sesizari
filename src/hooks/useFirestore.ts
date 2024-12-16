@@ -2,6 +2,7 @@ import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
 import { db } from "../firebase";
 import { Tenant } from "../models/tenant";
 import { useCallback } from "react";
+import { Settings } from "../models/settings";
 
 export default function useFirestore() {
   const getTenantById = useCallback(async (id: string) => {
@@ -19,5 +20,13 @@ export default function useFirestore() {
     );
   }, []);
 
-  return { getTenantById, getAllTenants };
+  const getSettings = useCallback(async () => {
+    const docRef = await getDoc(doc(db, "settings", "settings"));
+    if (!docRef.exists()) {
+      return undefined;
+    }
+    return { ...docRef.data()} as Settings;
+  }, []);
+
+  return { getTenantById, getAllTenants, getSettings };
 }

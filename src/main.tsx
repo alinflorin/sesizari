@@ -27,7 +27,6 @@ createRoot(document.getElementById("root")!).render(
           <Route path="signup" element={<Signup />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="t/:tenantId" element={<TenantHome />} />
-
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

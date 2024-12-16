@@ -11,15 +11,18 @@ import {
 
 export default function useAuth() {
   const [user, setUser] = useState<AppUser | null>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((u) => {
       if (!u) {
         setUser(null);
+        setLoaded(true);
         return;
       }
       const appUser: AppUser = u;
       setUser(appUser);
+      setLoaded(true);
     });
     return () => {
       if (unsub) {
@@ -52,6 +55,7 @@ export default function useAuth() {
   }, []);
 
   return {
+    loaded,
     user,
     logout,
     signup,
