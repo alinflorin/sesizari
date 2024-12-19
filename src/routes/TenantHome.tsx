@@ -1,7 +1,8 @@
 import { Icon, LatLngExpression } from "leaflet";
 import { useEffect, useMemo, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap, Polygon } from "react-leaflet";
-import useTenant from "../hooks/useTenant";
+import { Tenant } from "../models/tenant";
+import { useOutletContext } from "react-router";
 
 interface MapControlProps {
   center: LatLngExpression;
@@ -17,7 +18,8 @@ export function MapControl({ center }: MapControlProps) {
 
 export default function TenantHome() {
   const [center, setCenter] = useState<LatLngExpression>([45.943161, 24.96676]);
-  const {tenant} = useTenant();
+
+  const {tenant}: {tenant?: Tenant} = useOutletContext();
 
   const area = useMemo(() => {
     if (!tenant || !tenant.area) {

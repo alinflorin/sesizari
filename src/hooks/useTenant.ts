@@ -11,10 +11,13 @@ export default function useTenant() {
 
   useEffect(() => {
     if (!tenantId) {
+      setLoading(false);
+      setTenant(undefined);
       return;
     }
     (async () => {
       try {
+        setLoading(true);
         const tenant = await getTenantById(tenantId);
         setTenant(tenant);
         setLoading(false);

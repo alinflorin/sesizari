@@ -1,6 +1,7 @@
 import {
   AppBar,
   Avatar,
+  Box,
   IconButton,
   Menu,
   MenuItem,
@@ -11,8 +12,13 @@ import { useLocation, useNavigate } from "react-router";
 import { MoreVert } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import useAuth from "../hooks/useAuth";
+import { Tenant } from "../models/tenant";
 
-export default function Header() {
+export interface HeaderProps {
+  tenant?: Tenant;
+}
+
+export default function Header({tenant}: HeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,15 +28,44 @@ export default function Header() {
 
   return (
     <AppBar position="static" color="primary">
-      <Toolbar>
-        <Typography
-          onClick={() => navigate("/")}
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, cursor: "pointer" }}
+      <Toolbar sx={{
+        flexDirection: "row",
+        justifyContent: "space-between"
+      }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row"
+          }}
         >
-          Sesizari
-        </Typography>
+          <Typography
+            onClick={() => navigate("/")}
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, cursor: "pointer" }}
+          >
+            Sesizari
+          </Typography>
+          {tenant && (
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, cursor: "pointer" }}
+            >
+              &nbsp;&gt;&nbsp;
+            </Typography>
+          )}
+          {tenant && (
+            <Typography
+              onClick={() => navigate("/t/" + tenant.id)}
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, cursor: "pointer" }}
+            >
+              {tenant.name}
+            </Typography>
+          )}
+        </Box>
         <IconButton
           ref={menuButton}
           color="default"
