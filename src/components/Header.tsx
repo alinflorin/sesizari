@@ -1,6 +1,5 @@
 import {
   MoreVertical32Filled,
-  PersonWarning32Regular,
 } from "@fluentui/react-icons";
 import {
   Toolbar,
@@ -13,6 +12,7 @@ import {
   MenuItem,
   makeStyles,
   Avatar,
+  Image,
 } from "@fluentui/react-components";
 import { User } from "../models/user";
 
@@ -32,6 +32,10 @@ const useStyles = makeStyles({
     flexDirection: "row",
     alignItems: "center",
   },
+  logo: {
+    width: "32px",
+    height: "32px"
+  }
 });
 
 export default function Header({ user }: HeaderProps) {
@@ -40,7 +44,7 @@ export default function Header({ user }: HeaderProps) {
 
   return (
     <Toolbar className={classes.toolbar}>
-      <PersonWarning32Regular />
+      <Image src="/images/logo.svg" className={classes.logo} />
       <div className={classes.right}>
         <ToolbarDivider />
         <Menu>
