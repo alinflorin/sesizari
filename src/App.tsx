@@ -49,11 +49,12 @@ function App() {
   return (
     <FluentProvider
       theme={computedTheme === "dark" ? webDarkTheme : webLightTheme}
-      className={classes.wrapper}
     >
-      <Header />
-      <div className={classes.content}>
-        <Outlet />
+      <div className="wrapper">
+        <Header />
+        <div className={classes.content}>
+          <Outlet />
+        </div>
       </div>
     </FluentProvider>
   );
