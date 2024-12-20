@@ -1,3 +1,5 @@
+import { Text } from "@fluentui/react-components";
+
 export default function Home() {
-  return <div>home</div>
+  return <Text>homeeee</Text>
 }
