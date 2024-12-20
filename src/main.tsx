@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Home from "./routes/Home.tsx";
 import NotFound from "./routes/NotFound.tsx";
 
+import "./providers/i18n";
+
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <Routes>
