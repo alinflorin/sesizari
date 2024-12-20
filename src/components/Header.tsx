@@ -13,6 +13,11 @@ import {
   MenuItem,
   makeStyles,
 } from "@fluentui/react-components";
+import { User } from "../models/user";
+
+export interface HeaderProps {
+  user: User | undefined;
+}
 
 const useStyles = makeStyles({
   toolbar: {
@@ -24,12 +29,13 @@ const useStyles = makeStyles({
   right: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
 
-export default function Header() {
+export default function Header({ user }: HeaderProps) {
   const classes = useStyles();
+  console.log(user);
 
   return (
     <Toolbar className={classes.toolbar}>
@@ -38,9 +44,7 @@ export default function Header() {
         <ToolbarDivider />
         <Menu>
           <MenuTrigger>
-            <ToolbarButton
-              icon={<MoreVertical32Filled />}
-            />
+            <ToolbarButton icon={<MoreVertical32Filled />} />
           </MenuTrigger>
 
           <MenuPopover>

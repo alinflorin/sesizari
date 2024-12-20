@@ -10,6 +10,7 @@ import useUserProfile from "./hooks/useUserProfile";
 import { useSystemTheme } from "./hooks/useSystemTheme";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import useUser from "./hooks/useUser";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const { profile } = useUserProfile();
+  const user = useUser();
 
   // Theming
   const sysTheme = useSystemTheme();
@@ -51,7 +53,7 @@ function App() {
       theme={computedTheme === "dark" ? webDarkTheme : webLightTheme}
     >
       <div className={classes.wrapper}>
-        <Header />
+        <Header user={user} />
         <div className={classes.content}>
           <Outlet />
         </div>
