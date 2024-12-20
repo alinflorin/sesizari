@@ -12,6 +12,7 @@ import {
   MenuList,
   MenuItem,
   makeStyles,
+  Avatar,
 } from "@fluentui/react-components";
 import { User } from "../models/user";
 
@@ -44,7 +45,7 @@ export default function Header({ user }: HeaderProps) {
         <ToolbarDivider />
         <Menu>
           <MenuTrigger>
-            <ToolbarButton icon={<MoreVertical32Filled />} />
+            <ToolbarButton icon={user ? <Avatar size={32} initials={user.displayName} /> : <MoreVertical32Filled />} />
           </MenuTrigger>
 
           <MenuPopover>

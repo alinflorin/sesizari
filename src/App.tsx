@@ -10,7 +10,7 @@ import useUserProfile from "./hooks/useUserProfile";
 import { useSystemTheme } from "./hooks/useSystemTheme";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import useUser from "./hooks/useUser";
+import useAuth from "./hooks/useAuth";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const { profile } = useUserProfile();
-  const user = useUser();
+  const {user} = useAuth();
 
   // Theming
   const sysTheme = useSystemTheme();

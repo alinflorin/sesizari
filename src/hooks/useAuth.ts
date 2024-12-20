@@ -3,7 +3,7 @@ import { firebaseAuth } from "../providers/firebase";
 import { User } from "../models/user";
 import { useMemo } from "react";
 
-export default function useUser() {
+export default function useAuth() {
   const [user] = useAuthState(firebaseAuth);
 
   const mappedUser = useMemo(() => {
@@ -17,5 +17,5 @@ export default function useUser() {
     } as User;
   }, [user]);
 
-  return mappedUser
+  return {user: mappedUser};
 }
