@@ -1,8 +1,6 @@
 import {
-  FontIncrease24Regular,
-  FontDecrease24Regular,
-  TextFont24Regular,
-  MoreHorizontal24Filled,
+  MoreVertical32Filled,
+  PersonWarning32Regular,
 } from "@fluentui/react-icons";
 import {
   Toolbar,
@@ -13,39 +11,48 @@ import {
   MenuPopover,
   MenuList,
   MenuItem,
+  makeStyles,
 } from "@fluentui/react-components";
 
-export default function Header() {
-  return (
-    <Toolbar>
-      <ToolbarButton
-        aria-label="Increase Font Size"
-        appearance="primary"
-        icon={<FontIncrease24Regular />}
-      />
-      <ToolbarButton
-        aria-label="Decrease Font Size"
-        icon={<FontDecrease24Regular />}
-      />
-      <ToolbarButton
-        aria-label="Reset Font Size"
-        icon={<TextFont24Regular />}
-      />
-      <ToolbarDivider />
-      <Menu>
-        <MenuTrigger>
-          <ToolbarButton aria-label="More" icon={<MoreHorizontal24Filled />} />
-        </MenuTrigger>
+const useStyles = makeStyles({
+  toolbar: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  right: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  }
+});
 
-        <MenuPopover>
-          <MenuList>
-            <MenuItem>New </MenuItem>
-            <MenuItem>New Window</MenuItem>
-            <MenuItem disabled>Open File</MenuItem>
-            <MenuItem>Open Folder</MenuItem>
-          </MenuList>
-        </MenuPopover>
-      </Menu>
+export default function Header() {
+  const classes = useStyles();
+
+  return (
+    <Toolbar className={classes.toolbar}>
+      <PersonWarning32Regular />
+      <div className={classes.right}>
+        <ToolbarDivider />
+        <Menu>
+          <MenuTrigger>
+            <ToolbarButton
+              icon={<MoreVertical32Filled />}
+            />
+          </MenuTrigger>
+
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>New </MenuItem>
+              <MenuItem>New Window</MenuItem>
+              <MenuItem disabled>Open File</MenuItem>
+              <MenuItem>Open Folder</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+      </div>
     </Toolbar>
   );
 }
