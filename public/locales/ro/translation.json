@@ -6,7 +6,10 @@
         "logout": "Ieșire",
         "about": "Despre",
         "theme": "Temă",
-        "language": "Limbă"
+        "language": "Limbă",
+        "light": "Luminoasă",
+        "dark": "Întunecată",
+        "system": "Sistem"
       }
     }
   }

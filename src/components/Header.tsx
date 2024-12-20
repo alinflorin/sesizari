@@ -24,7 +24,14 @@ import { useTranslation } from "react-i18next";
 import { supportedLanguages } from "../providers/i18n";
 import useAuth from "../hooks/useAuth";
 import { useCallback } from "react";
-import useUserProfile from "../hooks/useUserProfile";
+import { UserProfile } from "../models/user-profile";
+
+const themes: ("light" | "dark" | "system")[] = ["light", "dark", "system"];
+
+export interface HeaderProps {
+  profile: UserProfile;
+  setUserProfile: (profile: UserProfile) => Promise<void>;
+}
 
 const useStyles = makeStyles({
   toolbar: {
@@ -44,18 +51,28 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Header() {
+export default function Header({ profile, setUserProfile }: HeaderProps) {
   const classes = useStyles();
   const { user } = useAuth();
-  const { profile, setUserProfile } = useUserProfile();
   const { t, i18n } = useTranslation();
 
-  const changeLanguage = useCallback((newLangCode: string) => {
-    if (newLangCode === i18n.language) {
+  const changeLanguage = useCallback(
+    async (newLangCode: string) => {
+      if (newLangCode === i18n.language) {
+        return;
+      }
+      i18n.changeLanguage(newLangCode);
+      await setUserProfile({ ...profile, language: newLangCode });
+    },
+    [profile, setUserProfile, i18n]
+  );
+
+  const changeTheme = useCallback(async (newTheme: "light" | "dark" | "system") => {
+    if (newTheme === profile.theme) {
       return;
     }
-    setUserProfile({...profile, language: newLangCode});
-  }, [profile, setUserProfile, i18n]);
+    await setUserProfile({ ...profile, theme: newTheme });
+  }, [setUserProfile, profile]);
 
   return (
     <Toolbar className={classes.toolbar}>
@@ -91,8 +108,11 @@ export default function Header() {
                   <MenuList>
                     {supportedLanguages.map((l) => (
                       <MenuItem
-                        onClick={i18n.language.toLowerCase() ===
-                          l.code.toLowerCase() ? undefined : () => changeLanguage(l.code)}
+                        onClick={
+                          i18n.language.toLowerCase() === l.code.toLowerCase()
+                            ? undefined
+                            : () => changeLanguage(l.code)
+                        }
                         icon={
                           i18n.language.toLowerCase() ===
                           l.code.toLowerCase() ? (
@@ -109,9 +129,30 @@ export default function Header() {
                   </MenuList>
                 </MenuPopover>
               </Menu>
-              <MenuItem icon={<DarkThemeRegular />}>
-                {t("ui.components.header.theme")}
-              </MenuItem>
+              <Menu>
+                <MenuTrigger>
+                  <MenuItem icon={<DarkThemeRegular />}>
+                    {t("ui.components.header.theme")}
+                  </MenuItem>
+                </MenuTrigger>
+                <MenuPopover>
+                  {themes.map((theme) => (
+                    <MenuItem
+                      onClick={() => changeTheme(theme)}
+                      icon={
+                        (profile.theme || "system") === theme ? (
+                          <CheckmarkRegular />
+                        ) : (
+                          <></>
+                        )
+                      }
+                      key={theme}
+                    >
+                      {t("ui.components.header." + theme)}
+                    </MenuItem>
+                  ))}
+                </MenuPopover>
+              </Menu>
               <MenuItem icon={<InfoRegular />}>
                 {t("ui.components.header.about")}
               </MenuItem>

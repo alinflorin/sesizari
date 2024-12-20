@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  const { profile } = useUserProfile();
+  const { profile, setUserProfile } = useUserProfile();
 
   // Theming
   const sysTheme = useSystemTheme();
@@ -41,7 +41,6 @@ function App() {
   // i18n
   const { i18n } = useTranslation();
   useEffect(() => {
-    console.log(profile);
     if (profile.language && i18n.language !== profile.language) {
       i18n.changeLanguage(profile.language);
     }
@@ -52,7 +51,7 @@ function App() {
       theme={computedTheme === "dark" ? webDarkTheme : webLightTheme}
     >
       <div className={classes.wrapper}>
-        <Header />
+        <Header profile={profile} setUserProfile={setUserProfile} />
         <div className={classes.content}>
           <Outlet />
         </div>

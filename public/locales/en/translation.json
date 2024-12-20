@@ -6,7 +6,10 @@
         "logout": "Logout",
         "about": "About",
         "theme": "Theme",
-        "language": "Language"
+        "language": "Language",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
       }
     }
   }
