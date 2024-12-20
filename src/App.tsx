@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   wrapper: {
     display: "flex",
     flexDirection: "column",
-    height: "100%",
+    height: "100vh",
   },
   content: {
     flex: "auto",
@@ -50,7 +50,7 @@ function App() {
     <FluentProvider
       theme={computedTheme === "dark" ? webDarkTheme : webLightTheme}
     >
-      <div className="wrapper">
+      <div className={classes.wrapper}>
         <Header />
         <div className={classes.content}>
           <Outlet />
