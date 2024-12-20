@@ -1,12 +1,12 @@
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { firebaseAuth, firebaseFirestore } from "../providers/firebase";
+import { firebaseFirestore } from "../providers/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { UserProfile } from "../models/user-profile";
+import useAuth from "./useAuth";
 
 export default function useUserProfile() {
-  const [user] = useAuthState(firebaseAuth);
+  const { user } = useAuth();
   const localProfile = localStorage.getItem("userProfile");
   const [profile, setProfile] = useState<UserProfile>(
     localProfile ? JSON.parse(localProfile) : {}
@@ -32,7 +32,7 @@ export default function useUserProfile() {
         });
       }
     },
-    [user]
+    [user, setProfile]
   );
 
   return { profile, setUserProfile };

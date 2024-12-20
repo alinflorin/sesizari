@@ -10,7 +10,6 @@ import useUserProfile from "./hooks/useUserProfile";
 import { useSystemTheme } from "./hooks/useSystemTheme";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import useAuth from "./hooks/useAuth";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -29,7 +28,6 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const { profile } = useUserProfile();
-  const {user} = useAuth();
 
   // Theming
   const sysTheme = useSystemTheme();
@@ -43,6 +41,7 @@ function App() {
   // i18n
   const { i18n } = useTranslation();
   useEffect(() => {
+    console.log(profile);
     if (profile.language && i18n.language !== profile.language) {
       i18n.changeLanguage(profile.language);
     }
@@ -53,7 +52,7 @@ function App() {
       theme={computedTheme === "dark" ? webDarkTheme : webLightTheme}
     >
       <div className={classes.wrapper}>
-        <Header user={user} />
+        <Header />
         <div className={classes.content}>
           <Outlet />
         </div>

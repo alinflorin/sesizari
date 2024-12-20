@@ -1,3 +1,13 @@
 {
-  
+  "ui": {
+    "components": {
+      "header": {
+        "login": "Autentificare",
+        "logout": "Ieșire",
+        "about": "Despre",
+        "theme": "Temă",
+        "language": "Limbă"
+      }
+    }
+  }
 }

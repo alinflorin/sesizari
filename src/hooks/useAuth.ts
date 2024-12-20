@@ -13,7 +13,8 @@ export default function useAuth() {
     return {
       displayName: user.displayName,
       email: user.email,
-      photoURL: user.photoURL,
+      photoURL: user.photoURL || undefined,
+      initials: (user.displayName || user.email || user.uid).split(" ").map(x => x[0].toUpperCase()).join("")
     } as User;
   }, [user]);
 

@@ -1,3 +1,13 @@
 {
-  
+  "ui": {
+    "components": {
+      "header": {
+        "login": "Login",
+        "logout": "Logout",
+        "about": "About",
+        "theme": "Theme",
+        "language": "Language"
+      }
+    }
+  }
 }
