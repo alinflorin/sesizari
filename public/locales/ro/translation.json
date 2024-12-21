@@ -67,6 +67,11 @@
       },
       "about": {
         "about": "Despre"
+      },
+      "tenantsAdmin": {
+        "tenantsAdmin": "Administrare tenanți",
+        "edit": "Editare",
+        "delete": "Ștergere"
       }
     }
   }

@@ -67,6 +67,11 @@
       },
       "about": {
         "about": "About"
+      },
+      "tenantsAdmin": {
+        "tenantsAdmin": "Tenants admin",
+        "edit": "Edit",
+        "delete": "Delete"
       }
     }
   }
