@@ -1,6 +1,6 @@
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseFirestore } from "../providers/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { UserProfile } from "../models/user-profile";
 import useAuth from "./useAuth";
@@ -27,9 +27,9 @@ export default function useUserProfile() {
       localStorage.setItem("userProfile", JSON.stringify(p));
       setProfile(p);
       if (user) {
-        await updateDoc(doc(firebaseFirestore, `userProfiles/${user!.email}`), {
+        await setDoc(doc(firebaseFirestore, `userProfiles/${user!.email}`), {
           ...p,
-        });
+        }, { merge: true });
       }
     },
     [user, setProfile]

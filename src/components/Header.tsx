@@ -25,6 +25,7 @@ import { supportedLanguages } from "../providers/i18n";
 import useAuth from "../hooks/useAuth";
 import { useCallback } from "react";
 import { UserProfile } from "../models/user-profile";
+import { useLocation, useNavigate } from "react-router";
 
 const themes: ("light" | "dark" | "system")[] = ["light", "dark", "system"];
 
@@ -53,8 +54,10 @@ const useStyles = makeStyles({
 
 export default function Header({ profile, setUserProfile }: HeaderProps) {
   const classes = useStyles();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const changeLanguage = useCallback(
     async (newLangCode: string) => {
@@ -67,12 +70,20 @@ export default function Header({ profile, setUserProfile }: HeaderProps) {
     [profile, setUserProfile, i18n]
   );
 
-  const changeTheme = useCallback(async (newTheme: "light" | "dark" | "system") => {
-    if (newTheme === profile.theme) {
-      return;
-    }
-    await setUserProfile({ ...profile, theme: newTheme });
-  }, [setUserProfile, profile]);
+  const changeTheme = useCallback(
+    async (newTheme: "light" | "dark" | "system") => {
+      if (newTheme === profile.theme) {
+        return;
+      }
+      await setUserProfile({ ...profile, theme: newTheme });
+    },
+    [setUserProfile, profile]
+  );
+
+  const logoutClicked = useCallback(async () => {
+    await logout();
+    navigate("/");
+  }, [logout, navigate]);
 
   return (
     <Toolbar className={classes.toolbar}>
@@ -86,8 +97,8 @@ export default function Header({ profile, setUserProfile }: HeaderProps) {
                 user ? (
                   <Avatar
                     size={32}
-                    image={{ as: "img", src: user.photoURL }}
-                    initials={user.initials}
+                    image={{ src: user.photoURL }}
+                    name={user.displayName}
                   />
                 ) : (
                   <MoreVertical32Filled />
@@ -157,12 +168,19 @@ export default function Header({ profile, setUserProfile }: HeaderProps) {
                 {t("ui.components.header.about")}
               </MenuItem>
               {!user && (
-                <MenuItem icon={<PersonPasskeyRegular />}>
+                <MenuItem
+                  onClick={() =>
+                    navigate(
+                      "/login?returnTo=" + encodeURIComponent(location.pathname)
+                    )
+                  }
+                  icon={<PersonPasskeyRegular />}
+                >
                   {t("ui.components.header.login")}
                 </MenuItem>
               )}
               {user && (
-                <MenuItem icon={<ArrowExitRegular />}>
+                <MenuItem onClick={logoutClicked} icon={<ArrowExitRegular />}>
                   {t("ui.components.header.logout")}
                 </MenuItem>
               )}

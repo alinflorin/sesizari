@@ -1,5 +1,19 @@
 {
   "ui": {
+    "firebase": {
+      "errors": {
+        "auth/user-not-found": "Utlizatorul nu a fost găsit",
+        "auth/wrong-password": "Parola greșită",
+        "auth/invalid-credential": "Credențiale invalide",
+        "auth/email-already-in-use": "Email-ul este deja folosit",
+        "auth/weak-password": "Parola este prea slabă",
+        "auth/invalid-email": "Email invalid",
+        "auth/user-disabled": "Utlizatorul este dezactivat",
+        "auth/popup-closed-by-user": "Popup închis de utilizator",
+        "auth/cancelled-popup-request": "Cerere popup anulată",
+        "auth/popup-blocked": "Popup blocat"
+      }
+    },
     "components": {
       "header": {
         "login": "Autentificare",
@@ -10,6 +24,45 @@
         "light": "Luminoasă",
         "dark": "Întunecată",
         "system": "Sistem"
+      }
+    },
+    "routes": {
+      "login": {
+        "email": "Email",
+        "password": "Parolă",
+        "login": "Autentificare",
+        "loginWithGoogle": "Autentificare cu Google",
+        "register": "Înregistrare",
+        "forgotPassword": "Am uitat parola",
+        "invalidEmail": "Email invalid",
+        "emailIsRequired": "Email-ul este obligatoriu",
+        "passwordTooShort": "Parola este prea scurtă",
+        "passwordIsRequired": "Parola este prea scurta"
+      },
+      "forgotPassword": {
+        "email": "Email",
+        "forgotPassword": "Am uitat parola",
+        "invalidEmail": "Email invalid",
+        "emailIsRequired": "Email-ul este obligatoriu",
+        "login": "Autentificare",
+        "sendResetEmail": "Trimite email resetare",
+        "resetEmailSent": "Email de resetare trimis",
+        "back": "Înapoi"
+      },
+      "register": {
+        "email": "Email",
+        "password": "Parolă",
+        "login": "Autentificare",
+        "loginWithGoogle": "Autentificare cu Google",
+        "register": "Înregistrare",
+        "forgotPassword": "Am uitat parola",
+        "invalidEmail": "Email invalid",
+        "emailIsRequired": "Email-ul este obligatoriu",
+        "passwordTooShort": "Parola este prea scurtă",
+        "passwordIsRequired": "Parola este prea scurta",
+        "passwordsMustMatch": "Parolele trebuie să se potrivească",
+        "confirmPasswordIsRequired": "Confirmarea parolei este obligatorie",
+        "confirmPassword": "Confirmare parolă"
       }
     }
   }

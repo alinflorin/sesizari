@@ -1,5 +1,19 @@
 {
   "ui": {
+    "firebase": {
+      "errors": {
+        "auth/user-not-found": "User not found",
+        "auth/wrong-password": "Wrong password",
+        "auth/invalid-credential": "Invalid credentials",
+        "auth/email-already-in-use": "Email already in use",
+        "auth/weak-password": "Weak password",
+        "auth/invalid-email": "Invalid email",
+        "auth/user-disabled": "User disabled",
+        "auth/popup-closed-by-user": "Popup closed by user",
+        "auth/cancelled-popup-request": "Cancelled popup request",
+        "auth/popup-blocked": "Popup blocked"
+      }
+    },
     "components": {
       "header": {
         "login": "Login",
@@ -10,6 +24,45 @@
         "light": "Light",
         "dark": "Dark",
         "system": "System"
+      }
+    },
+    "routes": {
+      "login": {
+        "email": "Email",
+        "password": "Password",
+        "login": "Login",
+        "loginWithGoogle": "Login with Google",
+        "register": "Register",
+        "forgotPassword": "Forgot password",
+        "invalidEmail": "Invalid email",
+        "emailIsRequired": "Email is required",
+        "passwordTooShort": "Password is too short",
+        "passwordIsRequired": "Password is required"
+      },
+      "forgotPassword": {
+        "email": "Email",
+        "forgotPassword": "Forgot password",
+        "invalidEmail": "Invalid email",
+        "emailIsRequired": "Email is required",
+        "login": "Login",
+        "sendResetEmail": "Send reset email",
+        "resetEmailSent": "Reset email sent",
+        "back": "Back"
+      },
+      "register": {
+        "email": "Email",
+        "password": "Password",
+        "login": "Login",
+        "loginWithGoogle": "Login with Google",
+        "register": "Register",
+        "forgotPassword": "Forgot password",
+        "invalidEmail": "Invalid email",
+        "emailIsRequired": "Email is required",
+        "passwordTooShort": "Password is too short",
+        "passwordIsRequired": "Password is required",
+        "passwordsMustMatch": "Passwords must match",
+        "confirmPasswordIsRequired": "Password confirmation is required",
+        "confirmPassword": "Confirm password"
       }
     }
   }
