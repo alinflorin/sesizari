@@ -31,6 +31,12 @@
         "areYouSure": "Are you sure?",
         "no": "No",
         "yes": "Yes"
+      },
+      "addEditTenant": {
+        "cancel": "Cancel",
+        "save": "Save",
+        "editTenant": "Edit tenant",
+        "addTenant": "Editare tenant"
       }
     },
     "routes": {

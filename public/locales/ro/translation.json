@@ -31,6 +31,12 @@
         "areYouSure": "Sunteți sigur?",
         "no": "Nu",
         "yes": "Da"
+      },
+      "addEditTenant": {
+        "cancel": "Anulare",
+        "save": "Salvare",
+        "editTenant": "Editare tenant",
+        "addTenant": "Adăugare tenant"
       }
     },
     "routes": {
