@@ -9,14 +9,22 @@ import {
   DialogSurface,
   DialogTitle,
 } from "@fluentui/react-components";
+import { useCallback } from "react";
 
 export interface AddEditTenantProps {
   tenant: Tenant;
-  onClose: () => void;
+  onClose: (edited?: Tenant | undefined) => void;
 }
 
 export default function AddEditTenant(props: AddEditTenantProps) {
   const { t } = useTranslation();
+
+  const saveClicked = useCallback(async () => {
+    // TODO
+    props.onClose();
+  }, [props]);
+
+
   return (
     <Dialog
       modalType="non-modal"
@@ -34,12 +42,16 @@ export default function AddEditTenant(props: AddEditTenantProps) {
               ? t("ui.components.addEditTenant.editTenant")
               : t("ui.components.addEditTenant.addTenant")}
           </DialogTitle>
-          <DialogContent>asdasd</DialogContent>
+          <DialogContent>
+            <form>
+              asd
+            </form>
+          </DialogContent>
           <DialogActions>
-            <Button appearance="secondary" onClick={props.onClose}>
+            <Button appearance="secondary" onClick={() => props.onClose()}>
               {t("ui.components.addEditTenant.cancel")}
             </Button>
-            <Button appearance="primary">
+            <Button appearance="primary" onClick={saveClicked}>
               {t("ui.components.addEditTenant.save")}
             </Button>
           </DialogActions>
