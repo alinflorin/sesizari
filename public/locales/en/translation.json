@@ -23,7 +23,8 @@
         "language": "Language",
         "light": "Light",
         "dark": "Dark",
-        "system": "System"
+        "system": "System",
+        "tenantsAdmin": "Tenants admin"
       }
     },
     "routes": {

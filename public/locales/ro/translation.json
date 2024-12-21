@@ -23,7 +23,8 @@
         "language": "Limbă",
         "light": "Luminoasă",
         "dark": "Întunecată",
-        "system": "Sistem"
+        "system": "Sistem",
+        "tenantsAdmin": "Administrare tenanți"
       }
     },
     "routes": {

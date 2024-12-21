@@ -5,6 +5,7 @@ import {
   InfoRegular,
   LocalLanguageRegular,
   MoreVertical32Filled,
+  PeopleSettingsRegular,
   PersonPasskeyRegular,
 } from "@fluentui/react-icons";
 import {
@@ -31,6 +32,7 @@ import { useCallback } from "react";
 import { UserProfile } from "../models/user-profile";
 import { useLocation, useNavigate } from "react-router";
 import { Tenant } from "../models/tenant";
+import { Settings } from "../models/settings";
 
 const themes: ("light" | "dark" | "system")[] = ["light", "dark", "system"];
 
@@ -38,6 +40,7 @@ export interface HeaderProps {
   profile: UserProfile;
   setUserProfile: (profile: UserProfile) => Promise<void>;
   tenant: Tenant | undefined;
+  settings: Settings | undefined;
 }
 
 const useStyles = makeStyles({
@@ -68,6 +71,7 @@ export default function Header({
   profile,
   setUserProfile,
   tenant,
+  settings
 }: HeaderProps) {
   const classes = useStyles();
   const { user, logout } = useAuth();
@@ -209,6 +213,16 @@ export default function Header({
               >
                 {t("ui.components.header.about")}
               </MenuItem>
+              {user &&
+                settings &&
+                settings.superAdmins.includes(user.email) && (
+                  <MenuItem
+                    onClick={() => navigate("/tenants-admin")}
+                    icon={<PeopleSettingsRegular />}
+                  >
+                    {t("ui.components.header.tenantsAdmin")}
+                  </MenuItem>
+                )}
               {!user && (
                 <MenuItem
                   onClick={() =>

@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 
 export default function useAuth() {
-  const [user] = useAuthState(firebaseAuth);
+  const [user, loading] = useAuthState(firebaseAuth);
 
   const mappedUser = useMemo(() => {
     if (!user) {
@@ -49,6 +49,7 @@ export default function useAuth() {
 
   return {
     user: mappedUser,
+    loading,
     logout,
     signup,
     loginWithGoogle,
