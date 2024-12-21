@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { DeleteRegular, EditRegular } from "@fluentui/react-icons";
 import { useCallback, useEffect, useState } from "react";
 import { Tenant } from "../models/tenant";
+import { useConfirmationDialog } from "../hooks/useConfirmationDialog";
 
 const useStyles = makeStyles({
   container: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
 });
 
 export default function TenantsAdmin() {
-  const tenantsFirestore = useTenants();
+  const { tenants: tenantsFirestore, deleteTenant } = useTenants();
   const [tenants, setTenants] = useState<Tenant[]>([]);
 
   useEffect(() => {
@@ -41,10 +42,19 @@ export default function TenantsAdmin() {
 
   const classes = useStyles();
   const { t } = useTranslation();
+  const { showDialog } = useConfirmationDialog();
 
-  const deleteTenant = useCallback(
-    (tenant: Tenant, index: number) => {},
-    [tenants]
+  const deleteTenantClicked = useCallback(
+    async (tenant: Tenant, index: number) => {
+      const allow = await showDialog();
+      if (!allow) {
+        return;
+      }
+      await deleteTenant(tenant.id);
+      tenants.splice(index, 1);
+      setTenants([...tenants]);
+    },
+    [tenants, showDialog, deleteTenant]
   );
 
   return (
@@ -59,14 +69,14 @@ export default function TenantsAdmin() {
                   <b>{tenant.name}</b>
                 </Body1>
               }
-              description={<Caption1>5h ago · About us - Overview</Caption1>}
+              description={<Caption1>{tenant.id}</Caption1>}
             />
             <CardFooter>
               <Button icon={<EditRegular fontSize={16} />}>
                 {t("ui.routes.tenantsAdmin.edit")}
               </Button>
               <Button
-                onClick={() => deleteTenant(tenant, i)}
+                onClick={() => deleteTenantClicked(tenant, i)}
                 icon={
                   <DeleteRegular
                     color={tokens.colorPaletteRedForeground1}

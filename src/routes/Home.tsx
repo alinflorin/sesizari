@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 });
 
 export default function Home() {
-  const tenants = useTenants();
+  const {tenants} = useTenants();
   const classes = useStyles();
   const navigate = useNavigate();
 

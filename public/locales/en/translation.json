@@ -25,6 +25,12 @@
         "dark": "Dark",
         "system": "System",
         "tenantsAdmin": "Tenants admin"
+      },
+      "confirmationDialog": {
+        "confirmation": "Confirmation",
+        "areYouSure": "Are you sure?",
+        "no": "No",
+        "yes": "Yes"
       }
     },
     "routes": {

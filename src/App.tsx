@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import useTenant from "./hooks/useTenant";
 import useSettings from "./hooks/useSettings";
 import useAuth from "./hooks/useAuth";
+import { ConfirmationDialogProvider } from "./contexts/confirmation-dialog.provider";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -31,10 +32,10 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const { profile, setUserProfile } = useUserProfile();
-  const {user, loading: userLoading} = useAuth();
+  const { user, loading: userLoading } = useAuth();
   const tenant = useTenant();
   const { settings, loading: settingsLoading } = useSettings();
-  
+
   // Theming
   const sysTheme = useSystemTheme();
   const computedTheme = useMemo(() => {
@@ -56,25 +57,27 @@ function App() {
     <FluentProvider
       theme={computedTheme === "dark" ? webDarkTheme : webLightTheme}
     >
-      <div className={classes.wrapper}>
-        <Header
-          settings={settings}
-          tenant={tenant}
-          profile={profile}
-          setUserProfile={setUserProfile}
-        />
-        <div className={classes.content}>
-          <Outlet
-            context={{
-              tenant: tenant,
-              settings: settings,
-              settingsLoading: settingsLoading,
-              user: user,
-              userLoading: userLoading
-            }}
+      <ConfirmationDialogProvider>
+        <div className={classes.wrapper}>
+          <Header
+            settings={settings}
+            tenant={tenant}
+            profile={profile}
+            setUserProfile={setUserProfile}
           />
+          <div className={classes.content}>
+            <Outlet
+              context={{
+                tenant: tenant,
+                settings: settings,
+                settingsLoading: settingsLoading,
+                user: user,
+                userLoading: userLoading,
+              }}
+            />
+          </div>
         </div>
-      </div>
+      </ConfirmationDialogProvider>
     </FluentProvider>
   );
 }

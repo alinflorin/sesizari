@@ -25,6 +25,12 @@
         "dark": "Întunecată",
         "system": "Sistem",
         "tenantsAdmin": "Administrare tenanți"
+      },
+      "confirmationDialog": {
+        "confirmation": "Confirmare",
+        "areYouSure": "Sunteți sigur?",
+        "no": "Nu",
+        "yes": "Da"
       }
     },
     "routes": {

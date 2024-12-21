@@ -1,7 +1,7 @@
-import { collection, query } from "firebase/firestore";
+import { collection, deleteDoc, doc, query } from "firebase/firestore";
 import { useCollectionOnce } from "react-firebase-hooks/firestore";
 import { firebaseFirestore } from "../providers/firebase";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { Tenant } from "../models/tenant";
 
 export default function useTenants() {
@@ -19,5 +19,9 @@ export default function useTenants() {
     );
   }, [tenants]);
 
-  return mappedTenants;
+  const deleteTenant = useCallback(async (id: string) => {
+    await deleteDoc(doc(firebaseFirestore, "tenants/" + id));
+  }, []);
+
+  return {tenants: mappedTenants, deleteTenant};
 }
