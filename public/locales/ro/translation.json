@@ -63,6 +63,9 @@
         "passwordsMustMatch": "Parolele trebuie să se potrivească",
         "confirmPasswordIsRequired": "Confirmarea parolei este obligatorie",
         "confirmPassword": "Confirmare parolă"
+      },
+      "about": {
+        "about": "Despre"
       }
     }
   }

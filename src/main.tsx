@@ -10,6 +10,7 @@ import Login from "./routes/Login.tsx";
 import Register from "./routes/Register.tsx";
 import ForgotPassword from "./routes/ForgotPassword.tsx";
 import TenantHome from "./routes/TenantHome.tsx";
+import About from "./routes/About.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -19,7 +20,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-
+        <Route path="/about" element={<About />} />
         <Route path="t/:tenantId" element={<TenantHome />} />
 
         <Route path="*" element={<NotFound />} />

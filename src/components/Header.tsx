@@ -116,9 +116,12 @@ export default function Header({
             <>
               <BreadcrumbDivider />
               <BreadcrumbItem>
-                <BreadcrumbButton key={tenant.id}
+                <BreadcrumbButton
+                  key={tenant.id}
                   onClick={() => navigate("/t/" + tenant.id)}
-                >{tenant.name}</BreadcrumbButton>
+                >
+                  {tenant.name}
+                </BreadcrumbButton>
               </BreadcrumbItem>
             </>
           )}
@@ -200,7 +203,10 @@ export default function Header({
                   ))}
                 </MenuPopover>
               </Menu>
-              <MenuItem icon={<InfoRegular />}>
+              <MenuItem
+                onClick={() => navigate("/about")}
+                icon={<InfoRegular />}
+              >
                 {t("ui.components.header.about")}
               </MenuItem>
               {!user && (
