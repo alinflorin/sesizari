@@ -9,5 +9,8 @@ export default function useTenant() {
   const [tenant] = useDocumentDataOnce(
     doc(firebaseFirestore, "tenants/" + tenantId)
   );
-  return {...tenant} as Tenant;
+  if (!tenant) {
+    return undefined;
+  }
+  return { ...tenant, id: tenantId } as Tenant;
 }

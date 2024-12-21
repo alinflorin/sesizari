@@ -19,6 +19,10 @@ import {
   makeStyles,
   Avatar,
   Image,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbDivider,
+  BreadcrumbButton,
 } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import { supportedLanguages } from "../providers/i18n";
@@ -26,12 +30,14 @@ import useAuth from "../hooks/useAuth";
 import { useCallback } from "react";
 import { UserProfile } from "../models/user-profile";
 import { useLocation, useNavigate } from "react-router";
+import { Tenant } from "../models/tenant";
 
 const themes: ("light" | "dark" | "system")[] = ["light", "dark", "system"];
 
 export interface HeaderProps {
   profile: UserProfile;
   setUserProfile: (profile: UserProfile) => Promise<void>;
+  tenant: Tenant | undefined;
 }
 
 const useStyles = makeStyles({
@@ -46,14 +52,23 @@ const useStyles = makeStyles({
     flexDirection: "row",
     alignItems: "center",
   },
+  left: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
   logo: {
     width: "32px",
     height: "32px",
-    cursor: "pointer"
+    cursor: "pointer",
   },
 });
 
-export default function Header({ profile, setUserProfile }: HeaderProps) {
+export default function Header({
+  profile,
+  setUserProfile,
+  tenant,
+}: HeaderProps) {
   const classes = useStyles();
   const { user, logout } = useAuth();
   const { t, i18n } = useTranslation();
@@ -88,7 +103,27 @@ export default function Header({ profile, setUserProfile }: HeaderProps) {
 
   return (
     <Toolbar className={classes.toolbar}>
-      <Image onClick={() => navigate("/")} src="/images/logo.svg" className={classes.logo} />
+      <div className={classes.left}>
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <Image
+              onClick={() => navigate("/")}
+              src="/images/logo.svg"
+              className={classes.logo}
+            />
+          </BreadcrumbItem>
+          {tenant && (
+            <>
+              <BreadcrumbDivider />
+              <BreadcrumbItem>
+                <BreadcrumbButton key={tenant.id}
+                  onClick={() => navigate("/t/" + tenant.id)}
+                >{tenant.name}</BreadcrumbButton>
+              </BreadcrumbItem>
+            </>
+          )}
+        </Breadcrumb>
+      </div>
       <div className={classes.right}>
         <ToolbarDivider />
         <Menu>

@@ -1,7 +1,7 @@
-import useTenant from "../hooks/useTenant";
+import { useOutletContext } from "react-router";
+import { Tenant } from "../models/tenant";
 
 export default function TenantHome() {
-  const tenant = useTenant();
-
-  return <>{tenant.name}</>;
+  const tenant = useOutletContext<{tenant: Tenant}>()?.tenant;
+  return <>{tenant?.name}</>;
 }
