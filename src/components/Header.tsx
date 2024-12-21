@@ -49,6 +49,7 @@ const useStyles = makeStyles({
   logo: {
     width: "32px",
     height: "32px",
+    cursor: "pointer"
   },
 });
 
@@ -87,7 +88,7 @@ export default function Header({ profile, setUserProfile }: HeaderProps) {
 
   return (
     <Toolbar className={classes.toolbar}>
-      <Image src="/images/logo.svg" className={classes.logo} />
+      <Image onClick={() => navigate("/")} src="/images/logo.svg" className={classes.logo} />
       <div className={classes.right}>
         <ToolbarDivider />
         <Menu>
