@@ -36,7 +36,20 @@
         "cancel": "Cancel",
         "save": "Save",
         "editTenant": "Edit tenant",
-        "addTenant": "Editare tenant"
+        "addTenant": "Editare tenant",
+        "nameIsRequired": "Name is required",
+        "idIsRequired": "ID is required",
+        "invalidAreaFormat": "Invalid area format",
+        "categoryIsRequired": "Category is required",
+        "categoriesAreRequired": "Categories are required",
+        "adminEmailIsInvalid": "Admin email is invalid",
+        "adminIsRequired": "Admin is required",
+        "adminsAreRequired": "Admins are required",
+        "id": "ID",
+        "name": "Name",
+        "invalidIdFormat": "Invalid ID format",
+        "categories": "Categories",
+        "admins": "Admins"
       }
     },
     "routes": {

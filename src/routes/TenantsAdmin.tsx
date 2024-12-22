@@ -107,7 +107,7 @@ export default function TenantsAdmin() {
               </CardFooter>
             </Card>
           ))}
-          <Card onClick={() => setEditedTenant({admins: [], name: ""})} className={classes.add}>
+          <Card onClick={() => setEditedTenant({admins: [], name: "", categories: []})} className={classes.add}>
             <Add32Regular />
           </Card>
         </div>

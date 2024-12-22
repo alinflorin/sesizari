@@ -36,7 +36,20 @@
         "cancel": "Anulare",
         "save": "Salvare",
         "editTenant": "Editare tenant",
-        "addTenant": "Adăugare tenant"
+        "addTenant": "Adăugare tenant",
+        "nameIsRequired": "Numele este obligatoriu",
+        "idIsRequired": "ID-ul este obligatoriu",
+        "invalidAreaFormat": "Formatul zonei este invalid",
+        "categoryIsRequired": "Categoria este obligatorie",
+        "categoriesAreRequired": "Categoriile sunt obligatorii",
+        "adminEmailIsInvalid": "Email-ul administratorului este invalid",
+        "adminIsRequired": "Administratorul este obligatoriu",
+        "adminsAreRequired": "Administratorii sunt obligatorii",
+        "id": "ID",
+        "name": "Nume",
+        "invalidIdFormat": "Format ID invalid",
+        "categories": "Categorii",
+        "admins": "Administratori"
       }
     },
     "routes": {
