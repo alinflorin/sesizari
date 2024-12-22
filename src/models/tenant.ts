@@ -6,4 +6,5 @@ export interface Tenant {
   admins: string[];
   categories: string[];
   area?: GeoPoint[];
+  mapCenter: GeoPoint;
 }

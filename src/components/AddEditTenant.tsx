@@ -57,12 +57,21 @@ export default function AddEditTenant(props: AddEditTenantProps) {
       ? yup.string().required(t("ui.components.addEditTenant.idIsRequired"))
       : yup
           .string()
-          .required("ui.components.addEditTenant.idIsRequired")
+          .required(t("ui.components.addEditTenant.idIsRequired"))
+          .test(
+            "valid-id",
+            t("ui.components.addEditTenant.idIsInvalid"),
+            (value) => {
+              if (!value) return true;
+              const regex = /^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/;
+              return regex.test(value);
+            }
+          )
           .test(
             "is-unique-id",
             t("ui.components.addEditTenant.idAlreadyExists"),
             async (value) => {
-              if (!value) return false;
+              if (!value) return true;
               try {
                 return !(await existsById(value));
               } catch (error) {
@@ -81,6 +90,19 @@ export default function AddEditTenant(props: AddEditTenantProps) {
           const latLngRegex =
             /^-?([1-8]?\d(\.\d+)?|90(\.0+)?),-?((1[0-7]\d(\.\d+)?|180(\.0+)?|(\d{1,2}(\.\d+)?)))( -?([1-8]?\d(\.\d+)?|90(\.0+)?),-?((1[0-7]\d(\.\d+)?|180(\.0+)?|(\d{1,2}(\.\d+)?))))*$/;
           return latLngRegex.test(value);
+        }
+      ),
+    mapCenter: yup
+      .string()
+      .required(t("ui.components.addEditTenant.mapCenterIsRequired"))
+      .test(
+        "is-lat-long",
+        t("ui.components.addEditTenant.mapCenterIsInvalid"),
+        (value) => {
+          if (!value) return true;
+          return /^(-?([1-8]?[0-9]|90))(\.[0-9]+)?,-?((1[0-7][0-9])|([1-9]?[0-9]))(\.[0-9]+)?$/.test(
+            value
+          );
         }
       ),
     categories: yup
@@ -118,6 +140,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
         .join(" "),
       id: props.tenant.id || "",
       name: props.tenant.name,
+      mapCenter: props.tenant.mapCenter ? (props.tenant.mapCenter.latitude + "," + props.tenant.mapCenter.longitude) : ""
     },
   });
 
@@ -128,6 +151,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
       name: string;
       id: string;
       area?: string;
+      mapCenter: string;
     }) => {
       try {
         const tenantData = {
@@ -135,6 +159,12 @@ export default function AddEditTenant(props: AddEditTenantProps) {
             ? data.area
                 .split(" ")
                 .map((x) => new GeoPoint(+x.split(",")[0], +x.split(",")[1]))
+            : null,
+          mapCenter: data.mapCenter
+            ? new GeoPoint(
+                +data.mapCenter.split(",")[0],
+                +data.mapCenter.split(",")[1]
+              )
             : null,
           admins: data.admins,
           categories: data.categories,
@@ -363,6 +393,29 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                     {e.message}
                   </MessageBar>
                 ))}
+
+              <Controller
+                name="mapCenter"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    type="text"
+                    placeholder={t("ui.components.addEditTenant.mapCenter")}
+                    required
+                    name={field.name}
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    value={field.value}
+                    disabled={field.disabled}
+                    ref={field.ref}
+                  />
+                )}
+              />
+              {errors.mapCenter && (
+                <MessageBar intent="error">
+                  {errors.mapCenter.message}
+                </MessageBar>
+              )}
 
               <Textarea
                 placeholder={t("ui.components.addEditTenant.area")}

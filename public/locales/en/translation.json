@@ -51,7 +51,11 @@
         "categories": "Categories",
         "admins": "Admins",
         "area": "Area",
-        "idAlreadyExists": "ID is already in use"
+        "idAlreadyExists": "ID is already in use",
+        "mapCenterIsRequired": "Map center is required",
+        "mapCenterIsInvalid": "Map center is invalid",
+        "idIsInvalid": "ID is invalid",
+        "mapCenter": "Map center"
       }
     },
     "routes": {

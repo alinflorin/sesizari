@@ -11,15 +11,12 @@ import {
 } from "@fluentui/react-components";
 import useTenants from "../hooks/useTenants";
 import { useTranslation } from "react-i18next";
-import {
-  AddRegular,
-  DeleteRegular,
-  EditRegular,
-} from "@fluentui/react-icons";
+import { AddRegular, DeleteRegular, EditRegular } from "@fluentui/react-icons";
 import { useCallback, useEffect, useState } from "react";
 import { Tenant } from "../models/tenant";
 import { useConfirmationDialog } from "../hooks/useConfirmationDialog";
 import AddEditTenant from "../components/AddEditTenant";
+import { GeoPoint } from "firebase/firestore";
 
 const useStyles = makeStyles({
   container: {
@@ -129,7 +126,12 @@ export default function TenantsAdmin() {
           ))}
           <Card
             onClick={() =>
-              setEditedTenant({ admins: [], name: "", categories: [] })
+              setEditedTenant({
+                admins: [],
+                name: "",
+                categories: [],
+                mapCenter: new GeoPoint(0, 0),
+              })
             }
             className={classes.add}
           >

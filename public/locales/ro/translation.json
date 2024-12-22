@@ -51,7 +51,11 @@
         "categories": "Categorii",
         "admins": "Administratori",
         "area": "Zonă",
-        "idAlreadyExists": "ID-ul deja este folosit"
+        "idAlreadyExists": "ID-ul deja este folosit",
+        "mapCenterIsRequired": "Centrul hărții este obligatoriu",
+        "mapCenterIsInvalid": "Centrul hărții este invalid",
+        "idIsInvalid": "ID-ul este invalid",
+        "mapCenter": "Centrul hărții"
       }
     },
     "routes": {
