@@ -140,7 +140,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
         .join(" "),
       id: props.tenant.id || "",
       name: props.tenant.name,
-      mapCenter: props.tenant.mapCenter ? (props.tenant.mapCenter.latitude + "," + props.tenant.mapCenter.longitude) : ""
+      mapCenter: props.tenant.id && props.tenant.mapCenter ? (props.tenant.mapCenter.latitude + "," + props.tenant.mapCenter.longitude) : ""
     },
   });
 
