@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
@@ -63,9 +63,9 @@ export const Login = () => {
   });
 
   const {
-    register,
     handleSubmit,
     setError,
+    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -115,22 +115,43 @@ export const Login = () => {
             {t(errors.root.firebase.message)}
           </MessageBar>
         )}
-        <Input
-          type="email"
-          placeholder={t("ui.routes.login.email")}
-          required
-          {...register("email")}
+
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <Input
+              type="email"
+              placeholder={t("ui.routes.login.email")}
+              required
+              disabled={field.disabled}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
+              value={field.value}
+            />
+          )}
         />
         {errors.email && (
           <MessageBar intent="error">{errors.email.message}</MessageBar>
         )}
 
-        <Input
-          type="password"
-          placeholder={t("ui.routes.login.password")}
-          required
-          minLength={6}
-          {...register("password")}
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <Input
+              type="password"
+              placeholder={t("ui.routes.login.password")}
+              required
+              minLength={6}
+              disabled={field.disabled}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
+              value={field.value}
+            />
+          )}
         />
         {errors.password && (
           <MessageBar intent="error">{errors.password.message}</MessageBar>

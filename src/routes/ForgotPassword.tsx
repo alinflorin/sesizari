@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
@@ -61,7 +61,7 @@ export const ForgotPassword = () => {
   });
 
   const {
-    register,
+    control,
     handleSubmit,
     setError,
     formState: { errors },
@@ -101,7 +101,9 @@ export const ForgotPassword = () => {
             <Button
               className={classes.button}
               type="submit"
-              onClick={() => navigate("/login?returnTo=" + encodeURIComponent(returnTo))}
+              onClick={() =>
+                navigate("/login?returnTo=" + encodeURIComponent(returnTo))
+              }
               appearance="secondary"
             >
               {t("ui.routes.forgotPassword.back")}
@@ -113,11 +115,21 @@ export const ForgotPassword = () => {
             {t(errors.root.firebase.message)}
           </MessageBar>
         )}
-        <Input
-          type="email"
-          placeholder={t("ui.routes.forgotPassword.email")}
-          required
-          {...register("email")}
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <Input
+              type="email"
+              placeholder={t("ui.routes.forgotPassword.email")}
+              required
+              disabled={field.disabled}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
+              value={field.value}
+            />
+          )}
         />
         {errors.email && (
           <MessageBar intent="error">{errors.email.message}</MessageBar>
