@@ -21,7 +21,15 @@ export default function ConfirmationDialog(props: ConfirmationDialogProps) {
   const { t } = useTranslation();
 
   return (
-    <Dialog modalType="alert" open={props.open}>
+    <Dialog
+      modalType="modal"
+      open={props.open}
+      onOpenChange={(_, d) => {
+        if (!d.open && props.onNo) {
+          props.onNo();
+        }
+      }}
+    >
       <DialogSurface>
         <DialogBody>
           <DialogTitle>

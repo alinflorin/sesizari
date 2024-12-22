@@ -24,6 +24,9 @@ import { KeyboardEvent, useCallback, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { GeoPoint } from "firebase/firestore";
+import { FirebaseError } from "@firebase/app";
+import useTenants from "../hooks/useTenants";
 
 export interface AddEditTenantProps {
   tenant: Tenant;
@@ -44,14 +47,30 @@ export default function AddEditTenant(props: AddEditTenantProps) {
   const { t } = useTranslation();
   const classes = useStyles();
   const formButton = useRef<HTMLButtonElement | null>(null);
+  const { updateTenant, addTenant, existsById } = useTenants();
 
   const schema = yup.object().shape({
     name: yup
       .string()
       .required(t("ui.components.addEditTenant.nameIsRequired")),
-    id: yup
-      .string()
-      .required(t("ui.components.addEditTenant.idIsRequired")),
+    id: props.tenant.id
+      ? yup.string().required(t("ui.components.addEditTenant.idIsRequired"))
+      : yup
+          .string()
+          .required("ui.components.addEditTenant.idIsRequired")
+          .test(
+            "is-unique-id",
+            t("ui.components.addEditTenant.idAlreadyExists"),
+            async (value) => {
+              if (!value) return false;
+              try {
+                return !(await existsById(value));
+              } catch (error) {
+                console.error("Error checking ID in Firebase:", error);
+                return false;
+              }
+            }
+          ),
     area: yup
       .string()
       .test(
@@ -87,6 +106,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
     register,
     handleSubmit,
     control,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -96,7 +116,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
       area: props.tenant.area
         ?.map((x) => x.latitude + "," + x.longitude)
         .join(" "),
-      id: props.tenant.id,
+      id: props.tenant.id || "",
       name: props.tenant.name,
     },
   });
@@ -110,13 +130,38 @@ export default function AddEditTenant(props: AddEditTenantProps) {
       area?: string;
     }) => {
       try {
-        alert(JSON.stringify(data));
-        props.onClose();
+        const tenantData = {
+          area: data.area
+            ? data.area
+                .split(" ")
+                .map((x) => new GeoPoint(+x.split(",")[0], +x.split(",")[1]))
+            : null,
+          admins: data.admins,
+          categories: data.categories,
+          name: data.name,
+        } as Tenant;
+        let id: string | undefined;
+
+        if (props.tenant.id) {
+          // EDIT
+          id = props.tenant.id;
+          await updateTenant(props.tenant.id, tenantData, true);
+        } else {
+          // ADD
+          id = data.id;
+          await addTenant(data.id, tenantData);
+        }
+        props.onClose({ ...tenantData, id: id });
       } catch (err) {
         console.error(err);
+        if (err instanceof FirebaseError) {
+          setError("root.firebase", {
+            message: "ui.firebase.errors." + err.message,
+          });
+        }
       }
     },
-    [props]
+    [props, setError, updateTenant, addTenant]
   );
 
   const [categoryInputValue, setCategoryInputValue] = useState("");
@@ -157,7 +202,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
 
   return (
     <Dialog
-      modalType="non-modal"
+      modalType="modal"
       defaultOpen
       onOpenChange={(_, d) => {
         if (!d.open && props.onClose) {
@@ -179,21 +224,47 @@ export default function AddEditTenant(props: AddEditTenantProps) {
               </MessageBar>
             )}
             <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-              <Input
-                type="text"
-                placeholder={t("ui.components.addEditTenant.id")}
-                required
-                {...register("id")}
-              />
-              {errors.id && (
-                <MessageBar intent="error">{errors.id.message}</MessageBar>
+              {!props.tenant.id && (
+                <>
+                  <Controller
+                    name="id"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        type="text"
+                        placeholder={t("ui.components.addEditTenant.id")}
+                        required
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        onChange={field.onChange}
+                        value={field.value}
+                        disabled={field.disabled}
+                        ref={field.ref}
+                      />
+                    )}
+                  />
+                  {errors.id && (
+                    <MessageBar intent="error">{errors.id.message}</MessageBar>
+                  )}
+                </>
               )}
 
-              <Input
-                type="text"
-                placeholder={t("ui.components.addEditTenant.name")}
-                required
-                {...register("name")}
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    type="text"
+                    placeholder={t("ui.components.addEditTenant.name")}
+                    required
+                    name={field.name}
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    value={field.value}
+                    disabled={field.disabled}
+                    ref={field.ref}
+                  />
+                )}
               />
               {errors.name && (
                 <MessageBar intent="error">{errors.name.message}</MessageBar>
@@ -223,6 +294,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                         disabled={field.disabled}
                         value={categoryInputValue}
                         onBlur={field.onBlur}
+                        name={field.name}
                         placeholder={t(
                           "ui.components.addEditTenant.categories"
                         )}

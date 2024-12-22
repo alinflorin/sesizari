@@ -11,7 +11,8 @@
         "auth/user-disabled": "User disabled",
         "auth/popup-closed-by-user": "Popup closed by user",
         "auth/cancelled-popup-request": "Cancelled popup request",
-        "auth/popup-blocked": "Popup blocked"
+        "auth/popup-blocked": "Popup blocked",
+        "firestore/duplicate": "Document already exists"
       }
     },
     "components": {
@@ -49,7 +50,8 @@
         "name": "Name",
         "categories": "Categories",
         "admins": "Admins",
-        "area": "Area"
+        "area": "Area",
+        "idAlreadyExists": "ID is already in use"
       }
     },
     "routes": {

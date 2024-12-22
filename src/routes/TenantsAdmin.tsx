@@ -71,6 +71,26 @@ export default function TenantsAdmin() {
     [tenants, showDialog, deleteTenant]
   );
 
+  const onAddEditClosed = useCallback(
+    (tenantBeingEdited: Tenant | undefined) => {
+      if (!tenantBeingEdited) {
+        setEditedTenant(undefined);
+        return;
+      }
+      const existingIndex = tenants.findIndex(
+        (x) => x.id! === tenantBeingEdited.id!
+      );
+      if (existingIndex > -1) {
+        tenants[existingIndex] = tenantBeingEdited;
+      } else {
+        tenants.push(tenantBeingEdited);
+      }
+      setTenants([...tenants]);
+      setEditedTenant(undefined);
+    },
+    [tenants, setTenants, setEditedTenant]
+  );
+
   return (
     <>
       <div className={classes.container}>
@@ -107,16 +127,18 @@ export default function TenantsAdmin() {
               </CardFooter>
             </Card>
           ))}
-          <Card onClick={() => setEditedTenant({admins: [], name: "", categories: []})} className={classes.add}>
+          <Card
+            onClick={() =>
+              setEditedTenant({ admins: [], name: "", categories: [] })
+            }
+            className={classes.add}
+          >
             <Add32Regular />
           </Card>
         </div>
       </div>
       {editedTenant && (
-        <AddEditTenant
-          onClose={() => setEditedTenant(undefined)}
-          tenant={editedTenant}
-        />
+        <AddEditTenant onClose={onAddEditClosed} tenant={editedTenant} />
       )}
     </>
   );

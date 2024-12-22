@@ -1,20 +1,20 @@
 import { useNavigate } from "react-router";
 import useTenants from "../hooks/useTenants";
-import { Card, makeStyles } from "@fluentui/react-components";
+import { Body1, Caption1, Card, CardHeader, makeStyles } from "@fluentui/react-components";
 
 const useStyles = makeStyles({
   container: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "flex-start"
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+    gap: "1rem",
   },
   card: {
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  },
 });
 
 export default function Home() {
-  const {tenants} = useTenants();
+  const { tenants } = useTenants();
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -22,8 +22,19 @@ export default function Home() {
     <div className={classes.container}>
       {tenants &&
         tenants.map((tenant) => (
-          <Card onClick={() => navigate("/t/" + tenant.id)} key={tenant.id} className={classes.card}>
-            <p>{tenant.name}</p>
+          <Card
+            onClick={() => navigate("/t/" + tenant.id)}
+            key={tenant.id}
+            className={classes.card}
+          >
+            <CardHeader
+              header={
+                <Body1>
+                  <b>{tenant.name}</b>
+                </Body1>
+              }
+              description={<Caption1>{tenant.id}</Caption1>}
+            />
           </Card>
         ))}
     </div>

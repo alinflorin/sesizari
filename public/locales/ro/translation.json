@@ -11,7 +11,8 @@
         "auth/user-disabled": "Utlizatorul este dezactivat",
         "auth/popup-closed-by-user": "Popup închis de utilizator",
         "auth/cancelled-popup-request": "Cerere popup anulată",
-        "auth/popup-blocked": "Popup blocat"
+        "auth/popup-blocked": "Popup blocat",
+        "firestore/duplicate": "Documentul deja există"
       }
     },
     "components": {
@@ -49,7 +50,8 @@
         "name": "Nume",
         "categories": "Categorii",
         "admins": "Administratori",
-        "area": "Zonă"
+        "area": "Zonă",
+        "idAlreadyExists": "ID-ul deja este folosit"
       }
     },
     "routes": {
