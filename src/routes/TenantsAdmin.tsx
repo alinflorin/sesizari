@@ -12,7 +12,7 @@ import {
 import useTenants from "../hooks/useTenants";
 import { useTranslation } from "react-i18next";
 import {
-  Add32Regular,
+  AddRegular,
   DeleteRegular,
   EditRegular,
 } from "@fluentui/react-icons";
@@ -133,7 +133,7 @@ export default function TenantsAdmin() {
             }
             className={classes.add}
           >
-            <Add32Regular />
+            <AddRegular fontSize={70} />
           </Card>
         </div>
       </div>
