@@ -25,7 +25,8 @@
         "light": "Light",
         "dark": "Dark",
         "system": "System",
-        "tenantsAdmin": "Tenants admin"
+        "tenantsAdmin": "Tenants admin",
+        "appSettings": "App settings"
       },
       "confirmationDialog": {
         "confirmation": "Confirmation",

@@ -16,6 +16,7 @@ import SuperAdminRoute from "./components/SuperAdminRoute.tsx";
 import TenantsAdmin from "./routes/TenantsAdmin.tsx";
 import TenantAdmin from "./routes/TenantAdmin.tsx";
 import TenantAdminRoute from "./components/TenantAdminRoute.tsx";
+import AppSettings from "./routes/AppSettings.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -43,7 +44,14 @@ createRoot(document.getElementById("root")!).render(
             </SuperAdminRoute>
           }
         />
-
+        <Route
+          path="app-settings"
+          element={
+            <SuperAdminRoute>
+              <AppSettings />
+            </SuperAdminRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

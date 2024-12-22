@@ -7,6 +7,7 @@ import {
   MoreVertical32Filled,
   PeopleSettingsRegular,
   PersonPasskeyRegular,
+  SettingsRegular,
 } from "@fluentui/react-icons";
 import {
   Toolbar,
@@ -215,13 +216,22 @@ export default function Header({
               {user &&
                 settings &&
                 settings.superAdmins.includes(user.email) && (
-                  <MenuItem
-                    onClick={() => navigate("/tenants-admin")}
-                    icon={<PeopleSettingsRegular />}
-                  >
-                    {t("ui.components.header.tenantsAdmin")}
-                  </MenuItem>
+                  <>
+                    <MenuItem
+                      onClick={() => navigate("/tenants-admin")}
+                      icon={<PeopleSettingsRegular />}
+                    >
+                      {t("ui.components.header.tenantsAdmin")}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => navigate("/app-settings")}
+                      icon={<SettingsRegular />}
+                    >
+                      {t("ui.components.header.appSettings")}
+                    </MenuItem>
+                  </>
                 )}
+
               {!user && (
                 <MenuItem
                   onClick={() =>

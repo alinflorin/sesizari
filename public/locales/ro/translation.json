@@ -25,7 +25,8 @@
         "light": "Luminoasă",
         "dark": "Întunecată",
         "system": "Sistem",
-        "tenantsAdmin": "Administrare tenanți"
+        "tenantsAdmin": "Administrare tenanți",
+        "appSettings": "Setări aplicație"
       },
       "confirmationDialog": {
         "confirmation": "Confirmare",
