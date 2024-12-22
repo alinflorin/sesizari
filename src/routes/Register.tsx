@@ -76,6 +76,11 @@ export const Register = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      confirmPassword: "",
+      email: "",
+      password: ""
+    }
   });
 
   const { signup } = useAuth();

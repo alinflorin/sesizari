@@ -69,6 +69,10 @@ export const Login = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      email: "",
+      password: ""
+    }
   });
 
   const { loginWithEmailAndPassword, loginWithGoogle } = useAuth();

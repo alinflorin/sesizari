@@ -67,6 +67,9 @@ export const ForgotPassword = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      email: ""
+    }
   });
 
   const { forgotPassword } = useAuth();
