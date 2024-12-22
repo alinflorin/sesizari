@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
   content: {
     flex: "auto",
-    padding: "1rem",
+    padding: "0.5rem",
     overflow: "auto",
     minHeight: 0,
   },
