@@ -56,6 +56,9 @@
         "mapCenterIsInvalid": "Centrul hărții este invalid",
         "idIsInvalid": "ID-ul este invalid",
         "mapCenter": "Centrul hărții"
+      },
+      "mapToolbar": {
+        "pickLocation": "Selectați locația cu clic"
       }
     },
     "routes": {

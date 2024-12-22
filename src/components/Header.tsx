@@ -102,8 +102,7 @@ export default function Header({
 
   const logoutClicked = useCallback(async () => {
     await logout();
-    navigate("/");
-  }, [logout, navigate]);
+  }, [logout]);
 
   return (
     <Toolbar className={classes.toolbar}>
