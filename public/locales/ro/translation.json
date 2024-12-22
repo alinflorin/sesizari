@@ -59,6 +59,13 @@
       },
       "mapToolbar": {
         "pickLocation": "Selectați locația cu clic"
+      },
+      "addComplaint": {
+        "descriptionIsRequired": "Descrierea este obligatorie",
+        "description": "Descriere",
+        "cancel": "Anulare",
+        "save": "Salvare",
+        "addComplaint": "Adăugare sesizare"
       }
     },
     "routes": {
@@ -107,6 +114,7 @@
         "edit": "Editare",
         "delete": "Ștergere"
       }
-    }
+    },
+    "title": "Sesizări"
   }
 }

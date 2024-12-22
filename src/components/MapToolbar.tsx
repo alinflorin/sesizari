@@ -10,8 +10,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useMap, useMapEvent } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 import { useTranslation } from "react-i18next";
-import useAuth from "../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router";
+import { User } from "../models/user";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -27,12 +27,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MapToolbar() {
+export interface MapToolbarProps {
+  onLocationPicked: (latLng: LatLngExpression) => void;
+  user: User | undefined;
+}
+
+export default function MapToolbar(props: MapToolbarProps) {
   const classes = useStyles();
   const toolbarRef = useRef<HTMLDivElement | null>(null);
   const map = useMap();
   const { t } = useTranslation();
-  const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -44,32 +48,29 @@ export default function MapToolbar() {
   }, [toolbarRef]);
 
   const [awaitingClick, setAwaitingClick] = useState(false);
-  const [clickedLocation, setClickedLocation] = useState<
-    LatLngExpression | undefined
-  >();
 
   const addClicked = useCallback(() => {
-    if (!user) {
+    if (!props.user) {
       navigate("/login?returnTo=" + encodeURIComponent(location.pathname));
       return;
     }
-    setClickedLocation(undefined);
     setAwaitingClick(true);
-  }, [user, navigate, location]);
+  }, [props, navigate, location]);
 
   useMapEvent("click", (e) => {
     if (awaitingClick) {
-      setClickedLocation([e.latlng.lat, e.latlng.lng]);
+      props.onLocationPicked([e.latlng.lat, e.latlng.lng]);
       setAwaitingClick(false);
     }
   });
 
   useEffect(() => {
-    console.log(map);
     map.getContainer().style.cursor = awaitingClick ? "pointer" : "";
+    map.getContainer().style.boxShadow =
+      awaitingClick ? "0 0 5px 5px " + tokens.colorBrandForeground1 : "none";
   }, [map, awaitingClick]);
 
-  console.log("xxx" + clickedLocation);
+
 
   return (
     <Toolbar ref={toolbarRef} className={classes.toolbar}>

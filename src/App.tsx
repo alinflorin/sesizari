@@ -46,12 +46,16 @@ function App() {
   }, [profile, sysTheme]);
 
   // i18n
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   useEffect(() => {
     if (profile.language && i18n.language !== profile.language) {
       i18n.changeLanguage(profile.language);
     }
   }, [profile, i18n]);
+
+  useEffect(() => {
+    document.title = t("ui.title");
+  }, [i18n.language, t]);
 
   return (
     <FluentProvider

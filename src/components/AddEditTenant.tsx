@@ -125,7 +125,6 @@ export default function AddEditTenant(props: AddEditTenantProps) {
   });
 
   const {
-    register,
     handleSubmit,
     control,
     setError,
@@ -417,9 +416,21 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                 </MessageBar>
               )}
 
-              <Textarea
-                placeholder={t("ui.components.addEditTenant.area")}
-                {...register("area")}
+              <Controller
+                name="area"
+                control={control}
+                render={({ field }) => (
+                  <Textarea
+                    placeholder={t("ui.components.addEditTenant.area")}
+                    required
+                    name={field.name}
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    value={field.value}
+                    disabled={field.disabled}
+                    ref={field.ref}
+                  />
+                )}
               />
               {errors.area && (
                 <MessageBar intent="error">{errors.area.message}</MessageBar>

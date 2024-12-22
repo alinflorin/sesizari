@@ -59,6 +59,13 @@
       },
       "mapToolbar": {
         "pickLocation": "Select location using click"
+      },
+      "addComplaint": {
+        "descriptionIsRequired": "Description is required",
+        "description": "Description",
+        "cancel": "Cancel",
+        "save": "Save",
+        "addComplaint": "Add complaint"
       }
     },
     "routes": {
@@ -107,6 +114,7 @@
         "edit": "Edit",
         "delete": "Delete"
       }
-    }
+    },
+    "title": "Complaints"
   }
 }
