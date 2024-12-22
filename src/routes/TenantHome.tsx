@@ -18,6 +18,7 @@ const useStyles = makeStyles({
 export default function TenantHome() {
   const tenant = useOutletContext<{ tenant: Tenant }>()?.tenant;
   const classes = useStyles();
+
   return (
     <div className={classes.container}>
       {tenant && (
@@ -30,7 +31,7 @@ export default function TenantHome() {
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {tenant.area && (
-            <Polygon
+            <Polygon interactive={false}
               positions={tenant.area.map((x) => [x.latitude, x.longitude])}
             />
           )}

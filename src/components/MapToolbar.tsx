@@ -1,8 +1,8 @@
 import { makeStyles, Toolbar, ToolbarButton } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
-import { useEffect, useRef } from "react";
-import { useMap } from "react-leaflet";
-import L from "leaflet";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useMapEvent } from "react-leaflet";
+import L, { LatLngExpression } from "leaflet";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -13,11 +13,11 @@ const useStyles = makeStyles({
   },
 });
 
+
 export default function MapToolbar() {
   const classes = useStyles();
-  const map = useMap();
   const toolbarRef = useRef<HTMLDivElement | null>(null);
-  
+
   useEffect(() => {
     if (toolbarRef.current) {
       L.DomEvent.disableClickPropagation(toolbarRef.current);
@@ -25,9 +25,32 @@ export default function MapToolbar() {
     }
   }, [toolbarRef]);
 
-  console.log(map);
-  
-  return <Toolbar ref={toolbarRef} className={classes.toolbar}>
-    <ToolbarButton icon={<AddRegular />} appearance="primary" />
-  </Toolbar>
+  const [awaitingClick, setAwaitingClick] = useState(false);
+  const [clickedLocation, setClickedLocation] = useState<
+    LatLngExpression | undefined
+  >();
+
+  const addClicked = useCallback(() => {
+    setClickedLocation(undefined);
+    setAwaitingClick(true);
+  }, []);
+
+  useMapEvent("click", (e) => {
+    if (awaitingClick) {
+      setClickedLocation([e.latlng.lat, e.latlng.lng]);
+      setAwaitingClick(false);
+    }
+  });
+
+  console.log("xxx" + clickedLocation);
+
+  return (
+    <Toolbar ref={toolbarRef} className={classes.toolbar}>
+      <ToolbarButton
+        onClick={addClicked}
+        icon={<AddRegular />}
+        appearance="primary"
+      />
+    </Toolbar>
+  );
 }
