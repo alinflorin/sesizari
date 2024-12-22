@@ -1,22 +1,22 @@
 import { Skeleton, SkeletonItem } from "@fluentui/react-components";
 import { Navigate, useLocation, useOutletContext } from "react-router";
-import { Settings } from "../models/settings";
 import { User } from "../models/user";
+import { Tenant } from "../models/tenant";
 
-export default function SuperAdminRoute({
+export default function TenantAdminRoute({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { settings, settingsLoading, user, userLoading } = useOutletContext<{
-    settings?: Settings;
-    settingsLoading: boolean;
+  const { tenant, user, userLoading, tenantLoading } = useOutletContext<{
     user?: User;
+    tenant: Tenant;
     userLoading: boolean;
+    tenantLoading: boolean;
   }>();
   const location = useLocation();
 
-  if (settingsLoading || userLoading) {
+  if (userLoading || tenantLoading) {
     return (
       <Skeleton style={{gap: "1rem"}}>
         <SkeletonItem></SkeletonItem>
@@ -28,14 +28,18 @@ export default function SuperAdminRoute({
       </Skeleton>
     );
   }
-  if (!settings || !user || !user.email) {
+  if (!user || !user.email || !tenant.admins || tenant.admins.length === 0) {
     return (
       <Navigate
         to={"/login?returnUrl=" + encodeURIComponent(location.pathname)}
       />
     );
   }
-  if (!settings.superAdmins.includes(user.email)) {
+  if (
+    !tenant.admins
+      .map((x) => x.toLowerCase())
+      .includes(user.email.toLowerCase())
+  ) {
     return (
       <Navigate
         to={"/login?returnUrl=" + encodeURIComponent(location.pathname)}

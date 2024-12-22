@@ -5,13 +5,17 @@ import {
   Toolbar,
   ToolbarButton,
 } from "@fluentui/react-components";
-import { AddRegular } from "@fluentui/react-icons";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  AddRegular,
+  BuildingRetailToolboxRegular,
+} from "@fluentui/react-icons";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMap, useMapEvent } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { User } from "../models/user";
+import { Tenant } from "../models/tenant";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -30,6 +34,7 @@ const useStyles = makeStyles({
 export interface MapToolbarProps {
   onLocationPicked: (latLng: LatLngExpression) => void;
   user: User | undefined;
+  tenant: Tenant;
 }
 
 export default function MapToolbar(props: MapToolbarProps) {
@@ -66,11 +71,22 @@ export default function MapToolbar(props: MapToolbarProps) {
 
   useEffect(() => {
     map.getContainer().style.cursor = awaitingClick ? "pointer" : "";
-    map.getContainer().style.boxShadow =
-      awaitingClick ? "0 0 5px 5px " + tokens.colorBrandForeground1 : "none";
+    map.getContainer().style.boxShadow = awaitingClick
+      ? "0 0 5px 5px " + tokens.colorBrandForeground1
+      : "none";
   }, [map, awaitingClick]);
 
-
+  const isTenantAdmin = useMemo(() => {
+    if (!props.user?.email) {
+      return false;
+    }
+    if (!props.tenant.admins || props.tenant.admins.length === 0) {
+      return false;
+    }
+    return props.tenant.admins
+      .map((x) => x.toLowerCase())
+      .includes(props.user.email.toLowerCase());
+  }, [props]);
 
   return (
     <Toolbar ref={toolbarRef} className={classes.toolbar}>
@@ -80,11 +96,21 @@ export default function MapToolbar(props: MapToolbarProps) {
         </Caption1Strong>
       )}
       {!awaitingClick && (
-        <ToolbarButton
-          onClick={addClicked}
-          icon={<AddRegular />}
-          appearance="primary"
-        />
+        <>
+          <ToolbarButton
+            appearance="primary"
+            onClick={addClicked}
+            icon={<AddRegular />}
+          />
+
+          {isTenantAdmin && (
+            <ToolbarButton
+              appearance="primary"
+              onClick={() => navigate("./admin")}
+              icon={<BuildingRetailToolboxRegular />}
+            />
+          )}
+        </>
       )}
     </Toolbar>
   );

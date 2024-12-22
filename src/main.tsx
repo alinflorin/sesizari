@@ -14,6 +14,8 @@ import TenantHome from "./routes/TenantHome.tsx";
 import About from "./routes/About.tsx";
 import SuperAdminRoute from "./components/SuperAdminRoute.tsx";
 import TenantsAdmin from "./routes/TenantsAdmin.tsx";
+import TenantAdmin from "./routes/TenantAdmin.tsx";
+import TenantAdminRoute from "./components/TenantAdminRoute.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -25,6 +27,14 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/about" element={<About />} />
         <Route path="t/:tenantId" element={<TenantHome />} />
+        <Route
+          path="t/:tenantId/admin"
+          element={
+            <TenantAdminRoute>
+              <TenantAdmin />
+            </TenantAdminRoute>
+          }
+        />
         <Route
           path="tenants-admin"
           element={

@@ -6,11 +6,8 @@ import { Tenant } from "../models/tenant";
 
 export default function useTenant() {
   const tenantId = useTenantId();
-  const [tenant] = useDocumentDataOnce(
+  const [tenant, tenantLoading] = useDocumentDataOnce(
     doc(firebaseFirestore, "tenants/" + tenantId)
   );
-  if (!tenant) {
-    return undefined;
-  }
-  return { ...tenant, id: tenantId } as Tenant;
+  return {tenant: tenant ? { ...tenant, id: tenantId } as Tenant : undefined, tenantLoading};
 }

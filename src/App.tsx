@@ -33,7 +33,7 @@ function App() {
   const classes = useStyles();
   const { profile, setUserProfile } = useUserProfile();
   const { user, loading: userLoading } = useAuth();
-  const tenant = useTenant();
+  const { tenant, tenantLoading } = useTenant();
   const { settings, loading: settingsLoading } = useSettings();
 
   // Theming
@@ -77,6 +77,7 @@ function App() {
                 settingsLoading: settingsLoading,
                 user: user,
                 userLoading: userLoading,
+                tenantLoading: tenantLoading
               }}
             />
           </div>

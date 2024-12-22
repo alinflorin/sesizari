@@ -17,24 +17,29 @@ const useStyles = makeStyles({
   map: {
     width: "100%",
     height: "100%",
-  }
+  },
 });
 
 export default function TenantHome() {
-  const tenant = useOutletContext<{ tenant: Tenant }>()?.tenant;
   const classes = useStyles();
-  const { user } = useOutletContext<{user: User | undefined}>();
+  const tenant = useOutletContext<{ tenant: Tenant | undefined }>()?.tenant;
+  const user = useOutletContext<{ user: User | undefined }>()?.user;
 
-  const [pickedLocation, setPickedLocation] = useState<LatLngExpression | undefined>();
+  const [pickedLocation, setPickedLocation] = useState<
+    LatLngExpression | undefined
+  >();
 
   const locationPicked = useCallback((latLng: LatLngExpression) => {
     setPickedLocation(latLng);
   }, []);
 
-  const onAddComplaintClosed = useCallback((complaint?: Complaint | undefined) => {
-    console.log(complaint);
-    setPickedLocation(undefined);
-  }, []);
+  const onAddComplaintClosed = useCallback(
+    (complaint?: Complaint | undefined) => {
+      console.log(complaint);
+      setPickedLocation(undefined);
+    },
+    []
+  );
 
   return (
     <>
@@ -54,11 +59,17 @@ export default function TenantHome() {
                 positions={tenant.area.map((x) => [x.latitude, x.longitude])}
               />
             )}
-            <MapToolbar user={user} onLocationPicked={locationPicked} />
+            <MapToolbar tenant={tenant} user={user} onLocationPicked={locationPicked} />
           </MapContainer>
         )}
       </div>
-      {pickedLocation && user && <AddComplaint user={user} location={pickedLocation} onClose={onAddComplaintClosed} />}
+      {pickedLocation && user && (
+        <AddComplaint
+          user={user}
+          location={pickedLocation}
+          onClose={onAddComplaintClosed}
+        />
+      )}
     </>
   );
 }
