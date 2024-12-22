@@ -3,6 +3,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  orderBy,
   query,
   setDoc,
 } from "firebase/firestore";
@@ -14,7 +15,7 @@ import {FirebaseError} from "@firebase/app";
 
 export default function useTenants() {
   const [tenants] = useCollectionOnce(
-    query(collection(firebaseFirestore, "tenants"))
+    query(collection(firebaseFirestore, "tenants"), orderBy("name"))
   );
 
   const mappedTenants = useMemo(() => {
