@@ -139,7 +139,7 @@ export default function Header({
               icon={
                 user ? (
                   <Avatar
-                    size={32}
+                    size={24}
                     image={{ src: user.photoURL }}
                     name={user.displayName}
                   />
