@@ -47,9 +47,9 @@
         "adminsAreRequired": "Admins are required",
         "id": "ID",
         "name": "Name",
-        "invalidIdFormat": "Invalid ID format",
         "categories": "Categories",
-        "admins": "Admins"
+        "admins": "Admins",
+        "area": "Area"
       }
     },
     "routes": {

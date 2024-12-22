@@ -47,9 +47,9 @@
         "adminsAreRequired": "Administratorii sunt obligatorii",
         "id": "ID",
         "name": "Nume",
-        "invalidIdFormat": "Format ID invalid",
         "categories": "Categorii",
-        "admins": "Administratori"
+        "admins": "Administratori",
+        "area": "Zonă"
       }
     },
     "routes": {

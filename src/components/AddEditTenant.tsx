@@ -17,6 +17,7 @@ import {
   TagPickerControl,
   TagPickerGroup,
   TagPickerInput,
+  Textarea,
   tokens,
 } from "@fluentui/react-components";
 import { KeyboardEvent, useCallback, useRef, useState } from "react";
@@ -50,11 +51,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
       .required(t("ui.components.addEditTenant.nameIsRequired")),
     id: yup
       .string()
-      .required(t("ui.components.addEditTenant.idIsRequired"))
-      .matches(
-        /^[a-z]+(-[a-z]+)*$/,
-        t("ui.components.addEditTenant.invalidIdFormat")
-      ),
+      .required(t("ui.components.addEditTenant.idIsRequired")),
     area: yup
       .string()
       .test(
@@ -89,7 +86,6 @@ export default function AddEditTenant(props: AddEditTenantProps) {
   const {
     register,
     handleSubmit,
-    setError,
     control,
     formState: { errors },
   } = useForm({
@@ -192,6 +188,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
               {errors.id && (
                 <MessageBar intent="error">{errors.id.message}</MessageBar>
               )}
+
               <Input
                 type="text"
                 placeholder={t("ui.components.addEditTenant.name")}
@@ -294,6 +291,14 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                     {e.message}
                   </MessageBar>
                 ))}
+
+              <Textarea
+                placeholder={t("ui.components.addEditTenant.area")}
+                {...register("area")}
+              />
+              {errors.area && (
+                <MessageBar intent="error">{errors.area.message}</MessageBar>
+              )}
 
               <button
                 type="submit"
