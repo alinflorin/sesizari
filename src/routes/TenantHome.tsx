@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router";
 import { Tenant } from "../models/tenant";
 import { makeStyles } from "@fluentui/react-components";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, Polygon, TileLayer } from "react-leaflet";
 
 const useStyles = makeStyles({
   container: {
@@ -28,6 +28,11 @@ export default function TenantHome() {
           zoom={10}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          {tenant.area && (
+            <Polygon
+              positions={tenant.area.map((x) => [x.latitude, x.longitude])}
+            />
+          )}
         </MapContainer>
       )}
     </div>
