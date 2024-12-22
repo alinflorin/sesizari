@@ -134,9 +134,9 @@ export default function AddEditTenant(props: AddEditTenantProps) {
     defaultValues: {
       categories: props.tenant.categories,
       admins: props.tenant.admins,
-      area: props.tenant.area
+      area: props.tenant.area ? props.tenant.area
         ?.map((x) => x.latitude + "," + x.longitude)
-        .join(" "),
+        .join(" ") : "",
       id: props.tenant.id || "",
       name: props.tenant.name,
       mapCenter: props.tenant.id && props.tenant.mapCenter ? (props.tenant.mapCenter.latitude + "," + props.tenant.mapCenter.longitude) : ""

@@ -50,7 +50,7 @@ export default function TenantHome() {
             center={[tenant.mapCenter.latitude, tenant.mapCenter.longitude]}
             scrollWheelZoom={true}
             bounceAtZoomLimits={true}
-            zoom={10}
+            zoom={13}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {tenant.area && (
