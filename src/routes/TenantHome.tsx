@@ -18,6 +18,9 @@ const useStyles = makeStyles({
     width: "100%",
     height: "100%",
   },
+  poly: {
+    cursor: "inherit"
+  }
 });
 
 export default function TenantHome() {
@@ -55,8 +58,8 @@ export default function TenantHome() {
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {tenant.area && (
               <Polygon
-                className="areapoly"
-                interactive={false}
+                className={"areapoly " + classes.poly}
+                interactive={true}
                 positions={tenant.area.map((x) => [x.latitude, x.longitude])}
               />
             )}

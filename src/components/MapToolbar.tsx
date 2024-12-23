@@ -66,8 +66,12 @@ export default function MapToolbar(props: MapToolbarProps) {
     if (awaitingClick) {
       const location: LatLngExpression = [e.latlng.lat, e.latlng.lng];
 
-      // check boundaries
-      console.log(e);
+      if (
+        props.tenant.area &&
+        !(e.originalEvent.target as HTMLElement).classList.contains("areapoly")
+      ) {
+        return;
+      }
 
       props.onLocationPicked(location);
       setAwaitingClick(false);
@@ -75,11 +79,16 @@ export default function MapToolbar(props: MapToolbarProps) {
   });
 
   useEffect(() => {
-    map.getContainer().style.cursor = awaitingClick ? "pointer" : "";
-    map.getContainer().style.boxShadow = awaitingClick
-      ? "0 0 5px 5px " + tokens.colorBrandForeground1
-      : "none";
-  }, [map, awaitingClick]);
+    const polys = Array.from(map.getContainer().querySelectorAll(".areapoly")) as HTMLElement[];
+    const els: HTMLElement[] = props.tenant.area ? polys : [map.getContainer()];
+    for (const el of els) {
+      if (awaitingClick) {
+        el.classList.add("cp");
+      } else {
+        el.classList.remove("cp");
+      }
+    }
+  }, [map, awaitingClick, props]);
 
   const isTenantAdmin = useMemo(() => {
     if (!props.user?.email) {
