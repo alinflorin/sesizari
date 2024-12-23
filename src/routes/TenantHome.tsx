@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router";
 import { Tenant } from "../models/tenant";
 import { makeStyles } from "@fluentui/react-components";
-import { MapContainer, Polygon, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import MapToolbar from "../components/MapToolbar";
 import { useCallback, useState } from "react";
 import { LatLngExpression } from "leaflet";
@@ -17,9 +17,6 @@ const useStyles = makeStyles({
   map: {
     width: "100%",
     height: "100%",
-  },
-  poly: {
-    cursor: "inherit"
   }
 });
 
@@ -43,7 +40,7 @@ export default function TenantHome() {
     },
     []
   );
-
+  
   return (
     <>
       <div className={classes.container}>
@@ -57,11 +54,7 @@ export default function TenantHome() {
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {tenant.area && (
-              <Polygon
-                className={"areapoly " + classes.poly}
-                interactive={true}
-                positions={tenant.area.map((x) => [x.latitude, x.longitude])}
-              />
+              <GeoJSON data={JSON.parse(tenant.area)} interactive={true} />
             )}
             <MapToolbar tenant={tenant} user={user} onLocationPicked={locationPicked} />
           </MapContainer>

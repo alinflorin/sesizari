@@ -5,6 +5,6 @@ export interface Tenant {
   name: string;
   admins: string[];
   categories: string[];
-  area?: GeoPoint[];
+  area?: string;
   mapCenter: GeoPoint;
 }

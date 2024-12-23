@@ -9,7 +9,9 @@ import {
   DialogContent,
   DialogSurface,
   DialogTitle,
+  InfoLabel,
   Input,
+  Link,
   makeStyles,
   MessageBar,
   Tag,
@@ -27,6 +29,7 @@ import * as yup from "yup";
 import { GeoPoint } from "firebase/firestore";
 import { FirebaseError } from "@firebase/app";
 import useTenants from "../hooks/useTenants";
+import { GeoJSON } from "leaflet";
 
 export interface AddEditTenantProps {
   tenant: Tenant;
@@ -87,9 +90,13 @@ export default function AddEditTenant(props: AddEditTenantProps) {
         t("ui.components.addEditTenant.invalidAreaFormat"),
         (value) => {
           if (!value) return true;
-          const latLngRegex =
-            /^-?([1-8]?\d(\.\d+)?|90(\.0+)?),-?((1[0-7]\d(\.\d+)?|180(\.0+)?|(\d{1,2}(\.\d+)?)))( -?([1-8]?\d(\.\d+)?|90(\.0+)?),-?((1[0-7]\d(\.\d+)?|180(\.0+)?|(\d{1,2}(\.\d+)?))))*$/;
-          return latLngRegex.test(value);
+          try {
+            const object = JSON.parse(value);
+            const geoJsonObject = new GeoJSON(object);
+            return !!geoJsonObject;
+          } catch {
+            return false;
+          }
         }
       ),
     mapCenter: yup
@@ -134,12 +141,15 @@ export default function AddEditTenant(props: AddEditTenantProps) {
     defaultValues: {
       categories: props.tenant.categories,
       admins: props.tenant.admins,
-      area: props.tenant.area ? props.tenant.area
-        ?.map((x) => x.latitude + "," + x.longitude)
-        .join(" ") : "",
+      area: props.tenant.area ? props.tenant.area : "",
       id: props.tenant.id || "",
       name: props.tenant.name,
-      mapCenter: props.tenant.id && props.tenant.mapCenter ? (props.tenant.mapCenter.latitude + "," + props.tenant.mapCenter.longitude) : ""
+      mapCenter:
+        props.tenant.id && props.tenant.mapCenter
+          ? props.tenant.mapCenter.latitude +
+            "," +
+            props.tenant.mapCenter.longitude
+          : "",
     },
   });
 
@@ -154,11 +164,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
     }) => {
       try {
         const tenantData = {
-          area: data.area
-            ? data.area
-                .split(" ")
-                .map((x) => new GeoPoint(+x.split(",")[0], +x.split(",")[1]))
-            : null,
+          area: data.area ? data.area : null,
           mapCenter: data.mapCenter
             ? new GeoPoint(
                 +data.mapCenter.split(",")[0],
@@ -314,7 +320,12 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                     <TagPickerControl onBlur={field.onBlur} ref={field.ref}>
                       <TagPickerGroup>
                         {field.value.map((option, index) => (
-                          <Tag key={index} shape="rounded" value={option}>
+                          <Tag
+                            as="span"
+                            key={index}
+                            shape="rounded"
+                            value={option}
+                          >
                             {option}
                           </Tag>
                         ))}
@@ -363,7 +374,12 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                     <TagPickerControl onBlur={field.onBlur} ref={field.ref}>
                       <TagPickerGroup>
                         {field.value.map((option, index) => (
-                          <Tag key={index} shape="rounded" value={option}>
+                          <Tag
+                            as="span"
+                            key={index}
+                            shape="rounded"
+                            value={option}
+                          >
                             {option}
                           </Tag>
                         ))}
@@ -421,6 +437,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                 control={control}
                 render={({ field }) => (
                   <Textarea
+                    rows={5}
                     placeholder={t("ui.components.addEditTenant.area")}
                     required
                     name={field.name}
@@ -432,6 +449,18 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                   />
                 )}
               />
+              <InfoLabel
+                info={
+                  <>
+                    {t("ui.components.addEditTenant.areaInfo")}{" "}
+                    <Link target="_blank" href="https://geojson.io">
+                      GeoJSON.io
+                    </Link>
+                  </>
+                }
+              >
+                {t("ui.components.addEditTenant.info")}
+              </InfoLabel>
               {errors.area && (
                 <MessageBar intent="error">{errors.area.message}</MessageBar>
               )}

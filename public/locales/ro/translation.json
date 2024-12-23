@@ -57,7 +57,9 @@
         "mapCenterIsRequired": "Centrul hărții este obligatoriu",
         "mapCenterIsInvalid": "Centrul hărții este invalid",
         "idIsInvalid": "ID-ul este invalid",
-        "mapCenter": "Centrul hărții"
+        "mapCenter": "Centrul hărții",
+        "areaInfo": "Pentru generare zonă",
+        "info": "Info"
       },
       "mapToolbar": {
         "pickLocation": "Selectați locația cu clic"

@@ -8,6 +8,7 @@ import {
 import {
   AddRegular,
   BuildingRetailToolboxRegular,
+  CursorProhibitedRegular,
 } from "@fluentui/react-icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMap, useMapEvent } from "react-leaflet";
@@ -68,7 +69,9 @@ export default function MapToolbar(props: MapToolbarProps) {
 
       if (
         props.tenant.area &&
-        !(e.originalEvent.target as HTMLElement).classList.contains("areapoly")
+        !(e.originalEvent.target as HTMLElement).classList.contains(
+          "leaflet-interactive"
+        )
       ) {
         return;
       }
@@ -79,7 +82,9 @@ export default function MapToolbar(props: MapToolbarProps) {
   });
 
   useEffect(() => {
-    const polys = Array.from(map.getContainer().querySelectorAll(".areapoly")) as HTMLElement[];
+    const polys = Array.from(
+      map.getContainer().querySelectorAll(".leaflet-interactive")
+    ) as HTMLElement[];
     const els: HTMLElement[] = props.tenant.area ? polys : [map.getContainer()];
     for (const el of els) {
       if (awaitingClick) {
@@ -105,9 +110,16 @@ export default function MapToolbar(props: MapToolbarProps) {
   return (
     <Toolbar ref={toolbarRef} className={classes.toolbar}>
       {awaitingClick && (
-        <Caption1Strong className={classes.pickText}>
-          {t("ui.components.mapToolbar.pickLocation")}
-        </Caption1Strong>
+        <>
+          <Caption1Strong className={classes.pickText}>
+            {t("ui.components.mapToolbar.pickLocation")}
+          </Caption1Strong>
+          <ToolbarButton
+            appearance="primary"
+            onClick={() => setAwaitingClick(false)}
+            icon={<CursorProhibitedRegular />}
+          />
+        </>
       )}
       {!awaitingClick && (
         <>

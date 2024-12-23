@@ -156,7 +156,7 @@ export default function AppSettings() {
                 <TagPickerControl onBlur={field.onBlur} ref={field.ref}>
                   <TagPickerGroup>
                     {field.value.map((option, index) => (
-                      <Tag key={index} shape="rounded" value={option}>
+                      <Tag as="span" key={index} shape="rounded" value={option}>
                         {option}
                       </Tag>
                     ))}

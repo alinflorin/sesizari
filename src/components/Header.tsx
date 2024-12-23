@@ -72,7 +72,7 @@ export default function Header({
   profile,
   setUserProfile,
   tenant,
-  settings
+  settings,
 }: HeaderProps) {
   const classes = useStyles();
   const { user, logout } = useAuth();
@@ -173,6 +173,11 @@ export default function Header({
 
           <MenuPopover>
             <MenuList>
+              {user && (
+                <MenuItem disabled style={{ textAlign: "center" }}>
+                  {user.email}
+                </MenuItem>
+              )}
               <Menu>
                 <MenuTrigger>
                   <MenuItem icon={<LocalLanguageRegular />}>

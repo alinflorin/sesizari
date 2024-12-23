@@ -15,3 +15,7 @@ body {
 .cp {
   cursor: pointer !important;
 }
+
+.leaflet-interactive {
+  cursor: inherit;
+}

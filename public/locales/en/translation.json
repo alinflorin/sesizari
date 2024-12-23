@@ -57,7 +57,9 @@
         "mapCenterIsRequired": "Map center is required",
         "mapCenterIsInvalid": "Map center is invalid",
         "idIsInvalid": "ID is invalid",
-        "mapCenter": "Map center"
+        "mapCenter": "Map center",
+        "areaInfo": "For zone generation",
+        "info": "Info"
       },
       "mapToolbar": {
         "pickLocation": "Select location using click"
