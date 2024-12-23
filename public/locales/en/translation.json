@@ -108,7 +108,11 @@
         "passwordIsRequired": "Password is required",
         "passwordsMustMatch": "Passwords must match",
         "confirmPasswordIsRequired": "Password confirmation is required",
-        "confirmPassword": "Confirm password"
+        "confirmPassword": "Confirm password",
+        "firstNameIsRequired": "First name is required",
+        "lastNameIsRequired": "Last name is required",
+        "firstName": "First name",
+        "lastName": "Last name"
       },
       "about": {
         "about": "About"

@@ -25,6 +25,7 @@ import {
   BreadcrumbItem,
   BreadcrumbDivider,
   BreadcrumbButton,
+  tokens,
 } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import { supportedLanguages } from "../providers/i18n";
@@ -174,8 +175,11 @@ export default function Header({
           <MenuPopover>
             <MenuList>
               {user && (
-                <MenuItem disabled style={{ textAlign: "center" }}>
-                  {user.email}
+                <MenuItem
+                  disabled
+                  style={{ textAlign: "center", cursor: "default", color: tokens.colorBrandForeground1 }}
+                >
+                  {user.displayName}
                 </MenuItem>
               )}
               <Menu>

@@ -8,6 +8,7 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  updateProfile,
 } from "firebase/auth";
 
 export default function useAuth() {
@@ -28,8 +29,11 @@ export default function useAuth() {
     await firebaseAuth.signOut();
   }, []);
 
-  const signup = useCallback(async (email: string, password: string) => {
-    return await createUserWithEmailAndPassword(firebaseAuth, email, password);
+  const signup = useCallback(async (email: string, password: string, firstName: string, lastName: string) => {
+    const newUser = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+    await updateProfile(newUser.user, {
+      displayName: firstName + " " + lastName
+    });
   }, []);
 
   const loginWithGoogle = useCallback(async () => {

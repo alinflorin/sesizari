@@ -56,6 +56,12 @@ export const Register = () => {
       .string()
       .email(t("ui.routes.register.invalidEmail"))
       .required(t("ui.routes.register.emailIsRequired")),
+    firstName: yup
+      .string()
+      .required(t("ui.routes.register.firstNameIsRequired")),
+    lastName: yup
+      .string()
+      .required(t("ui.routes.register.lastNameIsRequired")),
     password: yup
       .string()
       .min(6, t("ui.routes.register.passwordTooShort"))
@@ -79,7 +85,9 @@ export const Register = () => {
     defaultValues: {
       confirmPassword: "",
       email: "",
-      password: ""
+      password: "",
+      firstName: "",
+      lastName: ""
     }
   });
 
@@ -89,13 +97,17 @@ export const Register = () => {
     async ({
       email,
       password,
+      firstName,
+      lastName
     }: {
       email: string;
       password: string;
       confirmPassword: string;
+      firstName: string;
+      lastName: string;
     }) => {
       try {
-        await signup(email, password);
+        await signup(email, password, firstName, lastName);
         navigate(returnTo);
       } catch (err: unknown) {
         console.error(err);
@@ -137,6 +149,46 @@ export const Register = () => {
         />
         {errors.email && (
           <MessageBar intent="error">{errors.email.message}</MessageBar>
+        )}
+
+        <Controller
+          name="firstName"
+          control={control}
+          render={({ field }) => (
+            <Input
+              type="text"
+              placeholder={t("ui.routes.register.firstName")}
+              required
+              disabled={field.disabled}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
+              value={field.value}
+            />
+          )}
+        />
+        {errors.firstName && (
+          <MessageBar intent="error">{errors.firstName.message}</MessageBar>
+        )}
+
+        <Controller
+          name="lastName"
+          control={control}
+          render={({ field }) => (
+            <Input
+              type="text"
+              placeholder={t("ui.routes.register.lastName")}
+              required
+              disabled={field.disabled}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
+              value={field.value}
+            />
+          )}
+        />
+        {errors.lastName && (
+          <MessageBar intent="error">{errors.lastName.message}</MessageBar>
         )}
 
         <Controller

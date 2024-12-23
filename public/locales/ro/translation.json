@@ -108,7 +108,11 @@
         "passwordIsRequired": "Parola este prea scurta",
         "passwordsMustMatch": "Parolele trebuie să se potrivească",
         "confirmPasswordIsRequired": "Confirmarea parolei este obligatorie",
-        "confirmPassword": "Confirmare parolă"
+        "confirmPassword": "Confirmare parolă",
+        "firstNameIsRequired": "Prenumele este obligatoriu",
+        "lastNameIsRequired": "Numele de familie este obligatoriu",
+        "firstName": "Prenume",
+        "lastName": "Nume de familie"
       },
       "about": {
         "about": "Despre"
