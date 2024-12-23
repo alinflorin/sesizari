@@ -26,7 +26,8 @@
         "dark": "Dark",
         "system": "System",
         "tenantsAdmin": "Tenants admin",
-        "appSettings": "App settings"
+        "appSettings": "App settings",
+        "admin": "Admin"
       },
       "confirmationDialog": {
         "confirmation": "Confirmation",
@@ -113,7 +114,17 @@
       "tenantsAdmin": {
         "tenantsAdmin": "Tenants admin",
         "edit": "Edit",
-        "delete": "Delete"
+        "delete": "Delete",
+        "anErrorHasOccurred": "An error has occurred",
+        "operationSuccessful": "Operation successful"
+      },
+      "appSettings": {
+        "superAdminEmailIsInvalid": "Superadmin email is invalid",
+        "superAdminsAreRequired": "Superadmins are required",
+        "superAdminEmailIsRequired": "Superadmin email is required",
+        "superAdmins": "Superadmins",
+        "save": "Save",
+        "savedSuccessfully": "Saved sucessfully"
       }
     },
     "title": "Complaints"

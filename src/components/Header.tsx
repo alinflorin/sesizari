@@ -29,7 +29,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { supportedLanguages } from "../providers/i18n";
 import useAuth from "../hooks/useAuth";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { UserProfile } from "../models/user-profile";
 import { useLocation, useNavigate } from "react-router";
 import { Tenant } from "../models/tenant";
@@ -80,6 +80,13 @@ export default function Header({
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isOnTenantAdmin = useMemo(() => {
+    if (!tenant) {
+      return false;
+    }
+    return location.pathname.endsWith("/admin");
+  }, [tenant, location]);
+
   const changeLanguage = useCallback(
     async (newLangCode: string) => {
       if (newLangCode === i18n.language) {
@@ -127,6 +134,20 @@ export default function Header({
                   {tenant.name}
                 </BreadcrumbButton>
               </BreadcrumbItem>
+
+              {isOnTenantAdmin && (
+                <>
+                  <BreadcrumbDivider />
+                  <BreadcrumbItem>
+                    <BreadcrumbButton
+                      key={tenant.id}
+                      onClick={() => navigate("/t/" + tenant.id + "/admin")}
+                    >
+                      {t("ui.components.header.admin")}
+                    </BreadcrumbButton>
+                  </BreadcrumbItem>
+                </>
+              )}
             </>
           )}
         </Breadcrumb>

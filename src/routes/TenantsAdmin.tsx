@@ -6,6 +6,7 @@ import {
   CardFooter,
   CardHeader,
   makeStyles,
+  MessageBar,
   Title1,
   tokens,
 } from "@fluentui/react-components";
@@ -41,8 +42,9 @@ const useStyles = makeStyles({
 export default function TenantsAdmin() {
   const { tenants: tenantsFirestore, deleteTenant } = useTenants();
   const [tenants, setTenants] = useState<Tenant[]>([]);
-
   const [editedTenant, setEditedTenant] = useState<Tenant | undefined>();
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (!tenantsFirestore) {
@@ -57,19 +59,28 @@ export default function TenantsAdmin() {
 
   const deleteTenantClicked = useCallback(
     async (tenant: Tenant, index: number) => {
+      setSuccess(false);
+      setError(false);
       const allow = await showDialog();
       if (!allow) {
         return;
       }
-      await deleteTenant(tenant.id!);
-      tenants.splice(index, 1);
-      setTenants([...tenants]);
+      try {
+        await deleteTenant(tenant.id!);
+        tenants.splice(index, 1);
+        setTenants([...tenants]);
+      } catch (err: unknown) {
+        console.error(err);
+        setError(true);
+      }
     },
     [tenants, showDialog, deleteTenant]
   );
 
   const onAddEditClosed = useCallback(
     (tenantBeingEdited: Tenant | undefined) => {
+      setSuccess(false);
+      setError(false);
       if (!tenantBeingEdited) {
         setEditedTenant(undefined);
         return;
@@ -84,6 +95,7 @@ export default function TenantsAdmin() {
       }
       setTenants([...tenants]);
       setEditedTenant(undefined);
+      setSuccess(true);
     },
     [tenants, setTenants, setEditedTenant]
   );
@@ -92,6 +104,16 @@ export default function TenantsAdmin() {
     <>
       <div className={classes.container}>
         <Title1>{t("ui.routes.tenantsAdmin.tenantsAdmin")}</Title1>
+        {error && (
+          <MessageBar intent="error">
+            {t("ui.routes.tenantsAdmin.anErrorHasOccurred")}
+          </MessageBar>
+        )}
+        {success && (
+          <MessageBar intent="success">
+            {t("ui.routes.tenantsAdmin.operationSuccessful")}
+          </MessageBar>
+        )}
         <div className={classes.grid}>
           {tenants?.map((tenant, i) => (
             <Card key={tenant.id}>

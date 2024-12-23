@@ -26,7 +26,8 @@
         "dark": "Întunecată",
         "system": "Sistem",
         "tenantsAdmin": "Administrare tenanți",
-        "appSettings": "Setări aplicație"
+        "appSettings": "Setări aplicație",
+        "admin": "Administrare"
       },
       "confirmationDialog": {
         "confirmation": "Confirmare",
@@ -113,7 +114,18 @@
       "tenantsAdmin": {
         "tenantsAdmin": "Administrare tenanți",
         "edit": "Editare",
-        "delete": "Ștergere"
+        "delete": "Ștergere",
+        "anErrorHasOccurred": "A apărut o eroare",
+        "operationSuccessful": "Operațiune terminată cu succes"
+      },
+      "appSettings": {
+        "superAdminEmailIsInvalid": "Email-ul superadministratorului este invalid",
+        "superAdminsAreRequired": "Superadministratorii sunt obligatorii",
+        "superAdminEmailIsRequired": "Email-ul superadministratorului este obligatoriu",
+        "appSettings": "Setări aplicație",
+        "superAdmins": "Superadministratori",
+        "save": "Salvare",
+        "savedSuccessfully": "Salvat cu succes"
       }
     },
     "title": "Sesizări"

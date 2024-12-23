@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     gap: "0.5rem",
   },
   pickText: {
-    background: tokens.colorNeutralBackgroundStatic,
+    background: tokens.colorNeutralBackground1,
     padding: "5px",
   },
 });

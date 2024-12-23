@@ -1,7 +1,7 @@
-import { doc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { useDocumentDataOnce } from "react-firebase-hooks/firestore";
 import { firebaseFirestore } from "../providers/firebase";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { Settings } from "../models/settings";
 
 export default function useSettingsOnce() {
@@ -15,5 +15,9 @@ export default function useSettingsOnce() {
     return settingsDoc as Settings;
   }, [settingsDoc]);
 
-  return { settings, loading };
+  const updateSettings = useCallback(async (newSettings: Settings) => {
+    await setDoc(doc(firebaseFirestore, "settings/settings"), newSettings, {merge: true});
+  }, []);
+
+  return { settings, loading, updateSettings };
 }
