@@ -55,6 +55,7 @@ export default function TenantHome() {
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {tenant.area && (
               <Polygon
+                className="areapoly"
                 interactive={false}
                 positions={tenant.area.map((x) => [x.latitude, x.longitude])}
               />

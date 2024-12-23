@@ -64,7 +64,12 @@ export default function MapToolbar(props: MapToolbarProps) {
 
   useMapEvent("click", (e) => {
     if (awaitingClick) {
-      props.onLocationPicked([e.latlng.lat, e.latlng.lng]);
+      const location: LatLngExpression = [e.latlng.lat, e.latlng.lng];
+
+      // check boundaries
+      console.log(e);
+
+      props.onLocationPicked(location);
       setAwaitingClick(false);
     }
   });
