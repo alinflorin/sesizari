@@ -7,8 +7,10 @@ import {
   DialogContent,
   DialogSurface,
   DialogTitle,
+  Label,
   makeStyles,
   MessageBar,
+  Select,
   Textarea,
   tokens,
 } from "@fluentui/react-components";
@@ -20,11 +22,14 @@ import { FirebaseError } from "@firebase/app";
 import { Complaint } from "../models/complaint";
 import { LatLngExpression } from "leaflet";
 import { User } from "../models/user";
+import { Tenant } from "../models/tenant";
+import useComplaints from "../hooks/useComplaints";
 
 export interface AddComplaintProps {
   onClose: (complaint?: Complaint | undefined) => void;
   location: LatLngExpression;
   user: User;
+  tenant: Tenant;
 }
 
 const useStyles = makeStyles({
@@ -41,9 +46,15 @@ export default function AddComplaint(props: AddComplaintProps) {
   const { t } = useTranslation();
   const classes = useStyles();
   const formButton = useRef<HTMLButtonElement | null>(null);
+  const { addComplaint } = useComplaints();
 
   const schema = yup.object().shape({
-    description: yup.string().required(t("ui.components.addComplaint.descriptionIsRequired"))
+    description: yup
+      .string()
+      .required(t("ui.components.addComplaint.descriptionIsRequired")),
+    category: yup
+      .string()
+      .required(t("ui.components.addComplaint.categoryIsRequired")),
   });
 
   const {
@@ -54,15 +65,23 @@ export default function AddComplaint(props: AddComplaintProps) {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      description: ""
+      description: "",
+      category: undefined
     },
   });
 
   const onSubmit = useCallback(
-    async (data: {description: string}) => {
+    async (data: { description: string, category: string }) => {
       try {
-        console.log(data);
-        props.onClose();
+        const newComplaint: Complaint = {
+          category: data.category,
+          description: data.description,
+          status: "submitted",
+          authorEmail: props.user.email,
+          authorName: props.user.displayName
+        };
+        const addedComplaint = await addComplaint(newComplaint);
+        props.onClose(addedComplaint);
       } catch (err) {
         console.error(err);
         if (err instanceof FirebaseError) {
@@ -72,7 +91,7 @@ export default function AddComplaint(props: AddComplaintProps) {
         }
       }
     },
-    [props, setError]
+    [props, setError, addComplaint]
   );
 
   return (
@@ -87,7 +106,9 @@ export default function AddComplaint(props: AddComplaintProps) {
     >
       <DialogSurface>
         <DialogBody>
-          <DialogTitle>{t("ui.components.addComplaint.addComplaint")}</DialogTitle>
+          <DialogTitle>
+            {t("ui.components.addComplaint.addComplaint")}
+          </DialogTitle>
           <DialogContent>
             {errors.root?.firebase?.message && (
               <MessageBar intent="error">
@@ -102,6 +123,7 @@ export default function AddComplaint(props: AddComplaintProps) {
                   <Textarea
                     placeholder={t("ui.components.addComplaint.description")}
                     required
+                    rows={5}
                     name={field.name}
                     onBlur={field.onBlur}
                     onChange={field.onChange}
@@ -114,6 +136,38 @@ export default function AddComplaint(props: AddComplaintProps) {
               {errors.description && (
                 <MessageBar intent="error">
                   {errors.description.message}
+                </MessageBar>
+              )}
+
+              <Controller
+                name="category"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <Label htmlFor="category">{t("ui.components.addComplaint.category")}</Label>
+                    <Select
+                      name={field.name}
+                      id="category"
+                      disabled={field.disabled}
+                      ref={field.ref}
+                      onBlur={field.onBlur}
+                      onChange={field.onChange}
+                      value={field.value}
+                      required
+                    >
+                      <option value={undefined}></option>
+                      {props.tenant.categories.map((c) => (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      ))}
+                    </Select>
+                  </>
+                )}
+              />
+              {errors.category && (
+                <MessageBar intent="error">
+                  {errors.category.message}
                 </MessageBar>
               )}
 

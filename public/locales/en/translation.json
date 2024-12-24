@@ -69,7 +69,9 @@
         "description": "Description",
         "cancel": "Cancel",
         "save": "Save",
-        "addComplaint": "Add complaint"
+        "addComplaint": "Add complaint",
+        "categoryIsRequired": "Category is required",
+        "category": "Category"
       }
     },
     "routes": {
@@ -131,6 +133,11 @@
         "superAdmins": "Superadmins",
         "save": "Save",
         "savedSuccessfully": "Saved sucessfully"
+      },
+      "tenantHome": {
+        "success": "Success",
+        "complaintSubmitted": "Complaint submitted successfully",
+        "close": "Close"
       }
     },
     "title": "Complaints"

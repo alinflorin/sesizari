@@ -69,7 +69,9 @@
         "description": "Descriere",
         "cancel": "Anulare",
         "save": "Salvare",
-        "addComplaint": "Adăugare sesizare"
+        "addComplaint": "Adăugare sesizare",
+        "categoryIsRequired": "Categoria este obligatorie",
+        "category": "Categorie"
       }
     },
     "routes": {
@@ -132,6 +134,11 @@
         "superAdmins": "Superadministratori",
         "save": "Salvare",
         "savedSuccessfully": "Salvat cu succes"
+      },
+      "tenantHome": {
+        "success": "Succes",
+        "complaintSubmitted": "Sesizare trimisă cu succes",
+        "close": "Închidere"
       }
     },
     "title": "Sesizări"
