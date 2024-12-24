@@ -2,6 +2,7 @@
 import { useTranslation } from "react-i18next";
 import {
   Button,
+  Field,
   makeStyles,
   MessageBar,
   Tag,
@@ -18,12 +19,13 @@ import * as yup from "yup";
 import { FirebaseError } from "@firebase/app";
 import useSettingsOnce from "../hooks/useSettingsOnce";
 import { Settings } from "../models/settings";
+import { extractErrorMessages } from "../helpers/form-helpers";
 
 const useStyles = makeStyles({
   container: {
     display: "flex",
     flexDirection: "column",
-    gap: "1rem"
+    gap: "1rem",
   },
   content: {
     display: "flex",
@@ -38,8 +40,8 @@ const useStyles = makeStyles({
   buttonWrapper: {
     display: "flex",
     justifyContent: "center",
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
 
 export default function AppSettings() {
@@ -144,53 +146,51 @@ export default function AppSettings() {
           <Controller
             name="superAdmins"
             control={control}
-            render={({ field }) => (
-              <TagPicker
-                disabled={field.disabled}
-                noPopover
-                selectedOptions={field.value}
-                onOptionSelect={(_, d) =>
-                  field.onChange({ target: { value: d.selectedOptions } })
-                }
+            render={({ field, fieldState }) => (
+              <Field
+                label={t("ui.routes.appSettings.superAdmins")}
+                validationState={fieldState.invalid ? "error" : "success"}
+                validationMessage={extractErrorMessages(fieldState.error)}
               >
-                <TagPickerControl onBlur={field.onBlur} ref={field.ref}>
-                  <TagPickerGroup>
-                    {field.value.map((option, index) => (
-                      <Tag as="span" key={index} shape="rounded" value={option}>
-                        {option}
-                      </Tag>
-                    ))}
-                  </TagPickerGroup>
-                  <TagPickerInput
-                    disabled={field.disabled}
-                    value={adminInputValue}
-                    onBlur={field.onBlur}
-                    type="email"
-                    placeholder={t("ui.routes.appSettings.superAdmins")}
-                    onChange={(e) => setAdminInputValue(e.target.value)}
-                    onKeyDown={(e) =>
-                      adminInputKeyDown(e, field.value, field.onChange)
-                    }
-                  />
-                </TagPickerControl>
-              </TagPicker>
+                <TagPicker
+                  disabled={field.disabled}
+                  noPopover
+                  selectedOptions={field.value}
+                  onOptionSelect={(_, d) =>
+                    field.onChange({ target: { value: d.selectedOptions } })
+                  }
+                >
+                  <TagPickerControl onBlur={field.onBlur} ref={field.ref}>
+                    <TagPickerGroup>
+                      {field.value.map((option, index) => (
+                        <Tag
+                          as="span"
+                          key={index}
+                          shape="rounded"
+                          value={option}
+                        >
+                          {option}
+                        </Tag>
+                      ))}
+                    </TagPickerGroup>
+                    <TagPickerInput
+                      disabled={field.disabled}
+                      value={adminInputValue}
+                      onBlur={field.onBlur}
+                      type="email"
+                      onChange={(e) => setAdminInputValue(e.target.value)}
+                      onKeyDown={(e) =>
+                        adminInputKeyDown(e, field.value, field.onChange)
+                      }
+                    />
+                  </TagPickerControl>
+                </TagPicker>
+              </Field>
             )}
           />
-          {errors.superAdmins?.message && (
-            <MessageBar intent="error">{errors.superAdmins.message}</MessageBar>
-          )}
-          {Array.isArray(errors.superAdmins) &&
-            errors.superAdmins.map((e, i) => (
-              <MessageBar key={i + ""} intent="error">
-                {e.message}
-              </MessageBar>
-            ))}
 
           <div className={classes.buttonWrapper}>
-            <Button
-              appearance="primary"
-              type="submit"
-            >
+            <Button appearance="primary" type="submit">
               {t("ui.routes.appSettings.save")}
             </Button>
           </div>

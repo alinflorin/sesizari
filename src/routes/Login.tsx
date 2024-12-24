@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
   Button,
+  Field,
   Input,
   Link,
   makeStyles,
@@ -15,6 +16,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { useCallback, useMemo } from "react";
 import useAuth from "../hooks/useAuth";
 import { FirebaseError } from "@firebase/app";
+import { extractErrorMessages } from "../helpers/form-helpers";
 
 const useStyles = makeStyles({
   container: {
@@ -71,8 +73,8 @@ export const Login = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       email: "",
-      password: ""
-    }
+      password: "",
+    },
   });
 
   const { loginWithEmailAndPassword, loginWithGoogle } = useAuth();
@@ -123,43 +125,47 @@ export const Login = () => {
         <Controller
           name="email"
           control={control}
-          render={({ field }) => (
-            <Input
-              type="email"
-              placeholder={t("ui.routes.login.email")}
-              required
-              disabled={field.disabled}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              value={field.value}
-            />
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.routes.login.email")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <Input
+                type="email"
+                required
+                disabled={field.disabled}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                value={field.value}
+              />
+            </Field>
           )}
         />
-        {errors.email && (
-          <MessageBar intent="error">{errors.email.message}</MessageBar>
-        )}
 
         <Controller
           name="password"
           control={control}
-          render={({ field }) => (
-            <Input
-              type="password"
-              placeholder={t("ui.routes.login.password")}
-              required
-              minLength={6}
-              disabled={field.disabled}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              value={field.value}
-            />
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.routes.login.password")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <Input
+                type="password"
+                required
+                minLength={6}
+                disabled={field.disabled}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                value={field.value}
+              />
+            </Field>
           )}
         />
-        {errors.password && (
-          <MessageBar intent="error">{errors.password.message}</MessageBar>
-        )}
         <Button className={classes.button} type="submit" appearance="primary">
           {t("ui.routes.login.login")}
         </Button>

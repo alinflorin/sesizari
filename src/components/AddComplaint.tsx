@@ -8,7 +8,7 @@ import {
   DialogContent,
   DialogSurface,
   DialogTitle,
-  Label,
+  Field,
   makeStyles,
   MessageBar,
   Select,
@@ -27,6 +27,7 @@ import { Tenant } from "../models/tenant";
 import useComplaints from "../hooks/useComplaints";
 import FileUpload from "./FileUpload";
 import useFiles from "../hooks/useFiles";
+import { extractErrorMessages } from "../helpers/form-helpers";
 
 export interface AddComplaintProps {
   onClose: (complaint?: Complaint | undefined) => void;
@@ -151,34 +152,35 @@ export default function AddComplaint(props: AddComplaintProps) {
               <Controller
                 name="description"
                 control={control}
-                render={({ field }) => (
-                  <Textarea
-                    placeholder={t("ui.components.addComplaint.description")}
-                    required
-                    rows={5}
-                    name={field.name}
-                    onBlur={field.onBlur}
-                    onChange={field.onChange}
-                    value={field.value}
-                    disabled={field.disabled}
-                    ref={field.ref}
-                  />
+                render={({ field, fieldState }) => (
+                  <Field
+                    label={t("ui.components.addComplaint.description")}
+                    validationState={fieldState.invalid ? "error" : "success"}
+                    validationMessage={extractErrorMessages(fieldState.error)}
+                  >
+                    <Textarea
+                      required
+                      rows={5}
+                      name={field.name}
+                      onBlur={field.onBlur}
+                      onChange={field.onChange}
+                      value={field.value}
+                      disabled={field.disabled}
+                      ref={field.ref}
+                    />
+                  </Field>
                 )}
               />
-              {errors.description && (
-                <MessageBar intent="error">
-                  {errors.description.message}
-                </MessageBar>
-              )}
 
               <Controller
                 name="category"
                 control={control}
-                render={({ field }) => (
-                  <>
-                    <Label htmlFor="category">
-                      {t("ui.components.addComplaint.category")}
-                    </Label>
+                render={({ field, fieldState }) => (
+                  <Field
+                    label={t("ui.components.addComplaint.category")}
+                    validationState={fieldState.invalid ? "error" : "success"}
+                    validationMessage={extractErrorMessages(fieldState.error)}
+                  >
                     <Select
                       name={field.name}
                       id="category"
@@ -196,23 +198,19 @@ export default function AddComplaint(props: AddComplaintProps) {
                         </option>
                       ))}
                     </Select>
-                  </>
+                  </Field>
                 )}
               />
-              {errors.category && (
-                <MessageBar intent="error">
-                  {errors.category.message}
-                </MessageBar>
-              )}
 
               <Controller
                 name="submissionPhotos"
                 control={control}
-                render={({ field }) => (
-                  <>
-                    <Label htmlFor="submissionPhotos">
-                      {t("ui.components.addComplaint.photos")}
-                    </Label>
+                render={({ field, fieldState }) => (
+                  <Field
+                    label={t("ui.components.addComplaint.photos")}
+                    validationState={fieldState.invalid ? "error" : "success"}
+                    validationMessage={extractErrorMessages(fieldState.error)}
+                  >
                     <FileUpload
                       name={field.name}
                       id="submissionPhotos"
@@ -225,20 +223,9 @@ export default function AddComplaint(props: AddComplaintProps) {
                       value={field.value}
                       required
                     />
-                  </>
+                  </Field>
                 )}
               />
-              {errors.submissionPhotos?.message && (
-                <MessageBar intent="error">
-                  {errors.submissionPhotos.message}
-                </MessageBar>
-              )}
-              {Array.isArray(errors.submissionPhotos) &&
-                errors.submissionPhotos.map((e, i) => (
-                  <MessageBar key={i + ""} intent="error">
-                    {e.message}
-                  </MessageBar>
-                ))}
 
               <button
                 type="submit"

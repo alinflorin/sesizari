@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
   Button,
+  Field,
   Input,
   Link,
   makeStyles,
@@ -15,6 +16,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { useCallback, useMemo } from "react";
 import useAuth from "../hooks/useAuth";
 import { FirebaseError } from "@firebase/app";
+import { extractErrorMessages } from "../helpers/form-helpers";
 
 const useStyles = makeStyles({
   container: {
@@ -59,9 +61,7 @@ export const Register = () => {
     firstName: yup
       .string()
       .required(t("ui.routes.register.firstNameIsRequired")),
-    lastName: yup
-      .string()
-      .required(t("ui.routes.register.lastNameIsRequired")),
+    lastName: yup.string().required(t("ui.routes.register.lastNameIsRequired")),
     password: yup
       .string()
       .min(6, t("ui.routes.register.passwordTooShort"))
@@ -87,8 +87,8 @@ export const Register = () => {
       email: "",
       password: "",
       firstName: "",
-      lastName: ""
-    }
+      lastName: "",
+    },
   });
 
   const { signup } = useAuth();
@@ -98,7 +98,7 @@ export const Register = () => {
       email,
       password,
       firstName,
-      lastName
+      lastName,
     }: {
       email: string;
       password: string;
@@ -134,107 +134,113 @@ export const Register = () => {
         <Controller
           name="email"
           control={control}
-          render={({ field }) => (
-            <Input
-              type="email"
-              placeholder={t("ui.routes.register.email")}
-              required
-              disabled={field.disabled}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              value={field.value}
-            />
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.routes.register.email")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <Input
+                type="email"
+                required
+                disabled={field.disabled}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                value={field.value}
+              />
+            </Field>
           )}
         />
-        {errors.email && (
-          <MessageBar intent="error">{errors.email.message}</MessageBar>
-        )}
 
         <Controller
           name="firstName"
           control={control}
-          render={({ field }) => (
-            <Input
-              type="text"
-              placeholder={t("ui.routes.register.firstName")}
-              required
-              disabled={field.disabled}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              value={field.value}
-            />
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.routes.register.firstName")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <Input
+                type="text"
+                required
+                disabled={field.disabled}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                value={field.value}
+              />
+            </Field>
           )}
         />
-        {errors.firstName && (
-          <MessageBar intent="error">{errors.firstName.message}</MessageBar>
-        )}
 
         <Controller
           name="lastName"
           control={control}
-          render={({ field }) => (
-            <Input
-              type="text"
-              placeholder={t("ui.routes.register.lastName")}
-              required
-              disabled={field.disabled}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              value={field.value}
-            />
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.routes.register.lastName")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <Input
+                type="text"
+                required
+                disabled={field.disabled}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                value={field.value}
+              />
+            </Field>
           )}
         />
-        {errors.lastName && (
-          <MessageBar intent="error">{errors.lastName.message}</MessageBar>
-        )}
 
         <Controller
           name="password"
           control={control}
-          render={({ field }) => (
-            <Input
-              type="password"
-              minLength={6}
-              placeholder={t("ui.routes.register.password")}
-              required
-              disabled={field.disabled}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              value={field.value}
-            />
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.routes.register.password")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <Input
+                type="password"
+                minLength={6}
+                required
+                disabled={field.disabled}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                value={field.value}
+              />
+            </Field>
           )}
         />
-        {errors.password && (
-          <MessageBar intent="error">{errors.password.message}</MessageBar>
-        )}
-
         <Controller
           name="confirmPassword"
           control={control}
-          render={({ field }) => (
-            <Input
-              type="password"
-              minLength={6}
-              placeholder={t("ui.routes.register.confirmPassword")}
-              required
-              disabled={field.disabled}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              value={field.value}
-            />
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.routes.register.confirmPassword")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <Input
+                type="password"
+                minLength={6}
+                required
+                disabled={field.disabled}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                value={field.value}
+              />
+            </Field>
           )}
         />
-        {errors.confirmPassword && (
-          <MessageBar intent="error">
-            {errors.confirmPassword.message}
-          </MessageBar>
-        )}
-
         <Button className={classes.button} type="submit" appearance="primary">
           {t("ui.routes.register.register")}
         </Button>

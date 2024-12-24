@@ -4,6 +4,7 @@ import * as yup from "yup";
 import {
   Button,
   Caption1Strong,
+  Field,
   Input,
   Link,
   makeStyles,
@@ -16,6 +17,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { useCallback, useMemo, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { FirebaseError } from "@firebase/app";
+import { extractErrorMessages } from "../helpers/form-helpers";
 
 const useStyles = makeStyles({
   container: {
@@ -68,8 +70,8 @@ export const ForgotPassword = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      email: ""
-    }
+      email: "",
+    },
   });
 
   const { forgotPassword } = useAuth();
@@ -121,22 +123,24 @@ export const ForgotPassword = () => {
         <Controller
           name="email"
           control={control}
-          render={({ field }) => (
-            <Input
-              type="email"
-              placeholder={t("ui.routes.forgotPassword.email")}
-              required
-              disabled={field.disabled}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              ref={field.ref}
-              value={field.value}
-            />
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.routes.forgotPassword.email")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <Input
+                type="email"
+                required
+                disabled={field.disabled}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                value={field.value}
+              />
+            </Field>
           )}
         />
-        {errors.email && (
-          <MessageBar intent="error">{errors.email.message}</MessageBar>
-        )}
         <Button className={classes.button} type="submit" appearance="primary">
           {t("ui.routes.forgotPassword.sendResetEmail")}
         </Button>

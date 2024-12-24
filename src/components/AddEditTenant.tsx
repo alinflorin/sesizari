@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogSurface,
   DialogTitle,
+  Field,
   InfoLabel,
   Input,
   Link,
@@ -30,6 +31,7 @@ import { GeoPoint } from "firebase/firestore";
 import { FirebaseError } from "@firebase/app";
 import useTenants from "../hooks/useTenants";
 import { GeoJSON } from "leaflet";
+import { extractErrorMessages } from "../helpers/form-helpers";
 
 export interface AddEditTenantProps {
   tenant: Tenant;
@@ -264,188 +266,192 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                   <Controller
                     name="id"
                     control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="text"
-                        placeholder={t("ui.components.addEditTenant.id")}
-                        required
-                        name={field.name}
-                        onBlur={field.onBlur}
-                        onChange={field.onChange}
-                        value={field.value}
-                        disabled={field.disabled}
-                        ref={field.ref}
-                      />
+                    render={({ field, fieldState }) => (
+                      <Field
+                        label={t("ui.components.addEditTenant.id")}
+                        validationState={
+                          fieldState.invalid ? "error" : "success"
+                        }
+                        validationMessage={extractErrorMessages(
+                          fieldState.error
+                        )}
+                      >
+                        <Input
+                          type="text"
+                          required
+                          name={field.name}
+                          onBlur={field.onBlur}
+                          onChange={field.onChange}
+                          value={field.value}
+                          disabled={field.disabled}
+                          ref={field.ref}
+                        />
+                      </Field>
                     )}
                   />
-                  {errors.id && (
-                    <MessageBar intent="error">{errors.id.message}</MessageBar>
-                  )}
                 </>
               )}
 
               <Controller
                 name="name"
                 control={control}
-                render={({ field }) => (
-                  <Input
-                    type="text"
-                    placeholder={t("ui.components.addEditTenant.name")}
-                    required
-                    name={field.name}
-                    onBlur={field.onBlur}
-                    onChange={field.onChange}
-                    value={field.value}
-                    disabled={field.disabled}
-                    ref={field.ref}
-                  />
+                render={({ field, fieldState }) => (
+                  <Field
+                    label={t("ui.components.addEditTenant.name")}
+                    validationState={fieldState.invalid ? "error" : "success"}
+                    validationMessage={extractErrorMessages(fieldState.error)}
+                  >
+                    <Input
+                      type="text"
+                      required
+                      name={field.name}
+                      onBlur={field.onBlur}
+                      onChange={field.onChange}
+                      value={field.value}
+                      disabled={field.disabled}
+                      ref={field.ref}
+                    />
+                  </Field>
                 )}
               />
-              {errors.name && (
-                <MessageBar intent="error">{errors.name.message}</MessageBar>
-              )}
 
               <Controller
                 name="categories"
                 control={control}
-                render={({ field }) => (
-                  <TagPicker
-                    disabled={field.disabled}
-                    noPopover
-                    selectedOptions={field.value}
-                    onOptionSelect={(_, d) =>
-                      field.onChange({ target: { value: d.selectedOptions } })
-                    }
+                render={({ field, fieldState }) => (
+                  <Field
+                    label={t("ui.components.addEditTenant.categories")}
+                    validationState={fieldState.invalid ? "error" : "success"}
+                    validationMessage={extractErrorMessages(fieldState.error)}
                   >
-                    <TagPickerControl onBlur={field.onBlur} ref={field.ref}>
-                      <TagPickerGroup>
-                        {field.value.map((option, index) => (
-                          <Tag
-                            as="span"
-                            key={index}
-                            shape="rounded"
-                            value={option}
-                          >
-                            {option}
-                          </Tag>
-                        ))}
-                      </TagPickerGroup>
-                      <TagPickerInput
-                        disabled={field.disabled}
-                        value={categoryInputValue}
-                        onBlur={field.onBlur}
-                        name={field.name}
-                        placeholder={t(
-                          "ui.components.addEditTenant.categories"
-                        )}
-                        onChange={(e) => setCategoryInputValue(e.target.value)}
-                        onKeyDown={(e) =>
-                          categoryInputKeyDown(e, field.value, field.onChange)
-                        }
-                      />
-                    </TagPickerControl>
-                  </TagPicker>
+                    <TagPicker
+                      disabled={field.disabled}
+                      noPopover
+                      selectedOptions={field.value}
+                      onOptionSelect={(_, d) =>
+                        field.onChange({ target: { value: d.selectedOptions } })
+                      }
+                    >
+                      <TagPickerControl onBlur={field.onBlur} ref={field.ref}>
+                        <TagPickerGroup>
+                          {field.value.map((option, index) => (
+                            <Tag
+                              as="span"
+                              key={index}
+                              shape="rounded"
+                              value={option}
+                            >
+                              {option}
+                            </Tag>
+                          ))}
+                        </TagPickerGroup>
+                        <TagPickerInput
+                          disabled={field.disabled}
+                          value={categoryInputValue}
+                          onBlur={field.onBlur}
+                          name={field.name}
+                          onChange={(e) =>
+                            setCategoryInputValue(e.target.value)
+                          }
+                          onKeyDown={(e) =>
+                            categoryInputKeyDown(e, field.value, field.onChange)
+                          }
+                        />
+                      </TagPickerControl>
+                    </TagPicker>
+                  </Field>
                 )}
               />
-              {errors.categories?.message && (
-                <MessageBar intent="error">
-                  {errors.categories.message}
-                </MessageBar>
-              )}
-              {Array.isArray(errors.categories) &&
-                errors.categories.map((e, i) => (
-                  <MessageBar key={i + ""} intent="error">
-                    {e.message}
-                  </MessageBar>
-                ))}
 
               <Controller
                 name="admins"
                 control={control}
-                render={({ field }) => (
-                  <TagPicker
-                    disabled={field.disabled}
-                    noPopover
-                    selectedOptions={field.value}
-                    onOptionSelect={(_, d) =>
-                      field.onChange({ target: { value: d.selectedOptions } })
-                    }
+                render={({ field, fieldState }) => (
+                  <Field
+                    label={t("ui.components.addEditTenant.admins")}
+                    validationState={fieldState.invalid ? "error" : "success"}
+                    validationMessage={extractErrorMessages(fieldState.error)}
                   >
-                    <TagPickerControl onBlur={field.onBlur} ref={field.ref}>
-                      <TagPickerGroup>
-                        {field.value.map((option, index) => (
-                          <Tag
-                            as="span"
-                            key={index}
-                            shape="rounded"
-                            value={option}
-                          >
-                            {option}
-                          </Tag>
-                        ))}
-                      </TagPickerGroup>
-                      <TagPickerInput
-                        disabled={field.disabled}
-                        value={adminInputValue}
-                        onBlur={field.onBlur}
-                        type="email"
-                        placeholder={t("ui.components.addEditTenant.admins")}
-                        onChange={(e) => setAdminInputValue(e.target.value)}
-                        onKeyDown={(e) =>
-                          adminInputKeyDown(e, field.value, field.onChange)
-                        }
-                      />
-                    </TagPickerControl>
-                  </TagPicker>
+                    <TagPicker
+                      disabled={field.disabled}
+                      noPopover
+                      selectedOptions={field.value}
+                      onOptionSelect={(_, d) =>
+                        field.onChange({ target: { value: d.selectedOptions } })
+                      }
+                    >
+                      <TagPickerControl onBlur={field.onBlur} ref={field.ref}>
+                        <TagPickerGroup>
+                          {field.value.map((option, index) => (
+                            <Tag
+                              as="span"
+                              key={index}
+                              shape="rounded"
+                              value={option}
+                            >
+                              {option}
+                            </Tag>
+                          ))}
+                        </TagPickerGroup>
+                        <TagPickerInput
+                          disabled={field.disabled}
+                          value={adminInputValue}
+                          onBlur={field.onBlur}
+                          type="email"
+                          onChange={(e) => setAdminInputValue(e.target.value)}
+                          onKeyDown={(e) =>
+                            adminInputKeyDown(e, field.value, field.onChange)
+                          }
+                        />
+                      </TagPickerControl>
+                    </TagPicker>
+                  </Field>
                 )}
               />
-              {errors.admins?.message && (
-                <MessageBar intent="error">{errors.admins.message}</MessageBar>
-              )}
-              {Array.isArray(errors.admins) &&
-                errors.admins.map((e, i) => (
-                  <MessageBar key={i + ""} intent="error">
-                    {e.message}
-                  </MessageBar>
-                ))}
 
               <Controller
                 name="mapCenter"
                 control={control}
-                render={({ field }) => (
-                  <Input
-                    type="text"
-                    placeholder={t("ui.components.addEditTenant.mapCenter")}
-                    required
-                    name={field.name}
-                    onBlur={field.onBlur}
-                    onChange={field.onChange}
-                    value={field.value}
-                    disabled={field.disabled}
-                    ref={field.ref}
-                  />
+                render={({ field, fieldState }) => (
+                  <Field
+                    label={t("ui.components.addEditTenant.mapCenter")}
+                    validationState={fieldState.invalid ? "error" : "success"}
+                    validationMessage={extractErrorMessages(fieldState.error)}
+                  >
+                    <Input
+                      type="text"
+                      placeholder={t("ui.components.addEditTenant.mapCenter")}
+                      required
+                      name={field.name}
+                      onBlur={field.onBlur}
+                      onChange={field.onChange}
+                      value={field.value}
+                      disabled={field.disabled}
+                      ref={field.ref}
+                    />
+                  </Field>
                 )}
               />
-              {errors.mapCenter && (
-                <MessageBar intent="error">
-                  {errors.mapCenter.message}
-                </MessageBar>
-              )}
 
               <Controller
                 name="area"
                 control={control}
-                render={({ field }) => (
-                  <Textarea
-                    rows={5}
-                    placeholder={t("ui.components.addEditTenant.area")}
-                    name={field.name}
-                    onBlur={field.onBlur}
-                    onChange={field.onChange}
-                    value={field.value}
-                    disabled={field.disabled}
-                    ref={field.ref}
-                  />
+                render={({ field, fieldState }) => (
+                  <Field
+                    label={t("ui.components.addEditTenant.area")}
+                    validationState={fieldState.invalid ? "error" : "success"}
+                    validationMessage={extractErrorMessages(fieldState.error)}
+                  >
+                    <Textarea
+                      rows={5}
+                      name={field.name}
+                      onBlur={field.onBlur}
+                      onChange={field.onChange}
+                      value={field.value}
+                      disabled={field.disabled}
+                      ref={field.ref}
+                    />
+                  </Field>
                 )}
               />
               <InfoLabel
@@ -460,9 +466,6 @@ export default function AddEditTenant(props: AddEditTenantProps) {
               >
                 {t("ui.components.addEditTenant.info")}
               </InfoLabel>
-              {errors.area && (
-                <MessageBar intent="error">{errors.area.message}</MessageBar>
-              )}
 
               <button
                 type="submit"
