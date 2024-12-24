@@ -1,6 +1,7 @@
-import { Button, makeStyles } from "@fluentui/react-components";
+import { Button, makeStyles, Text, tokens } from "@fluentui/react-components";
 import {
   ArrowUploadRegular,
+  DismissRegular,
   DocumentDismissRegular,
 } from "@fluentui/react-icons";
 import {
@@ -12,6 +13,7 @@ import {
 } from "react";
 import { RefCallBack } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { List, ListItem } from "@fluentui/react-list-preview";
 
 export interface FileUploadProps {
   multiple?: boolean;
@@ -38,7 +40,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     gap: "0.5rem",
-    width: "100%"
+    width: "100%",
   },
   row: {
     width: "100%",
@@ -47,6 +49,11 @@ const useStyles = makeStyles({
     alignItems: "center",
     gap: "0.5rem",
   },
+  listItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  }
 });
 
 export default function FileUpload(props: FileUploadProps) {
@@ -54,7 +61,6 @@ export default function FileUpload(props: FileUploadProps) {
   const { t } = useTranslation();
   const inputFileRef = useRef<HTMLInputElement | null>(null);
   const [files, setFiles] = useState<File[]>(props.value || []);
-  console.log(files);
   const invokeUpload = useCallback(() => {
     if (inputFileRef.current) {
       inputFileRef.current.click();
@@ -95,6 +101,19 @@ export default function FileUpload(props: FileUploadProps) {
     }
   }, [props]);
 
+  const removeFile = useCallback((i: number) => {
+    const filesCopy = [...files];
+    filesCopy.splice(i, 1);
+    setFiles(filesCopy);
+    if (props.onChange) {
+      props.onChange({
+        target: {
+          value: filesCopy,
+        },
+      });
+    }
+  }, [props, files]);
+
   return (
     <>
       <div className={classes.container}>
@@ -102,6 +121,7 @@ export default function FileUpload(props: FileUploadProps) {
           <Button
             disabled={props.disabled}
             onBlur={props.onBlur}
+            name={props.name}
             onClick={invokeUpload}
             ref={props.refCb}
             id={props.id}
@@ -118,13 +138,26 @@ export default function FileUpload(props: FileUploadProps) {
             </Button>
           )}
         </div>
-        
+        {files && files.length > 0 && (
+          <List>
+            {files.map((f, i) => (
+              <ListItem className={classes.listItem} key={i + ""}>
+                <Text>{f.name}</Text>
+                <Button
+                  onClick={() => removeFile(i)}
+                  appearance="transparent"
+                  icon={
+                    <DismissRegular color={tokens.colorPaletteRedForeground1} />
+                  }
+                />
+              </ListItem>
+            ))}
+          </List>
+        )}
       </div>
       <input
         type="file"
-        name={props.name}
         ref={inputFileRef}
-        required={props.required}
         onChange={onFilesSelected}
         accept={props.accept}
         multiple={props.multiple}

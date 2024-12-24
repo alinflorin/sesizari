@@ -15,5 +15,7 @@ export const firebaseApp = initializeApp({
 export const firebaseAuth = getAuth(firebaseApp);
 export const firebaseFirestore = getFirestore(firebaseApp);
 export const firebaseStorage = getStorage(firebaseApp);
+firebaseStorage.maxOperationRetryTime = 1;
+firebaseStorage.maxUploadRetryTime = 1;
 
 export default firebaseApp;

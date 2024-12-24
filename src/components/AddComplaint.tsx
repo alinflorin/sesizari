@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -14,7 +15,7 @@ import {
   Textarea,
   tokens,
 } from "@fluentui/react-components";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -25,6 +26,7 @@ import { User } from "../models/user";
 import { Tenant } from "../models/tenant";
 import useComplaints from "../hooks/useComplaints";
 import FileUpload from "./FileUpload";
+import useFiles from "../hooks/useFiles";
 
 export interface AddComplaintProps {
   onClose: (complaint?: Complaint | undefined) => void;
@@ -48,6 +50,7 @@ export default function AddComplaint(props: AddComplaintProps) {
   const classes = useStyles();
   const formButton = useRef<HTMLButtonElement | null>(null);
   const { addComplaint } = useComplaints();
+  const [loading, setLoading] = useState(false);
 
   const schema = yup.object().shape({
     description: yup
@@ -56,9 +59,13 @@ export default function AddComplaint(props: AddComplaintProps) {
     category: yup
       .string()
       .required(t("ui.components.addComplaint.categoryIsRequired")),
-    submissionPhotos: yup.array<File>(
-      yup.object<File>().required(t("ui.components.addComplaint.fileIsRequired"))
-    ),
+    submissionPhotos: yup
+      .array()
+      .of(
+        yup
+          .mixed<File>()
+          .required(t("ui.components.addComplaint.fileIsRequired"))
+      ),
   });
 
   const {
@@ -71,12 +78,26 @@ export default function AddComplaint(props: AddComplaintProps) {
     defaultValues: {
       description: "",
       category: undefined,
+      submissionPhotos: [],
     },
   });
 
+  const { uploadFile } = useFiles();
+
   const onSubmit = useCallback(
-    async (data: { description: string; category: string }) => {
+    async (data: {
+      description: string;
+      category: string;
+      submissionPhotos?: any[] | undefined;
+    }) => {
+      setLoading(true);
       try {
+        const fileUrls: string[] = [];
+        if (data.submissionPhotos) {
+          for (const f of data.submissionPhotos as File[]) {
+            fileUrls.push(await uploadFile(f, f.name, "/", f.type));
+          }
+        }
         const newComplaint: Complaint = {
           category: data.category,
           description: data.description,
@@ -84,18 +105,25 @@ export default function AddComplaint(props: AddComplaintProps) {
           authorEmail: props.user.email,
           authorName: props.user.displayName,
         };
+
+        if (fileUrls.length > 0) {
+          newComplaint.submissionPhotos = fileUrls;
+        }
+
         const addedComplaint = await addComplaint(newComplaint);
         props.onClose(addedComplaint);
+        setLoading(false);
       } catch (err) {
         console.error(err);
+        setLoading(false);
         if (err instanceof FirebaseError) {
           setError("root.firebase", {
-            message: "ui.firebase.errors." + err.message,
+            message: "ui.firebase.errors." + err.code,
           });
         }
       }
     },
-    [props, setError, addComplaint]
+    [props, setError, addComplaint, uploadFile]
   );
 
   return (
@@ -224,6 +252,7 @@ export default function AddComplaint(props: AddComplaintProps) {
               {t("ui.components.addComplaint.cancel")}
             </Button>
             <Button
+              disabled={loading}
               appearance="primary"
               onClick={() => formButton.current?.click()}
             >

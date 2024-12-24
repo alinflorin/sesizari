@@ -191,7 +191,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
         console.error(err);
         if (err instanceof FirebaseError) {
           setError("root.firebase", {
-            message: "ui.firebase.errors." + err.message,
+            message: "ui.firebase.errors." + err.code,
           });
         }
       }

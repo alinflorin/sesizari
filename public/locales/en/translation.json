@@ -12,7 +12,8 @@
         "auth/popup-closed-by-user": "Popup closed by user",
         "auth/cancelled-popup-request": "Cancelled popup request",
         "auth/popup-blocked": "Popup blocked",
-        "firestore/duplicate": "Document already exists"
+        "firestore/duplicate": "Document already exists",
+        "storage/retry-limit-exceeded": "Retry limit exceeded"
       }
     },
     "components": {

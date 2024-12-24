@@ -13,6 +13,7 @@
   "dependencies": {
     "@fluentui/react-components": "^9.56.8",
     "@fluentui/react-icons": "^2.0.270",
+    "@fluentui/react-list-preview": "^0.4.4",
     "@hookform/resolvers": "^3.9.1",
     "firebase": "^11.1.0",
     "i18next": "^24.2.0",

@@ -12,7 +12,8 @@
         "auth/popup-closed-by-user": "Popup închis de utilizator",
         "auth/cancelled-popup-request": "Cerere popup anulată",
         "auth/popup-blocked": "Popup blocat",
-        "firestore/duplicate": "Documentul deja există"
+        "firestore/duplicate": "Documentul deja există",
+        "storage/retry-limit-exceeded": "Limita de reîncercări a fost depășită"
       }
     },
     "components": {
