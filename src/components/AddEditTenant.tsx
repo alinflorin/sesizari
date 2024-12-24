@@ -439,7 +439,6 @@ export default function AddEditTenant(props: AddEditTenantProps) {
                   <Textarea
                     rows={5}
                     placeholder={t("ui.components.addEditTenant.area")}
-                    required
                     name={field.name}
                     onBlur={field.onBlur}
                     onChange={field.onChange}
