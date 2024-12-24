@@ -71,7 +71,10 @@
         "save": "Save",
         "addComplaint": "Add complaint",
         "categoryIsRequired": "Category is required",
-        "category": "Category"
+        "category": "Category",
+        "fileIsRequired": "File is required",
+        "invalidUrl": "Invalid URL",
+        "photos": "Photos"
       }
     },
     "routes": {

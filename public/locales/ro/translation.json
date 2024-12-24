@@ -71,7 +71,10 @@
         "save": "Salvare",
         "addComplaint": "Adăugare sesizare",
         "categoryIsRequired": "Categoria este obligatorie",
-        "category": "Categorie"
+        "category": "Categorie",
+        "fileIsRequired": "Fișierul este obligatoriu",
+        "invalidUrl": "URL invalid",
+        "photos": "Fotografii"
       }
     },
     "routes": {

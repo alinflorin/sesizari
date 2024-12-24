@@ -55,6 +55,9 @@ export default function AddComplaint(props: AddComplaintProps) {
     category: yup
       .string()
       .required(t("ui.components.addComplaint.categoryIsRequired")),
+    submissionPhotos: yup.array(
+      yup.string().required(t("ui.components.addComplaint.fileIsRequired")).url(t("ui.components.addComplaint.invalidUrl"))
+    ),
   });
 
   const {
@@ -66,19 +69,19 @@ export default function AddComplaint(props: AddComplaintProps) {
     resolver: yupResolver(schema),
     defaultValues: {
       description: "",
-      category: undefined
+      category: undefined,
     },
   });
 
   const onSubmit = useCallback(
-    async (data: { description: string, category: string }) => {
+    async (data: { description: string; category: string }) => {
       try {
         const newComplaint: Complaint = {
           category: data.category,
           description: data.description,
           status: "submitted",
           authorEmail: props.user.email,
-          authorName: props.user.displayName
+          authorName: props.user.displayName,
         };
         const addedComplaint = await addComplaint(newComplaint);
         props.onClose(addedComplaint);
@@ -144,7 +147,9 @@ export default function AddComplaint(props: AddComplaintProps) {
                 control={control}
                 render={({ field }) => (
                   <>
-                    <Label htmlFor="category">{t("ui.components.addComplaint.category")}</Label>
+                    <Label htmlFor="category">
+                      {t("ui.components.addComplaint.category")}
+                    </Label>
                     <Select
                       name={field.name}
                       id="category"
@@ -170,6 +175,41 @@ export default function AddComplaint(props: AddComplaintProps) {
                   {errors.category.message}
                 </MessageBar>
               )}
+
+              <Controller
+                name="submissionPhotos"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <Label htmlFor="submissionPhotos">
+                      {t("ui.components.addComplaint.photos")}
+                    </Label>
+                    <Select
+                      name={field.name}
+                      id="submissionPhotos"
+                      disabled={field.disabled}
+                      ref={field.ref}
+                      onBlur={field.onBlur}
+                      onChange={field.onChange}
+                      value={field.value}
+                      required
+                    >
+                      <option value={undefined}></option>
+                    </Select>
+                  </>
+                )}
+              />
+              {errors.submissionPhotos?.message && (
+                <MessageBar intent="error">
+                  {errors.submissionPhotos.message}
+                </MessageBar>
+              )}
+              {Array.isArray(errors.submissionPhotos) &&
+                errors.submissionPhotos.map((e, i) => (
+                  <MessageBar key={i + ""} intent="error">
+                    {e.message}
+                  </MessageBar>
+                ))}
 
               <button
                 type="submit"
