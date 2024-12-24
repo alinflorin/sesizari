@@ -9,8 +9,8 @@ export interface Complaint {
   authorEmail: string;
   authorName: string;
   status: ComplaintStatus;
-  submissionPhoto?: string;
-  resolutionPhoto?: string;
+  submissionPhotos?: string[];
+  resolutionPhotos?: string[];
   submissionDate?: Timestamp;
   lastUpdateAt?: Timestamp;
 }
