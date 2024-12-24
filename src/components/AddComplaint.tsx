@@ -24,6 +24,7 @@ import { LatLngExpression } from "leaflet";
 import { User } from "../models/user";
 import { Tenant } from "../models/tenant";
 import useComplaints from "../hooks/useComplaints";
+import FileUpload from "./FileUpload";
 
 export interface AddComplaintProps {
   onClose: (complaint?: Complaint | undefined) => void;
@@ -55,8 +56,8 @@ export default function AddComplaint(props: AddComplaintProps) {
     category: yup
       .string()
       .required(t("ui.components.addComplaint.categoryIsRequired")),
-    submissionPhotos: yup.array(
-      yup.string().required(t("ui.components.addComplaint.fileIsRequired")).url(t("ui.components.addComplaint.invalidUrl"))
+    submissionPhotos: yup.array<File>(
+      yup.object<File>().required(t("ui.components.addComplaint.fileIsRequired"))
     ),
   });
 
@@ -184,18 +185,18 @@ export default function AddComplaint(props: AddComplaintProps) {
                     <Label htmlFor="submissionPhotos">
                       {t("ui.components.addComplaint.photos")}
                     </Label>
-                    <Select
+                    <FileUpload
                       name={field.name}
                       id="submissionPhotos"
                       disabled={field.disabled}
-                      ref={field.ref}
+                      refCb={field.ref}
+                      multiple={true}
+                      accept="image/*"
                       onBlur={field.onBlur}
                       onChange={field.onChange}
                       value={field.value}
                       required
-                    >
-                      <option value={undefined}></option>
-                    </Select>
+                    />
                   </>
                 )}
               />

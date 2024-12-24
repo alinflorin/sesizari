@@ -73,8 +73,11 @@
         "categoryIsRequired": "Category is required",
         "category": "Category",
         "fileIsRequired": "File is required",
-        "invalidUrl": "Invalid URL",
         "photos": "Photos"
+      },
+      "fileUpload": {
+        "upload": "Upload",
+        "clear": "Clear"
       }
     },
     "routes": {

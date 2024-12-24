@@ -73,8 +73,11 @@
         "categoryIsRequired": "Categoria este obligatorie",
         "category": "Categorie",
         "fileIsRequired": "Fișierul este obligatoriu",
-        "invalidUrl": "URL invalid",
         "photos": "Fotografii"
+      },
+      "fileUpload": {
+        "upload": "Upload",
+        "clear": "Golire"
       }
     },
     "routes": {
