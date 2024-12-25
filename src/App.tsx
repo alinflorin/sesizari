@@ -14,6 +14,7 @@ import useTenant from "./hooks/useTenant";
 import useSettings from "./hooks/useSettings";
 import useAuth from "./hooks/useAuth";
 import { ConfirmationDialogProvider } from "./contexts/confirmation-dialog.provider";
+import StaticStyles from "./styles/StaticStyles";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -59,6 +60,7 @@ function App() {
 
   return (
     <FluentProvider
+      className={computedTheme === "dark" ? "dark-theme" : "light-theme"}
       theme={computedTheme === "dark" ? webDarkTheme : webLightTheme}
     >
       <ConfirmationDialogProvider>
@@ -82,6 +84,7 @@ function App() {
             />
           </div>
         </div>
+        <StaticStyles />
       </ConfirmationDialogProvider>
     </FluentProvider>
   );

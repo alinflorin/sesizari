@@ -10,6 +10,7 @@ export interface ComplaintMarkerProps {
 
 export default function ComplaintMarker(props: ComplaintMarkerProps) {
   const map = useMap();
+
   return (
     <EnhancedMarker
       eventHandlers={{
@@ -26,8 +27,8 @@ export default function ComplaintMarker(props: ComplaintMarkerProps) {
         props.complaint.location.longitude,
       ]}
     >
-      <Popup offset={[6, -2]}>
-        A pretty CSS3 popup. <br /> Easily customizable.
+      <Popup offset={[6, 0]}>
+        <span>asdasd</span>
       </Popup>
     </EnhancedMarker>
   );
