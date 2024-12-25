@@ -21,13 +21,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FirebaseError } from "@firebase/app";
 import { Complaint } from "../models/complaint";
-import { LatLngExpression } from "leaflet";
+import { LatLngExpression, LatLngTuple } from "leaflet";
 import { User } from "../models/user";
 import { Tenant } from "../models/tenant";
 import useComplaints from "../hooks/useComplaints";
 import FileUpload from "./FileUpload";
 import useFiles from "../hooks/useFiles";
 import { extractErrorMessages } from "../helpers/form-helpers";
+import { GeoPoint } from "firebase/firestore";
 
 export interface AddComplaintProps {
   onClose: (complaint?: Complaint | undefined) => void;
@@ -99,12 +100,16 @@ export default function AddComplaint(props: AddComplaintProps) {
             fileUrls.push(await uploadFile(f, f.name, "/", f.type));
           }
         }
+
+        const location = props.location as LatLngTuple;
+
         const newComplaint: Complaint = {
           category: data.category,
           description: data.description,
           status: "submitted",
           authorEmail: props.user.email,
           authorName: props.user.displayName,
+          location: new GeoPoint(location[0], location[1]),
         };
 
         if (fileUrls.length > 0) {

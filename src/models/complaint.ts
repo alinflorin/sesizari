@@ -1,10 +1,11 @@
-import { Timestamp } from "firebase/firestore";
+import { GeoPoint, Timestamp } from "firebase/firestore";
 import { ComplaintStatus } from "./complaint-status";
 
 export interface Complaint {
   id?: string;
   description: string;
-  regNo?: string;
+  location: GeoPoint;
+  regNo?: number;
   category: string;
   authorEmail: string;
   authorName: string;
