@@ -61,6 +61,7 @@ export default function TenantHome() {
       <div className={classes.container}>
         {tenant && (
           <MapContainer
+            attributionControl={false}
             className={classes.map}
             center={[tenant.mapCenter.latitude, tenant.mapCenter.longitude]}
             scrollWheelZoom={true}
