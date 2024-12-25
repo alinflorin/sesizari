@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Complaint } from "../models/complaint";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, serverTimestamp } from "firebase/firestore";
 import { firebaseFirestore } from "../providers/firebase";
 
 export default function useComplaints() {
@@ -9,5 +9,16 @@ export default function useComplaints() {
     return {...c, id: docRef.id} as Complaint;
   }, []);
 
-  return { addComplaint };
+  const getComplaints = useCallback(async () => {
+    const q = query(collection(firebaseFirestore, "complaints"));
+    const results = await getDocs(q);
+    return results.docs.map(x => {
+      return {
+        ...x.data(),
+        id: x.id
+      } as Complaint;
+    });
+  }, []);
+
+  return { addComplaint, getComplaints };
 }

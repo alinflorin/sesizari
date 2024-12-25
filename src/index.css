@@ -16,6 +16,15 @@ body {
   cursor: pointer !important;
 }
 
-.leaflet-interactive {
+.leaflet-overlay-pane .leaflet-interactive {
   cursor: inherit;
+}
+
+.leaflet-marker-pane .leaflet-marker-icon {
+  cursor: pointer;
+}
+
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
 }

@@ -13,12 +13,15 @@ import {
 } from "@fluentui/react-components";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import MapToolbar from "../components/MapToolbar";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { LatLngExpression } from "leaflet";
 import AddComplaint from "../components/AddComplaint";
 import { Complaint } from "../models/complaint";
 import { User } from "../models/user";
 import { useTranslation } from "react-i18next";
+import useComplaints from "../hooks/useComplaints";
+import EnhancedMarker from "../components/EnhancedMarker";
+import { Add32Filled } from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
   container: {
@@ -36,7 +39,17 @@ export default function TenantHome() {
   const tenant = useOutletContext<{ tenant: Tenant | undefined }>()?.tenant;
   const user = useOutletContext<{ user: User | undefined }>()?.user;
   const [showSuccess, setShowSuccess] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  const { getComplaints } = useComplaints();
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const complaintList = await getComplaints();
+      setComplaints(complaintList);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [pickedLocation, setPickedLocation] = useState<
     LatLngExpression | undefined
@@ -77,6 +90,13 @@ export default function TenantHome() {
               user={user}
               onLocationPicked={locationPicked}
             />
+            {complaints.map((c) => (
+              <EnhancedMarker
+                providedIcon={<Add32Filled />}
+                key={c.id}
+                position={[c.location.latitude, c.location.longitude]}
+              />
+            ))}
           </MapContainer>
         )}
       </div>
@@ -103,7 +123,9 @@ export default function TenantHome() {
             </DialogContent>
             <DialogActions>
               <DialogTrigger disableButtonEnhancement>
-                <Button appearance="secondary">{t("ui.routes.tenantHome.close")}</Button>
+                <Button appearance="secondary">
+                  {t("ui.routes.tenantHome.close")}
+                </Button>
               </DialogTrigger>
             </DialogActions>
           </DialogBody>
