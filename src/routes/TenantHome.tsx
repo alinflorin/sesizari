@@ -20,8 +20,7 @@ import { Complaint } from "../models/complaint";
 import { User } from "../models/user";
 import { useTranslation } from "react-i18next";
 import useComplaints from "../hooks/useComplaints";
-import EnhancedMarker from "../components/EnhancedMarker";
-import { Add32Filled } from "@fluentui/react-icons";
+import ComplaintMarker from "../components/ComplaintMarker";
 
 const useStyles = makeStyles({
   container: {
@@ -91,11 +90,7 @@ export default function TenantHome() {
               onLocationPicked={locationPicked}
             />
             {complaints.map((c) => (
-              <EnhancedMarker
-                providedIcon={<Add32Filled />}
-                key={c.id}
-                position={[c.location.latitude, c.location.longitude]}
-              />
+              <ComplaintMarker key={c.id} complaint={c} />
             ))}
           </MapContainer>
         )}
