@@ -96,6 +96,20 @@
         },
         "submittedAt": "Trimisă la",
         "lastUpdateAt": "Ultima actualizare la"
+      },
+      "complaintsFilter": {
+        "statusIsRequired": "Starea este obligatorie",
+        "statusesAreRequired": "Stările sunt obligatorii",
+        "statuses": "Stări",
+        "allStatuses": {
+          "submitted": "Trimisă",
+          "accepted": "Acceptată",
+          "rejected": "Respinsă",
+          "in-planning": "În planificare",
+          "in-progress": "În decurs",
+          "solved": "Rezolvată",
+          "answer-sent": "Răspuns trimis"
+        }
       }
     },
     "routes": {

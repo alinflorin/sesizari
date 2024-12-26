@@ -19,10 +19,11 @@ import AddComplaint from "../components/AddComplaint";
 import { Complaint } from "../models/complaint";
 import { User } from "../models/user";
 import { useTranslation } from "react-i18next";
-import useComplaints, { GetComplaintsFilter } from "../hooks/useComplaints";
+import useComplaints from "../hooks/useComplaints";
 import ComplaintMarker from "../components/ComplaintMarker";
 import useViewportWidth from "../hooks/useViewportWidth";
 import useViewportHeight from "../hooks/useViewportHeight";
+import { GetComplaintsFilter } from "../models/get-complaints-filter";
 
 const useStyles = makeStyles({
   container: {
@@ -48,6 +49,7 @@ export default function TenantHome() {
   const [getComplaintsFilter, setGetComplaintsFilter] =
     useState<GetComplaintsFilter>({
       startDate: twoWeeksAgo,
+      categories: [],
       statuses: [
         "accepted",
         "answer-sent",
@@ -56,7 +58,7 @@ export default function TenantHome() {
         "solved",
       ],
     });
-  console.log(setGetComplaintsFilter);
+    
   useEffect(() => {
     (async () => {
       const complaintList = await getComplaints(getComplaintsFilter);

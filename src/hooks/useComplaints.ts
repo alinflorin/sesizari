@@ -2,14 +2,8 @@ import { useCallback } from "react";
 import { Complaint } from "../models/complaint";
 import { addDoc, collection, getDocs, query, QueryConstraint, serverTimestamp, Timestamp, where } from "firebase/firestore";
 import { firebaseFirestore } from "../providers/firebase";
-import { ComplaintStatus } from "../models/complaint-status";
+import { GetComplaintsFilter } from "../models/get-complaints-filter";
 
-export interface GetComplaintsFilter {
-  categories?: string[];
-  startDate?: Date;
-  endDate?: Date;
-  statuses?: ComplaintStatus[];
-}
 
 export default function useComplaints() {
   const addComplaint = useCallback(async (c: Complaint) => {
@@ -20,10 +14,10 @@ export default function useComplaints() {
   const getComplaints = useCallback(async (filter?: GetComplaintsFilter) => {
     const qc: QueryConstraint[] = [];
     if (filter) {
-      if (filter.categories && filter.categories.length > 0) {
+      if (filter.categories.length > 0) {
         qc.push(where("category", "in", filter.categories));
       }
-      if (filter.statuses && filter.statuses.length > 0) {
+      if (filter.statuses.length > 0) {
         qc.push(where("status", "in", filter.statuses));
       }
       if (filter.startDate) {

@@ -21,8 +21,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { User } from "../models/user";
 import { Tenant } from "../models/tenant";
-import { GetComplaintsFilter } from "../hooks/useComplaints";
 import ComplaintsFilter from "./ComplaintsFilter";
+import { GetComplaintsFilter } from "../models/get-complaints-filter";
 
 const useStyles = makeStyles({
   toolbar: {
