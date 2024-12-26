@@ -28,7 +28,7 @@ export default function ComplaintMarker(props: ComplaintMarkerProps) {
         props.complaint.location.longitude,
       ]}
     >
-      <Popup offset={[6, 0]}>
+      <Popup offset={[0, -12]}>
         <span>asdasd</span>
       </Popup>
     </EnhancedMarker>
