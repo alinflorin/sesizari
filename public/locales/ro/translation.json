@@ -109,7 +109,9 @@
           "in-progress": "În decurs",
           "solved": "Rezolvată",
           "answer-sent": "Răspuns trimis"
-        }
+        },
+        "invalidDate": "Dată invalidă",
+        "startDate": "Dată start"
       }
     },
     "routes": {

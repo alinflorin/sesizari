@@ -109,7 +109,9 @@
           "in-progress": "In progress",
           "solved": "Solved",
           "answer-sent": "Answer sent"
-        }
+        },
+        "invalidDate": "Invalid date",
+        "startDate": "Start date"
       }
     },
     "routes": {

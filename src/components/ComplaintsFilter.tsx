@@ -14,6 +14,7 @@ import { FirebaseError } from "firebase/app";
 import { useCallback } from "react";
 import { extractErrorMessages } from "../helpers/form-helpers";
 import { ComplaintStatus } from "../models/complaint-status";
+import { DatePicker } from "@fluentui/react-datepicker-compat";
 
 export interface ComplaintsFilterProps {
   filter: GetComplaintsFilter;
@@ -53,6 +54,12 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
           .required(t("ui.components.complaintsFilter.statusIsRequired"))
       )
       .required(t("ui.components.complaintsFilter.statusesAreRequired")),
+    startDate: yup
+      .date()
+      .typeError(t("ui.components.complaintsFilter.invalidDate")),
+    endDate: yup
+      .date()
+      .typeError(t("ui.components.complaintsFilter.invalidDate")),
   });
 
   const {
@@ -64,6 +71,8 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
     resolver: yupResolver(schema),
     defaultValues: {
       statuses: props.filter.statuses,
+      startDate: props.filter.startDate,
+      endDate: props.filter.endDate,
     },
   });
 
@@ -111,8 +120,34 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
                 value={field.value}
                 required
               >
-                {allStatuses.map(s => <option key={s} value={s}>{t("ui.components.complaintsFilter.allStatuses." + s)}</option>)}
+                {allStatuses.map((s) => (
+                  <option key={s} value={s}>
+                    {t("ui.components.complaintsFilter.allStatuses." + s)}
+                  </option>
+                ))}
               </Select>
+            </Field>
+          )}
+        />
+
+        <Controller
+          name="startDate"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.components.complaintsFilter.startDate")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <DatePicker
+                name={field.name}
+                id="startDate"
+                disabled={field.disabled}
+                ref={field.ref}
+                onBlur={field.onBlur}
+                onChange={field.onChange}
+                value={field.value}
+              />
             </Field>
           )}
         />
