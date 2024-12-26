@@ -15,6 +15,18 @@ const useStyles = makeStaticStyles({
   ".leaflet-popup-close-button span": {
     color: tokens.colorNeutralForeground1,
   },
+  ".leaflet-bar a": {
+    background: tokens.colorNeutralBackground1,
+    color: tokens.colorNeutralForeground1,
+  },
+  ".leaflet-bar a:hover": {
+    color: tokens.colorNeutralForeground1,
+    background: tokens.colorNeutralBackground1Hover,
+  },
+  ".leaflet-bar a:focus": {
+    color: tokens.colorNeutralForeground1,
+    background: tokens.colorNeutralBackground1Hover,
+  },
 });
 
 export default function StaticStyles() {
