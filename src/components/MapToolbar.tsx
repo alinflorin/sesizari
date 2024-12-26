@@ -1,6 +1,9 @@
 import {
   Caption1Strong,
   makeStyles,
+  Menu,
+  MenuPopover,
+  MenuTrigger,
   tokens,
   Toolbar,
   ToolbarButton,
@@ -8,6 +11,7 @@ import {
 import {
   BuildingRetailToolboxRegular,
   CursorProhibitedRegular,
+  FilterRegular,
   LocationAddRegular,
 } from "@fluentui/react-icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -17,6 +21,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { User } from "../models/user";
 import { Tenant } from "../models/tenant";
+import { GetComplaintsFilter } from "../hooks/useComplaints";
+import ComplaintsFilter from "./ComplaintsFilter";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -36,6 +42,8 @@ export interface MapToolbarProps {
   onLocationPicked: (latLng: LatLngExpression) => void;
   user: User | undefined;
   tenant: Tenant;
+  getComplaintsFilter: GetComplaintsFilter;
+  onGetComplaintsFilterChanged: (f: GetComplaintsFilter) => void;
 }
 
 export default function MapToolbar(props: MapToolbarProps) {
@@ -108,36 +116,50 @@ export default function MapToolbar(props: MapToolbarProps) {
   }, [props]);
 
   return (
-    <Toolbar ref={toolbarRef} className={classes.toolbar}>
-      {awaitingClick && (
-        <>
-          <Caption1Strong className={classes.pickText}>
-            {t("ui.components.mapToolbar.pickLocation")}
-          </Caption1Strong>
-          <ToolbarButton
-            appearance="primary"
-            onClick={() => setAwaitingClick(false)}
-            icon={<CursorProhibitedRegular />}
-          />
-        </>
-      )}
-      {!awaitingClick && (
-        <>
-          <ToolbarButton
-            appearance="primary"
-            onClick={addClicked}
-            icon={<LocationAddRegular />}
-          />
-
-          {isTenantAdmin && (
+    <>
+      <Toolbar ref={toolbarRef} className={classes.toolbar}>
+        {awaitingClick && (
+          <>
+            <Caption1Strong className={classes.pickText}>
+              {t("ui.components.mapToolbar.pickLocation")}
+            </Caption1Strong>
             <ToolbarButton
               appearance="primary"
-              onClick={() => navigate("./admin")}
-              icon={<BuildingRetailToolboxRegular />}
+              onClick={() => setAwaitingClick(false)}
+              icon={<CursorProhibitedRegular />}
             />
-          )}
-        </>
-      )}
-    </Toolbar>
+          </>
+        )}
+        {!awaitingClick && (
+          <>
+            <ToolbarButton
+              appearance="primary"
+              onClick={addClicked}
+              icon={<LocationAddRegular />}
+            />
+
+            <Menu persistOnItemClick={true}>
+              <MenuTrigger>
+                <ToolbarButton appearance="primary" icon={<FilterRegular />} />
+              </MenuTrigger>
+              <MenuPopover>
+                <ComplaintsFilter
+                  filter={props.getComplaintsFilter}
+                  onChange={(f) => props.onGetComplaintsFilterChanged(f)}
+                />
+              </MenuPopover>
+            </Menu>
+
+            {isTenantAdmin && (
+              <ToolbarButton
+                appearance="primary"
+                onClick={() => navigate("./admin")}
+                icon={<BuildingRetailToolboxRegular />}
+              />
+            )}
+          </>
+        )}
+      </Toolbar>
+    </>
   );
 }

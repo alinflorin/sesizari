@@ -56,7 +56,7 @@ export default function TenantHome() {
         "solved",
       ],
     });
-    console.log(setGetComplaintsFilter);
+  console.log(setGetComplaintsFilter);
   useEffect(() => {
     (async () => {
       const complaintList = await getComplaints(getComplaintsFilter);
@@ -106,6 +106,8 @@ export default function TenantHome() {
               tenant={tenant}
               user={user}
               onLocationPicked={locationPicked}
+              getComplaintsFilter={getComplaintsFilter}
+              onGetComplaintsFilterChanged={(f) => setGetComplaintsFilter(f)}
             />
             {complaints.map((c) => (
               <ComplaintMarker
