@@ -27,6 +27,10 @@ const useStyles = makeStaticStyles({
     color: tokens.colorNeutralForeground1,
     background: tokens.colorNeutralBackground1Hover,
   },
+  ".leaflet-bar a.leaflet-disabled": {
+    color: tokens.colorNeutralForeground1,
+    background: tokens.colorNeutralBackground1Pressed,
+  },
 });
 
 export default function StaticStyles() {
