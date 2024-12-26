@@ -113,7 +113,11 @@
         "invalidDate": "Invalid date",
         "startDate": "Start date",
         "endDate": "End date",
-        "save": "Save"
+        "save": "Save",
+        "selected": "selected",
+        "categoryIsRequired": "Category is required",
+        "categoriesAreRequired": "Categories are required",
+        "categories": "Categories"
       }
     },
     "routes": {

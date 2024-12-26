@@ -113,7 +113,11 @@
         "invalidDate": "Dată invalidă",
         "startDate": "Dată start",
         "endDate": "Dată sfârșit",
-        "save": "Salvare"
+        "save": "Salvare",
+        "selected": "selectate",
+        "categoryIsRequired": "Categoria este obligatorie",
+        "categoriesAreRequired": "Categoriile sunt obligatorii",
+        "categories": "Categorii"
       }
     },
     "routes": {

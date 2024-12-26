@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -22,6 +21,7 @@ import { DatePicker } from "@fluentui/react-datepicker-compat";
 export interface ComplaintsFilterProps {
   filter: GetComplaintsFilter;
   onChange: (f: GetComplaintsFilter) => void;
+  allCategories: string[];
 }
 
 const useStyles = makeStyles({
@@ -68,6 +68,13 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
     endDate: yup
       .date()
       .typeError(t("ui.components.complaintsFilter.invalidDate")),
+    categories: yup
+      .array(
+        yup
+          .string()
+          .required(t("ui.components.complaintsFilter.categoryIsRequired"))
+      )
+      .required(t("ui.components.complaintsFilter.categoriesAreRequired")),
   });
 
   const {
@@ -81,13 +88,19 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
       statuses: props.filter.statuses,
       startDate: props.filter.startDate,
       endDate: props.filter.endDate,
+      categories: props.filter.categories
     },
   });
 
   const onSubmit = useCallback(
-    async (data: { statuses: string[] }) => {
+    (data: { statuses: string[], endDate?: Date, startDate?: Date, categories: string[] }) => {
       try {
-        console.log(data);
+        props.onChange({
+          categories: data.categories,
+          statuses: data.statuses as ComplaintStatus[],
+          endDate: data.endDate,
+          startDate: data.startDate
+        })
       } catch (err) {
         console.error(err);
         if (err instanceof FirebaseError) {
@@ -97,7 +110,7 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
         }
       }
     },
-    [setError]
+    [setError, props]
   );
 
   return (
@@ -124,12 +137,55 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
                 disabled={field.disabled}
                 ref={field.ref}
                 onBlur={field.onBlur}
-                value={field.value as any}
-                onChange={field.onChange}
+                selectedOptions={field.value}
+                value={
+                  field.value.length +
+                  " " +
+                  t("ui.components.complaintsFilter.selected")
+                }
+                onOptionSelect={(_, d) =>
+                  field.onChange({ target: { value: d.selectedOptions } })
+                }
               >
                 {allStatuses.map((s) => (
                   <Option key={s} value={s}>
                     {t("ui.components.complaintsFilter.allStatuses." + s)}
+                  </Option>
+                ))}
+              </Dropdown>
+            </Field>
+          )}
+        />
+
+        <Controller
+          name="categories"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.components.complaintsFilter.categories")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <Dropdown
+                name={field.name}
+                id="categories"
+                multiselect={true}
+                disabled={field.disabled}
+                ref={field.ref}
+                onBlur={field.onBlur}
+                selectedOptions={field.value}
+                value={
+                  field.value.length +
+                  " " +
+                  t("ui.components.complaintsFilter.selected")
+                }
+                onOptionSelect={(_, d) =>
+                  field.onChange({ target: { value: d.selectedOptions } })
+                }
+              >
+                {props.allCategories.map((c) => (
+                  <Option key={c} value={c}>
+                    {c}
                   </Option>
                 ))}
               </Dropdown>

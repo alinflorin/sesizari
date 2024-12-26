@@ -53,6 +53,7 @@ export default function MapToolbar(props: MapToolbarProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const [filterOpen, setFilterOpen] = useState(false);
 
   useEffect(() => {
     if (toolbarRef.current) {
@@ -138,14 +139,22 @@ export default function MapToolbar(props: MapToolbarProps) {
               icon={<LocationAddRegular />}
             />
 
-            <Popover withArrow>
+            <Popover
+              open={filterOpen}
+              onOpenChange={(_, d) => setFilterOpen(d.open)}
+              withArrow
+            >
               <PopoverTrigger>
                 <ToolbarButton appearance="primary" icon={<FilterRegular />} />
               </PopoverTrigger>
               <PopoverSurface>
                 <ComplaintsFilter
+                  allCategories={props.tenant.categories}
                   filter={props.getComplaintsFilter}
-                  onChange={(f) => props.onGetComplaintsFilterChanged(f)}
+                  onChange={(f) => {
+                    props.onGetComplaintsFilterChanged(f);
+                    setFilterOpen(false);
+                  }}
                 />
               </PopoverSurface>
             </Popover>

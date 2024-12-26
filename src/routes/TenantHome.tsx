@@ -44,12 +44,20 @@ export default function TenantHome() {
   const { t } = useTranslation();
   const { getComplaints } = useComplaints();
   const [complaints, setComplaints] = useState<Complaint[]>([]);
-  const twoWeeksAgo = new Date();
-  twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
-  const [getComplaintsFilter, setGetComplaintsFilter] =
-    useState<GetComplaintsFilter>({
+
+  const [getComplaintsFilter, setGetComplaintsFilter] = useState<
+    GetComplaintsFilter | undefined
+  >();
+
+  useEffect(() => {
+    if (!tenant) {
+      return;
+    }
+    const twoWeeksAgo = new Date();
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+    setGetComplaintsFilter({
       startDate: twoWeeksAgo,
-      categories: [],
+      categories: tenant.categories,
       statuses: [
         "accepted",
         "answer-sent",
@@ -58,8 +66,12 @@ export default function TenantHome() {
         "solved",
       ],
     });
-    
+  }, [tenant]);
+
   useEffect(() => {
+    if (!getComplaintsFilter) {
+      return;
+    }
     (async () => {
       const complaintList = await getComplaints(getComplaintsFilter);
       setComplaints(complaintList);
@@ -104,13 +116,15 @@ export default function TenantHome() {
             {tenant.area && (
               <GeoJSON data={JSON.parse(tenant.area)} interactive={true} />
             )}
-            <MapToolbar
-              tenant={tenant}
-              user={user}
-              onLocationPicked={locationPicked}
-              getComplaintsFilter={getComplaintsFilter}
-              onGetComplaintsFilterChanged={(f) => setGetComplaintsFilter(f)}
-            />
+            {getComplaintsFilter && (
+              <MapToolbar
+                tenant={tenant}
+                user={user}
+                onLocationPicked={locationPicked}
+                getComplaintsFilter={getComplaintsFilter}
+                onGetComplaintsFilterChanged={(f) => setGetComplaintsFilter(f)}
+              />
+            )}
             {complaints.map((c) => (
               <ComplaintMarker
                 value100Vw={value100Vw}

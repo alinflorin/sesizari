@@ -8,10 +8,11 @@ import {
   DialogContent,
   DialogSurface,
   DialogTitle,
+  Dropdown,
   Field,
   makeStyles,
   MessageBar,
-  Select,
+  Option,
   Textarea,
   tokens,
 } from "@fluentui/react-components";
@@ -79,7 +80,7 @@ export default function AddComplaint(props: AddComplaintProps) {
     resolver: yupResolver(schema),
     defaultValues: {
       description: "",
-      category: undefined,
+      category: "",
       submissionPhotos: [],
     },
   });
@@ -186,23 +187,21 @@ export default function AddComplaint(props: AddComplaintProps) {
                     validationState={fieldState.invalid ? "error" : "success"}
                     validationMessage={extractErrorMessages(fieldState.error)}
                   >
-                    <Select
+                    <Dropdown
                       name={field.name}
                       id="category"
                       disabled={field.disabled}
                       ref={field.ref}
                       onBlur={field.onBlur}
-                      onChange={field.onChange}
+                      onOptionSelect={(_, d) => field.onChange({target: {value: d.optionValue}})}
                       value={field.value}
-                      required
                     >
-                      <option value={undefined}></option>
                       {props.tenant.categories.map((c) => (
-                        <option key={c} value={c}>
+                        <Option key={c} value={c}>
                           {c}
-                        </option>
+                        </Option>
                       ))}
-                    </Select>
+                    </Dropdown>
                   </Field>
                 )}
               />
