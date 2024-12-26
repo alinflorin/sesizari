@@ -17,6 +17,11 @@
       }
     },
     "components": {
+      "complaintSent": {
+        "success": "Succes",
+        "complaintSubmitted": "Sesizare trimisă cu succes",
+        "close": "Închidere"
+      },
       "header": {
         "login": "Autentificare",
         "logout": "Ieșire",
@@ -117,7 +122,11 @@
         "selected": "selectate",
         "categoryIsRequired": "Categoria este obligatorie",
         "categoriesAreRequired": "Categoriile sunt obligatorii",
-        "categories": "Categorii"
+        "categories": "Categorii",
+        "startDateMustBeBeforeEndDate": "Data de start trebuie să fie înainte de data de sfârșit",
+        "endDateMustBeAfterStartDate": "Data de sfârșit trebuie să fie după data de start",
+        "startDateIsRequired": "Data de start este obligatorie",
+        "endDateIsRequired": "Data de sfârșit este obligatorie"
       }
     },
     "routes": {
@@ -180,11 +189,6 @@
         "superAdmins": "Superadministratori",
         "save": "Salvare",
         "savedSuccessfully": "Salvat cu succes"
-      },
-      "tenantHome": {
-        "success": "Succes",
-        "complaintSubmitted": "Sesizare trimisă cu succes",
-        "close": "Închidere"
       }
     },
     "title": "Sesizări"

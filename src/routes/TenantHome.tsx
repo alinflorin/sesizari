@@ -1,16 +1,6 @@
 import { useOutletContext } from "react-router";
 import { Tenant } from "../models/tenant";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogBody,
-  DialogContent,
-  DialogSurface,
-  DialogTitle,
-  DialogTrigger,
-  makeStyles,
-} from "@fluentui/react-components";
+import { makeStyles } from "@fluentui/react-components";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import MapToolbar from "../components/MapToolbar";
 import { useCallback, useEffect, useState } from "react";
@@ -18,12 +8,12 @@ import { LatLngExpression } from "leaflet";
 import AddComplaint from "../components/AddComplaint";
 import { Complaint } from "../models/complaint";
 import { User } from "../models/user";
-import { useTranslation } from "react-i18next";
 import useComplaints from "../hooks/useComplaints";
 import ComplaintMarker from "../components/ComplaintMarker";
 import useViewportWidth from "../hooks/useViewportWidth";
 import useViewportHeight from "../hooks/useViewportHeight";
 import { GetComplaintsFilter } from "../models/get-complaints-filter";
+import ComplaintSent from "../components/ComplaintSent";
 
 const useStyles = makeStyles({
   container: {
@@ -41,7 +31,6 @@ export default function TenantHome() {
   const tenant = useOutletContext<{ tenant: Tenant | undefined }>()?.tenant;
   const user = useOutletContext<{ user: User | undefined }>()?.user;
   const [showSuccess, setShowSuccess] = useState(false);
-  const { t } = useTranslation();
   const { getComplaints } = useComplaints();
   const [complaints, setComplaints] = useState<Complaint[]>([]);
 
@@ -58,6 +47,7 @@ export default function TenantHome() {
     setGetComplaintsFilter({
       startDate: twoWeeksAgo,
       categories: tenant.categories,
+      endDate: new Date(),
       statuses: [
         "accepted",
         "answer-sent",
@@ -144,29 +134,10 @@ export default function TenantHome() {
           onClose={onAddComplaintClosed}
         />
       )}
-      <Dialog
-        modalType="alert"
+      <ComplaintSent
         open={showSuccess}
-        onOpenChange={(_, d) => {
-          setShowSuccess(d.open);
-        }}
-      >
-        <DialogSurface>
-          <DialogBody>
-            <DialogTitle>{t("ui.routes.tenantHome.success")}</DialogTitle>
-            <DialogContent>
-              {t("ui.routes.tenantHome.complaintSubmitted")}
-            </DialogContent>
-            <DialogActions>
-              <DialogTrigger disableButtonEnhancement>
-                <Button appearance="secondary">
-                  {t("ui.routes.tenantHome.close")}
-                </Button>
-              </DialogTrigger>
-            </DialogActions>
-          </DialogBody>
-        </DialogSurface>
-      </Dialog>
+        onOpenChange={(o) => setShowSuccess(o)}
+      />
     </>
   );
 }

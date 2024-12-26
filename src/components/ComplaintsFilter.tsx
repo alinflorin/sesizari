@@ -64,9 +64,11 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
       .required(t("ui.components.complaintsFilter.statusesAreRequired")),
     startDate: yup
       .date()
+      .required(t("ui.components.complaintsFilter.startDateIsRequired"))
       .typeError(t("ui.components.complaintsFilter.invalidDate")),
     endDate: yup
       .date()
+      .required(t("ui.components.complaintsFilter.endDateIsRequired"))
       .typeError(t("ui.components.complaintsFilter.invalidDate")),
     categories: yup
       .array(
@@ -81,6 +83,7 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
     handleSubmit,
     control,
     setError,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -88,19 +91,24 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
       statuses: props.filter.statuses,
       startDate: props.filter.startDate,
       endDate: props.filter.endDate,
-      categories: props.filter.categories
+      categories: props.filter.categories,
     },
   });
 
   const onSubmit = useCallback(
-    (data: { statuses: string[], endDate?: Date, startDate?: Date, categories: string[] }) => {
+    (data: {
+      statuses: string[];
+      endDate: Date;
+      startDate: Date;
+      categories: string[];
+    }) => {
       try {
         props.onChange({
           categories: data.categories,
           statuses: data.statuses as ComplaintStatus[],
           endDate: data.endDate,
-          startDate: data.startDate
-        })
+          startDate: data.startDate,
+        });
       } catch (err) {
         console.error(err);
         if (err instanceof FirebaseError) {
@@ -205,10 +213,11 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
               <DatePicker
                 name={field.name}
                 id="startDate"
+                maxDate={getValues("endDate")}
                 disabled={field.disabled}
                 ref={field.ref}
                 onBlur={field.onBlur}
-                onChange={field.onChange}
+                onSelectDate={(d) => field.onChange({ target: { value: d } })}
                 value={field.value}
               />
             </Field>
@@ -228,9 +237,10 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
                 name={field.name}
                 id="endDate"
                 disabled={field.disabled}
+                minDate={getValues("startDate")}
                 ref={field.ref}
                 onBlur={field.onBlur}
-                onChange={field.onChange}
+                onSelectDate={(d) => field.onChange({ target: { value: d } })}
                 value={field.value}
               />
             </Field>

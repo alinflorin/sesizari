@@ -17,6 +17,11 @@
       }
     },
     "components": {
+      "complaintSent": {
+        "success": "Success",
+        "complaintSubmitted": "Complaint submitted successfully",
+        "close": "Close"
+      },
       "header": {
         "login": "Login",
         "logout": "Logout",
@@ -117,7 +122,11 @@
         "selected": "selected",
         "categoryIsRequired": "Category is required",
         "categoriesAreRequired": "Categories are required",
-        "categories": "Categories"
+        "categories": "Categories",
+        "startDateMustBeBeforeEndDate": "Start date must be before end date",
+        "endDateMustBeAfterStartDate": "End date must be after start date",
+        "startDateIsRequired": "Start date is required",
+        "endDateIsRequired": "End date is required"
       }
     },
     "routes": {
@@ -179,11 +188,6 @@
         "superAdmins": "Superadmins",
         "save": "Save",
         "savedSuccessfully": "Saved sucessfully"
-      },
-      "tenantHome": {
-        "success": "Success",
-        "complaintSubmitted": "Complaint submitted successfully",
-        "close": "Close"
       }
     },
     "title": "Complaints"
