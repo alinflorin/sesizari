@@ -19,7 +19,7 @@ import AddComplaint from "../components/AddComplaint";
 import { Complaint } from "../models/complaint";
 import { User } from "../models/user";
 import { useTranslation } from "react-i18next";
-import useComplaints from "../hooks/useComplaints";
+import useComplaints, { GetComplaintsFilter } from "../hooks/useComplaints";
 import ComplaintMarker from "../components/ComplaintMarker";
 import useViewportWidth from "../hooks/useViewportWidth";
 import useViewportHeight from "../hooks/useViewportHeight";
@@ -43,14 +43,27 @@ export default function TenantHome() {
   const { t } = useTranslation();
   const { getComplaints } = useComplaints();
   const [complaints, setComplaints] = useState<Complaint[]>([]);
-
+  const twoWeeksAgo = new Date();
+  twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+  const [getComplaintsFilter, setGetComplaintsFilter] =
+    useState<GetComplaintsFilter>({
+      startDate: twoWeeksAgo,
+      statuses: [
+        "accepted",
+        "answer-sent",
+        "in-planning",
+        "in-progress",
+        "solved",
+      ],
+    });
+    console.log(setGetComplaintsFilter);
   useEffect(() => {
     (async () => {
-      const complaintList = await getComplaints();
+      const complaintList = await getComplaints(getComplaintsFilter);
       setComplaints(complaintList);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getComplaintsFilter]);
 
   const [pickedLocation, setPickedLocation] = useState<
     LatLngExpression | undefined
