@@ -1,8 +1,8 @@
-import { Add24Filled } from "@fluentui/react-icons";
 import EnhancedMarker from "./EnhancedMarker";
 import { Complaint } from "../models/complaint";
 import { Popup, useMap } from "react-leaflet";
 import { Marker } from "leaflet";
+import { Location24Filled } from "@fluentui/react-icons";
 
 export interface ComplaintMarkerProps {
   complaint: Complaint;
@@ -13,6 +13,7 @@ export default function ComplaintMarker(props: ComplaintMarkerProps) {
 
   return (
     <EnhancedMarker
+      riseOnHover={true}
       eventHandlers={{
         click: (e) => {
           const marker: Marker = e.target;
@@ -21,7 +22,7 @@ export default function ComplaintMarker(props: ComplaintMarkerProps) {
           }
         },
       }}
-      providedIcon={<Add24Filled />}
+      providedIcon={<Location24Filled />}
       position={[
         props.complaint.location.latitude,
         props.complaint.location.longitude,

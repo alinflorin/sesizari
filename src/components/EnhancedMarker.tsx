@@ -19,7 +19,9 @@ export const EnhancedMarker = ({
   const icon = useMemo(
     () =>
       L.divIcon({
-        html: `<div id="${id}"></div>`,
+        html: `<div style="width: 24px; height: 24px;" id="${id}"></div>`,
+        iconSize: [24, 24],
+        className: "mt-m-22",
       }),
     [id]
   );

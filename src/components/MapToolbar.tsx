@@ -6,9 +6,9 @@ import {
   ToolbarButton,
 } from "@fluentui/react-components";
 import {
-  AddRegular,
   BuildingRetailToolboxRegular,
   CursorProhibitedRegular,
+  LocationAddRegular,
 } from "@fluentui/react-icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMap, useMapEvent } from "react-leaflet";
@@ -126,7 +126,7 @@ export default function MapToolbar(props: MapToolbarProps) {
           <ToolbarButton
             appearance="primary"
             onClick={addClicked}
-            icon={<AddRegular />}
+            icon={<LocationAddRegular />}
           />
 
           {isTenantAdmin && (
