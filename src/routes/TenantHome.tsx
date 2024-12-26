@@ -21,6 +21,8 @@ import { User } from "../models/user";
 import { useTranslation } from "react-i18next";
 import useComplaints from "../hooks/useComplaints";
 import ComplaintMarker from "../components/ComplaintMarker";
+import useViewportWidth from "../hooks/useViewportWidth";
+import useViewportHeight from "../hooks/useViewportHeight";
 
 const useStyles = makeStyles({
   container: {
@@ -68,6 +70,9 @@ export default function TenantHome() {
     []
   );
 
+  const value100Vw = useViewportWidth(100);
+  const value100Vh = useViewportHeight(100);
+
   return (
     <>
       <div className={classes.container}>
@@ -90,7 +95,12 @@ export default function TenantHome() {
               onLocationPicked={locationPicked}
             />
             {complaints.map((c) => (
-              <ComplaintMarker key={c.id} complaint={c} />
+              <ComplaintMarker
+                value100Vw={value100Vw}
+                value100Vh={value100Vh}
+                key={c.id}
+                complaint={c}
+              />
             ))}
           </MapContainer>
         )}

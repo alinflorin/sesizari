@@ -79,6 +79,23 @@
       "fileUpload": {
         "upload": "Upload",
         "clear": "Golire"
+      },
+      "complaintMarker": {
+        "id": "ID",
+        "description": "Descriere",
+        "category": "Categorie",
+        "status": "Stare",
+        "statuses": {
+          "submitted": "Trimisă",
+          "accepted": "Acceptată",
+          "rejected": "Respinsă",
+          "in-planning": "În planificare",
+          "in-progress": "În decurs",
+          "solved": "Rezolvată",
+          "answer-sent": "Răspuns trimis"
+        },
+        "submittedAt": "Trimisă la",
+        "lastUpdateAt": "Ultima actualizare la"
       }
     },
     "routes": {

@@ -79,6 +79,23 @@
       "fileUpload": {
         "upload": "Upload",
         "clear": "Clear"
+      },
+      "complaintMarker": {
+        "id": "ID",
+        "description": "Description",
+        "category": "Category",
+        "status": "Status",
+        "statuses": {
+          "submitted": "Submitted",
+          "accepted": "Accepted",
+          "rejected": "Rejected",
+          "in-planning": "In planning",
+          "in-progress": "In progress",
+          "solved": "Solved",
+          "answer-sent": "Answer sent"
+        },
+        "submittedAt": "Sent at",
+        "lastUpdateAt": "Last update at"
       }
     },
     "routes": {
