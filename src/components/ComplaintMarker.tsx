@@ -9,6 +9,7 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
+import { stringToHexColor } from "../helpers/color-helpers";
 
 export interface ComplaintMarkerProps {
   complaint: Complaint;
@@ -54,7 +55,7 @@ export default function ComplaintMarker(props: ComplaintMarkerProps) {
           }
         },
       }}
-      providedIcon={<Location24Filled />}
+      providedIcon={<Location24Filled color={stringToHexColor(props.complaint.category)} />}
       position={[
         props.complaint.location.latitude,
         props.complaint.location.longitude,
