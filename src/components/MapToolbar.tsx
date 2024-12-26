@@ -1,9 +1,9 @@
 import {
   Caption1Strong,
   makeStyles,
-  Menu,
-  MenuPopover,
-  MenuTrigger,
+  Popover,
+  PopoverSurface,
+  PopoverTrigger,
   tokens,
   Toolbar,
   ToolbarButton,
@@ -138,17 +138,17 @@ export default function MapToolbar(props: MapToolbarProps) {
               icon={<LocationAddRegular />}
             />
 
-            <Menu persistOnItemClick={true}>
-              <MenuTrigger>
+            <Popover withArrow>
+              <PopoverTrigger>
                 <ToolbarButton appearance="primary" icon={<FilterRegular />} />
-              </MenuTrigger>
-              <MenuPopover>
+              </PopoverTrigger>
+              <PopoverSurface>
                 <ComplaintsFilter
                   filter={props.getComplaintsFilter}
                   onChange={(f) => props.onGetComplaintsFilterChanged(f)}
                 />
-              </MenuPopover>
-            </Menu>
+              </PopoverSurface>
+            </Popover>
 
             {isTenantAdmin && (
               <ToolbarButton
