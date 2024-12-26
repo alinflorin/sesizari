@@ -111,7 +111,9 @@
           "answer-sent": "Answer sent"
         },
         "invalidDate": "Invalid date",
-        "startDate": "Start date"
+        "startDate": "Start date",
+        "endDate": "End date",
+        "save": "Save"
       }
     },
     "routes": {

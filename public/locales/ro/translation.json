@@ -111,7 +111,9 @@
           "answer-sent": "Răspuns trimis"
         },
         "invalidDate": "Dată invalidă",
-        "startDate": "Dată start"
+        "startDate": "Dată start",
+        "endDate": "Dată sfârșit",
+        "save": "Salvare"
       }
     },
     "routes": {

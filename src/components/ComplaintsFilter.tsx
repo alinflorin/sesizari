@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
 import { GetComplaintsFilter } from "../models/get-complaints-filter";
 import {
+  Button,
+  Dropdown,
   Field,
   makeStyles,
   MessageBar,
-  Select,
+  Option,
   tokens,
 } from "@fluentui/react-components";
 import { FirebaseError } from "firebase/app";
@@ -31,6 +34,11 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     gap: tokens.spacingVerticalS,
+  },
+  buttonWrapper: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
   },
 });
 
@@ -109,23 +117,22 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
               validationState={fieldState.invalid ? "error" : "success"}
               validationMessage={extractErrorMessages(fieldState.error)}
             >
-              <Select
+              <Dropdown
                 name={field.name}
                 id="statuses"
-                multiple={true}
+                multiselect={true}
                 disabled={field.disabled}
                 ref={field.ref}
                 onBlur={field.onBlur}
+                value={field.value as any}
                 onChange={field.onChange}
-                value={field.value}
-                required
               >
                 {allStatuses.map((s) => (
-                  <option key={s} value={s}>
+                  <Option key={s} value={s}>
                     {t("ui.components.complaintsFilter.allStatuses." + s)}
-                  </option>
+                  </Option>
                 ))}
-              </Select>
+              </Dropdown>
             </Field>
           )}
         />
@@ -151,6 +158,34 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
             </Field>
           )}
         />
+
+        <Controller
+          name="endDate"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field
+              label={t("ui.components.complaintsFilter.endDate")}
+              validationState={fieldState.invalid ? "error" : "success"}
+              validationMessage={extractErrorMessages(fieldState.error)}
+            >
+              <DatePicker
+                name={field.name}
+                id="endDate"
+                disabled={field.disabled}
+                ref={field.ref}
+                onBlur={field.onBlur}
+                onChange={field.onChange}
+                value={field.value}
+              />
+            </Field>
+          )}
+        />
+
+        <div className={classes.buttonWrapper}>
+          <Button appearance="primary" type="submit">
+            {t("ui.components.complaintsFilter.save")}
+          </Button>
+        </div>
       </form>
     </div>
   );
