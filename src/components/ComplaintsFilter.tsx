@@ -83,7 +83,6 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
     handleSubmit,
     control,
     setError,
-    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -213,7 +212,6 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
               <DatePicker
                 name={field.name}
                 id="startDate"
-                maxDate={getValues("endDate")}
                 disabled={field.disabled}
                 ref={field.ref}
                 onBlur={field.onBlur}
@@ -237,7 +235,6 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
                 name={field.name}
                 id="endDate"
                 disabled={field.disabled}
-                minDate={getValues("startDate")}
                 ref={field.ref}
                 onBlur={field.onBlur}
                 onSelectDate={(d) => field.onChange({ target: { value: d } })}

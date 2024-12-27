@@ -123,8 +123,6 @@
         "categoryIsRequired": "Category is required",
         "categoriesAreRequired": "Categories are required",
         "categories": "Categories",
-        "startDateMustBeBeforeEndDate": "Start date must be before end date",
-        "endDateMustBeAfterStartDate": "End date must be after start date",
         "startDateIsRequired": "Start date is required",
         "endDateIsRequired": "End date is required"
       }
