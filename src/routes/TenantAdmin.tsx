@@ -11,21 +11,28 @@ export default function TenantAdmin() {
   const { tenant } = useOutletContext<{
     tenant: Tenant | undefined;
   }>();
-  const [loaded, setLoaded] = useState(false);
   const [complaints, setComplaints] = useState<Complaint[] | undefined>();
+  const [tenantId, setTenantId] = useState<string | undefined>();
 
   useEffect(() => {
-    if (!tenant || loaded) {
+    if (!tenant || tenantId) {
+      return;
+    }
+    setTenantId(tenant.id!);
+  }, [tenant, tenantId]);
+
+  useEffect(() => {
+    if (!tenantId) {
       return;
     }
     (async () => {
-      const result = await getComplaintsForAdmin(tenant.id!);
-      setComplaints(result);
-      console.log(result);
+      console.log(1);
+      const result = await getComplaintsForAdmin(tenantId);
+      setComplaints(result.data);
     })();
-    setLoaded(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tenant, loaded]);
+  }, [tenantId, getComplaintsForAdmin]);
+
+
 
   return (
     <>
