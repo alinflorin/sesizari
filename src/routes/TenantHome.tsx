@@ -38,8 +38,22 @@ export default function TenantHome() {
     GetComplaintsFilter | undefined
   >();
 
+    useEffect(() => {
+      if (!getComplaintsFilter) {
+        return;
+      }
+      (async () => {
+        const complaintList = await getComplaints(
+          tenant!.id!,
+          getComplaintsFilter
+        );
+        setComplaints(complaintList);
+      })();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getComplaintsFilter]);
+
   useEffect(() => {
-    if (!tenant) {
+    if (!tenant || getComplaintsFilter) {
       return;
     }
     const twoWeeksAgo = new Date();
@@ -56,18 +70,8 @@ export default function TenantHome() {
         "solved",
       ],
     });
-  }, [tenant]);
+  }, [tenant, getComplaintsFilter]);
 
-  useEffect(() => {
-    if (!getComplaintsFilter) {
-      return;
-    }
-    (async () => {
-      const complaintList = await getComplaints(getComplaintsFilter);
-      setComplaints(complaintList);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getComplaintsFilter]);
 
   const [pickedLocation, setPickedLocation] = useState<
     LatLngExpression | undefined

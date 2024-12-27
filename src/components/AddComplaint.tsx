@@ -111,6 +111,7 @@ export default function AddComplaint(props: AddComplaintProps) {
           authorEmail: props.user.email,
           authorName: props.user.displayName,
           location: new GeoPoint(location[0], location[1]),
+          tenantId: props.tenant.id!
         };
 
         if (fileUrls.length > 0) {

@@ -3,6 +3,7 @@ import { ComplaintStatus } from "./complaint-status";
 
 export interface Complaint {
   id?: string;
+  tenantId: string;
   description: string;
   location: GeoPoint;
   regNo?: number;
