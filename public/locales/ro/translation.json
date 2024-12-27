@@ -187,6 +187,23 @@
         "superAdmins": "Superadministratori",
         "save": "Salvare",
         "savedSuccessfully": "Salvat cu succes"
+      },
+      "tenantAdmin": {
+        "id": "ID",
+        "date": "Dată",
+        "status": "Stare",
+        "category": "Categorie",
+        "author": "Autor",
+        "statuses": {
+          "submitted": "Trimisă",
+          "accepted": "Acceptată",
+          "rejected": "Respinsă",
+          "in-planning": "În planificare",
+          "in-progress": "În decurs",
+          "solved": "Rezolvată",
+          "answer-sent": "Răspuns trimis"
+        },
+        "pageSize": "Mărime pagină"
       }
     },
     "title": "Sesizări"

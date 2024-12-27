@@ -186,6 +186,23 @@
         "superAdmins": "Superadmins",
         "save": "Save",
         "savedSuccessfully": "Saved sucessfully"
+      },
+      "tenantAdmin": {
+        "id": "ID",
+        "date": "Date",
+        "status": "Status",
+        "category": "Category",
+        "author": "Author",
+        "statuses": {
+          "submitted": "Submitted",
+          "accepted": "Accepted",
+          "rejected": "Rejected",
+          "in-planning": "In planning",
+          "in-progress": "In progress",
+          "solved": "Solved",
+          "answer-sent": "Answer sent"
+        },
+        "pageSize": "Page size"
       }
     },
     "title": "Complaints"

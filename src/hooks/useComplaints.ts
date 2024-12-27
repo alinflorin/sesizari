@@ -4,13 +4,14 @@ import {
   addDoc,
   collection,
   DocumentSnapshot,
+  getCountFromServer,
   getDocs,
   limit,
   orderBy,
   query,
   QueryConstraint,
   serverTimestamp,
-  startAt,
+  startAfter,
   Timestamp,
   where,
 } from "firebase/firestore";
@@ -78,16 +79,22 @@ export default function useComplaints() {
         where("tenantId", "==", tenantId),
         orderBy("submissionDate", "desc"),
       ];
+
+      const fullCount = await getCountFromServer(
+        query(collection(firebaseFirestore, "complaints"), ...qc)
+      );
+
       if (lastDoc) {
-        qc.push(startAt(lastDoc));
+        qc.push(startAfter(lastDoc));
       }
+      
       qc.push(limit(elementsPerPage));
 
       const q = query(collection(firebaseFirestore, "complaints"), ...qc);
       const results = await getDocs(q);
       return {
-        rightElement: results.docs[results.size - 1].ref,
-        leftElement: lastDoc,
+        rightElement: results.size < elementsPerPage ? undefined : (results.docs[results.size - 1] as DocumentSnapshot),
+        count: fullCount.data().count,
         data: results.docs.map((x) => {
           return {
             ...x.data(),
