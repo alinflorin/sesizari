@@ -73,6 +73,12 @@ export default function TenantAdmin() {
   const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
+    setPreviousDocs([]);
+    setRightDoc(undefined);
+    setStartAt(undefined);
+  }, [elementsPerPage]);
+
+  useEffect(() => {
     if (!tenant || tenantId) {
       return;
     }
