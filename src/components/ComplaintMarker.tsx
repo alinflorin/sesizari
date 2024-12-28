@@ -7,9 +7,12 @@ import {
   Caption2Strong,
   Caption2,
   makeStyles,
+  Button,
+  PresenceBadge,
 } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import { stringToHexColor } from "../helpers/color-helpers";
+import { useMemo } from "react";
 
 export interface ComplaintMarkerProps {
   complaint: Complaint;
@@ -30,20 +33,28 @@ const useStyles = makeStyles({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    gap: "0.5rem"
+    gap: "0.5rem",
   },
   taLeft: {
     textAlign: "left",
   },
   taRight: {
     textAlign: "right",
-  }
+  },
 });
 
 export default function ComplaintMarker(props: ComplaintMarkerProps) {
   const map = useMap();
   const classes = useStyles();
   const { t } = useTranslation();
+
+  const complaintDone = useMemo(() => {
+    return (
+      props.complaint.status === "answer-sent" ||
+      props.complaint.status === "solved"
+    );
+  }, [props]);
+
   return (
     <EnhancedMarker
       riseOnHover={true}
@@ -55,7 +66,35 @@ export default function ComplaintMarker(props: ComplaintMarkerProps) {
           }
         },
       }}
-      providedIcon={<Location24Filled color={stringToHexColor(props.complaint.category)} />}
+      providedIcon={
+        <Button
+          style={{
+            position: "relative",
+            width: "24px",
+            minWidth: "24px",
+            height: "24px",
+            minHeight: "24px",
+          }}
+          appearance="transparent"
+          icon={
+            <Location24Filled
+              color={stringToHexColor(props.complaint.category)}
+            />
+          }
+        >
+          {complaintDone && (
+            <PresenceBadge
+              style={{
+                position: "absolute",
+                bottom: "0px",
+                right: "4px",
+              }}
+              status="available"
+              size="extra-small"
+            />
+          )}
+        </Button>
+      }
       position={[
         props.complaint.location.latitude,
         props.complaint.location.longitude,

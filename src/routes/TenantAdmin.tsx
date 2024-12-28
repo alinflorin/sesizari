@@ -34,6 +34,7 @@ const useStyles = makeStyles({
   },
   table: {
     flex: "auto",
+    overflow: "auto"
   },
   innerTable: {
     minWidth: "600px",
