@@ -125,6 +125,11 @@
         "categories": "Categorii",
         "startDateIsRequired": "Data de start este obligatorie",
         "endDateIsRequired": "Data de sfârșit este obligatorie"
+      },
+      "editComplaint": {
+        "manageComplaint": "Administrare sesizare",
+        "cancel": "Anulare",
+        "save": "Salvare"
       }
     },
     "routes": {

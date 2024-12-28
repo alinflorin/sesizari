@@ -23,6 +23,7 @@ import {
 } from "@fluentui/react-components";
 import { stringToHexColor } from "../helpers/color-helpers";
 import { ChevronLeftRegular, ChevronRightRegular } from "@fluentui/react-icons";
+import EditComplaint from "../components/EditComplaint";
 
 const useStyles = makeStyles({
   container: {
@@ -56,6 +57,9 @@ const useStyles = makeStyles({
     minWidth: "70px",
     width: "70px",
   },
+  tr: {
+    cursor: "pointer"
+  }
 });
 
 export default function TenantAdmin() {
@@ -71,6 +75,7 @@ export default function TenantAdmin() {
   const [startAt, setStartAt] = useState<DocumentSnapshot | undefined>();
   const [elementsPerPage, setElementsPerPage] = useState(50);
   const [totalCount, setTotalCount] = useState(0);
+  const [selectedComplaint, setSelectedComplaint] = useState<Complaint | undefined>();
 
   useEffect(() => {
     setPreviousDocs([]);
@@ -115,6 +120,13 @@ export default function TenantAdmin() {
     setPreviousDocs([...previousDocs, rightDoc!]);
   }, [rightDoc, previousDocs]);
 
+  const onEditComplaintClosed = useCallback((c?: Complaint | undefined) => {
+    if (c) {
+      console.log(c);
+    }
+    setSelectedComplaint(undefined);
+  }, []);
+
   return (
     <div className={classes.container}>
       <div className={classes.table}>
@@ -140,14 +152,10 @@ export default function TenantAdmin() {
             {complaints && (
               <>
                 {complaints.map((c) => (
-                  <TableRow key={c.id!}>
+                  <TableRow className={classes.tr} onClick={() => setSelectedComplaint(c)} key={c.id!}>
                     <TableCell>
                       <TableCellLayout>
-                        <Link
-                          className={classes.wb}
-                        >
-                          {c.id!}
-                        </Link>
+                        <Link className={classes.wb}>{c.id!}</Link>
                       </TableCellLayout>
                     </TableCell>
                     <TableCell>
@@ -204,7 +212,10 @@ export default function TenantAdmin() {
             icon={<ChevronLeftRegular />}
           />
           <Button
-            disabled={!rightDoc || ((previousDocs.length + 1 * elementsPerPage) >= totalCount)}
+            disabled={
+              !rightDoc ||
+              previousDocs.length + 1 * elementsPerPage >= totalCount
+            }
             onClick={navFwd}
             icon={<ChevronRightRegular />}
           />
@@ -224,6 +235,7 @@ export default function TenantAdmin() {
           </Dropdown>
         </div>
       </div>
+      {selectedComplaint && <EditComplaint onClose={onEditComplaintClosed} complaint={selectedComplaint} />}
     </div>
   );
 }

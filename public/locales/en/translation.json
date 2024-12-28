@@ -125,6 +125,11 @@
         "categories": "Categories",
         "startDateIsRequired": "Start date is required",
         "endDateIsRequired": "End date is required"
+      },
+      "editComplaint": {
+        "manageComplaint": "Manage complaint",
+        "cancel": "Cancel",
+        "save": "Save"
       }
     },
     "routes": {
