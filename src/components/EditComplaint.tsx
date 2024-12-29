@@ -137,15 +137,15 @@ export default function EditComplaint(props: EditComplaintProps) {
             fileUrls.push(await uploadFile(f, f.name, "/", f.type));
           }
         }
-        
+
         const editedComplaint: Partial<Complaint> = {
           category: data.category,
-          resolutionPhotos:
-            fileUrls && fileUrls.length
-              ? fileUrls
-              : [],
           status: data.status as ComplaintStatus,
         };
+
+        if (fileUrls) {
+          editedComplaint.resolutionPhotos = fileUrls;
+        }
 
         const finalComplaint = await updateComplaint(
           props.complaint.id!,
