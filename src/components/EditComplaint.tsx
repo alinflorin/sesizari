@@ -143,7 +143,7 @@ export default function EditComplaint(props: EditComplaintProps) {
           resolutionPhotos:
             fileUrls && fileUrls.length
               ? fileUrls
-              : props.complaint.resolutionPhotos,
+              : [],
           status: data.status as ComplaintStatus,
         };
         delete editedComplaint.id;
