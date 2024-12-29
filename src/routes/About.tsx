@@ -5,7 +5,6 @@ const useStyles = makeStyles({
   container: {
     display: "flex",
     flexDirection: "column",
-    padding: "0.5rem",
   },
 });
 

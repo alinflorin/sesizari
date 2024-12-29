@@ -26,7 +26,6 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
     height: "100%",
-    padding: "0.5rem",
   },
   form: {
     display: "flex",
