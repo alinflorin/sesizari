@@ -149,7 +149,8 @@
           "answer-sent": "Answer sent"
         },
         "submissionPhotos": "Submission photos",
-        "resolutionPhotos": "Resolution photos"
+        "resolutionPhotos": "Resolution photos",
+        "author": "Author"
       }
     },
     "routes": {

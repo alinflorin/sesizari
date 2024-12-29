@@ -149,7 +149,8 @@
           "answer-sent": "Răspuns trimis"
         },
         "submissionPhotos": "Fotografii autor",
-        "resolutionPhotos": "Fotografii soluționare"
+        "resolutionPhotos": "Fotografii soluționare",
+        "author": "Autor"
       }
     },
     "routes": {

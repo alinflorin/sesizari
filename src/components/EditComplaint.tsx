@@ -125,7 +125,10 @@ export default function EditComplaint(props: EditComplaintProps) {
         let editedComplaint: Complaint = {
           ...props.complaint,
           category: data.category,
-          resolutionPhotos: fileUrls && fileUrls.length ? fileUrls : props.complaint.resolutionPhotos,
+          resolutionPhotos:
+            fileUrls && fileUrls.length
+              ? fileUrls
+              : props.complaint.resolutionPhotos,
           status: data.status as ComplaintStatus,
         };
         delete editedComplaint.id;
@@ -180,6 +183,18 @@ export default function EditComplaint(props: EditComplaintProps) {
               </Caption2Strong>
               <Caption2 className={classes.taLeft}>
                 {props.complaint.description}
+              </Caption2>
+            </div>
+            <div className={classes.popupRow}>
+              <Caption2Strong className={classes.taRight}>
+                {t("ui.components.editComplaint.author")}:
+              </Caption2Strong>
+              <Caption2 className={classes.taLeft}>
+                {props.complaint.authorName} (
+                <Link href={"mailto:" + props.complaint.authorEmail}>
+                  {props.complaint.authorEmail}
+                </Link>
+                )
               </Caption2>
             </div>
             {props.complaint.submissionPhotos &&

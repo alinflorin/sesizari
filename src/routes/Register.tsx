@@ -60,8 +60,12 @@ export const Register = () => {
       .required(t("ui.routes.register.emailIsRequired")),
     firstName: yup
       .string()
+      .trim(t("ui.routes.register.firstNameIsRequired"))
       .required(t("ui.routes.register.firstNameIsRequired")),
-    lastName: yup.string().required(t("ui.routes.register.lastNameIsRequired")),
+    lastName: yup
+      .string()
+      .required(t("ui.routes.register.lastNameIsRequired"))
+      .trim(t("ui.routes.register.lastNameIsRequired")),
     password: yup
       .string()
       .min(6, t("ui.routes.register.passwordTooShort"))
