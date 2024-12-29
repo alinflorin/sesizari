@@ -127,7 +127,8 @@
         "startDateIsRequired": "Start date is required",
         "endDateIsRequired": "End date is required",
         "invalidCategory": "Invalid category",
-        "invalidStatus": "Invalid status"
+        "invalidStatus": "Invalid status",
+        "reset": "Reset"
       },
       "editComplaint": {
         "manageComplaint": "Manage complaint",

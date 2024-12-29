@@ -127,7 +127,8 @@
         "startDateIsRequired": "Data de start este obligatorie",
         "endDateIsRequired": "Data de sfârșit este obligatorie",
         "invalidCategory": "Categorie invalidă",
-        "invalidStatus": "Stare invalidă"
+        "invalidStatus": "Stare invalidă",
+        "reset": "Resetare"
       },
       "editComplaint": {
         "manageComplaint": "Administrare sesizare",

@@ -13,20 +13,21 @@ import {
   tokens,
 } from "@fluentui/react-components";
 import { FirebaseError } from "firebase/app";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { extractErrorMessages } from "../helpers/form-helpers";
 import { ComplaintStatus } from "../models/complaint-status";
 import { DatePicker } from "@fluentui/react-datepicker-compat";
 
 export interface ComplaintsFilterProps {
   filter: GetComplaintsFilter;
+  defaultFilter: GetComplaintsFilter;
+  onReset: () => void;
   onChange: (f: GetComplaintsFilter) => void;
   allCategories: string[];
 }
 
 const useStyles = makeStyles({
-  filterWrapper: {
-  },
+  filterWrapper: {},
   form: {
     width: "100%",
     height: "100%",
@@ -37,7 +38,7 @@ const useStyles = makeStyles({
   buttonWrapper: {
     width: "100%",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
   },
 });
 
@@ -75,7 +76,10 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
         yup
           .string()
           .required(t("ui.components.complaintsFilter.categoryIsRequired"))
-          .oneOf(props.allCategories, t("ui.components.complaintsFilter.invalidCategory"))
+          .oneOf(
+            props.allCategories,
+            t("ui.components.complaintsFilter.invalidCategory")
+          )
       )
       .required(t("ui.components.complaintsFilter.categoriesAreRequired")),
   });
@@ -84,6 +88,7 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
     handleSubmit,
     control,
     setError,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -94,6 +99,9 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
       categories: props.filter.categories,
     },
   });
+
+  const maxStartDate = watch("endDate");
+  const minEndDate = watch("startDate");
 
   const onSubmit = useCallback(
     (data: {
@@ -120,6 +128,10 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
     },
     [setError, props]
   );
+
+  const isFilterChanged = useMemo(() => {
+    return JSON.stringify(props.filter) !== JSON.stringify(props.defaultFilter);
+  }, [props]);
 
   return (
     <div className={classes.filterWrapper}>
@@ -213,6 +225,7 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
               <DatePicker
                 name={field.name}
                 id="startDate"
+                maxDate={maxStartDate}
                 disabled={field.disabled}
                 ref={field.ref}
                 onBlur={field.onBlur}
@@ -236,6 +249,7 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
                 name={field.name}
                 id="endDate"
                 disabled={field.disabled}
+                minDate={minEndDate}
                 ref={field.ref}
                 onBlur={field.onBlur}
                 onSelectDate={(d) => field.onChange({ target: { value: d } })}
@@ -249,6 +263,15 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
           <Button appearance="primary" type="submit">
             {t("ui.components.complaintsFilter.save")}
           </Button>
+          {isFilterChanged && (
+            <Button
+              onClick={() => props.onReset()}
+              appearance="secondary"
+              type="button"
+            >
+              {t("ui.components.complaintsFilter.reset")}
+            </Button>
+          )}
         </div>
       </form>
     </div>

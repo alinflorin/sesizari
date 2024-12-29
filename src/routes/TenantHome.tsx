@@ -37,6 +37,9 @@ export default function TenantHome() {
   const [getComplaintsFilter, setGetComplaintsFilter] = useState<
     GetComplaintsFilter | undefined
   >();
+  const [defaultFilter, setDefaultFilter] = useState<
+    GetComplaintsFilter | undefined
+  >();
 
     useEffect(() => {
       if (!getComplaintsFilter) {
@@ -59,6 +62,18 @@ export default function TenantHome() {
     const twoWeeksAgo = new Date();
     twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
     setGetComplaintsFilter({
+      startDate: twoWeeksAgo,
+      categories: tenant.categories,
+      endDate: new Date(),
+      statuses: [
+        "accepted",
+        "answer-sent",
+        "in-planning",
+        "in-progress",
+        "solved",
+      ],
+    });
+    setDefaultFilter({
       startDate: twoWeeksAgo,
       categories: tenant.categories,
       endDate: new Date(),
@@ -110,11 +125,13 @@ export default function TenantHome() {
             {tenant.area && (
               <GeoJSON data={JSON.parse(tenant.area)} interactive={true} />
             )}
-            {getComplaintsFilter && (
+            {getComplaintsFilter && defaultFilter && (
               <MapToolbar
                 tenant={tenant}
                 user={user}
                 onLocationPicked={locationPicked}
+                defaultFilter={defaultFilter}
+                onResetFilter={() => setGetComplaintsFilter(defaultFilter)}
                 getComplaintsFilter={getComplaintsFilter}
                 onGetComplaintsFilterChanged={(f) => setGetComplaintsFilter(f)}
               />

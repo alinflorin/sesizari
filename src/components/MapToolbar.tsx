@@ -43,6 +43,8 @@ export interface MapToolbarProps {
   user: User | undefined;
   tenant: Tenant;
   getComplaintsFilter: GetComplaintsFilter;
+  defaultFilter: GetComplaintsFilter;
+  onResetFilter: () => void;
   onGetComplaintsFilterChanged: (f: GetComplaintsFilter) => void;
 }
 
@@ -116,6 +118,12 @@ export default function MapToolbar(props: MapToolbarProps) {
       .includes(props.user.email.toLowerCase());
   }, [props]);
 
+    const isFilterChanged = useMemo(() => {
+      return (
+        JSON.stringify(props.getComplaintsFilter) !== JSON.stringify(props.defaultFilter)
+      );
+    }, [props]);
+
   return (
     <>
       <Toolbar ref={toolbarRef} className={classes.toolbar}>
@@ -125,7 +133,7 @@ export default function MapToolbar(props: MapToolbarProps) {
               {t("ui.components.mapToolbar.pickLocation")}
             </Caption1Strong>
             <ToolbarButton
-              appearance="primary"
+              appearance={undefined}
               onClick={() => setAwaitingClick(false)}
               icon={<CursorProhibitedRegular />}
             />
@@ -134,7 +142,7 @@ export default function MapToolbar(props: MapToolbarProps) {
         {!awaitingClick && (
           <>
             <ToolbarButton
-              appearance="primary"
+              appearance={undefined}
               onClick={addClicked}
               icon={<LocationAddRegular />}
             />
@@ -145,11 +153,19 @@ export default function MapToolbar(props: MapToolbarProps) {
               withArrow
             >
               <PopoverTrigger>
-                <ToolbarButton appearance="primary" icon={<FilterRegular />} />
+                <ToolbarButton
+                  appearance={isFilterChanged ? "primary" : undefined}
+                  icon={<FilterRegular />}
+                />
               </PopoverTrigger>
               <PopoverSurface>
                 <ComplaintsFilter
                   allCategories={props.tenant.categories}
+                  defaultFilter={props.defaultFilter}
+                  onReset={() => {
+                    props.onResetFilter();
+                    setFilterOpen(false);
+                  }}
                   filter={props.getComplaintsFilter}
                   onChange={(f) => {
                     props.onGetComplaintsFilterChanged(f);
@@ -161,7 +177,7 @@ export default function MapToolbar(props: MapToolbarProps) {
 
             {isTenantAdmin && (
               <ToolbarButton
-                appearance="primary"
+                appearance={undefined}
                 onClick={() => navigate("./admin")}
                 icon={<BuildingRetailToolboxRegular />}
               />
