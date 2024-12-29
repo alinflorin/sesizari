@@ -129,7 +129,27 @@
       "editComplaint": {
         "manageComplaint": "Administrare sesizare",
         "cancel": "Anulare",
-        "save": "Salvare"
+        "save": "Salvare",
+        "fileIsRequired": "Fișierul este obligatoriu",
+        "categoryIsRequired": "Categoria este obligatorie",
+        "statusIsRequired": "Starea este obligatorie",
+        "id": "ID",
+        "description": "Descriere",
+        "submittedAt": "Trimisă la",
+        "lastUpdateAt": "Ultima modificare la",
+        "category": "Categorie",
+        "status": "Stare",
+        "statuses": {
+          "submitted": "Trimisă",
+          "accepted": "Acceptată",
+          "rejected": "Respinsă",
+          "in-planning": "În planificare",
+          "in-progress": "În decurs",
+          "solved": "Rezolvată",
+          "answer-sent": "Răspuns trimis"
+        },
+        "submissionPhotos": "Fotografii autor",
+        "resolutionPhotos": "Fotografii soluționare"
       }
     },
     "routes": {

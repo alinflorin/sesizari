@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   },
   table: {
     flex: "auto",
-    overflow: "auto"
+    overflow: "auto",
   },
   innerTable: {
     minWidth: "600px",
@@ -58,8 +58,8 @@ const useStyles = makeStyles({
     width: "70px",
   },
   tr: {
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  },
 });
 
 export default function TenantAdmin() {
@@ -75,7 +75,9 @@ export default function TenantAdmin() {
   const [startAt, setStartAt] = useState<DocumentSnapshot | undefined>();
   const [elementsPerPage, setElementsPerPage] = useState(50);
   const [totalCount, setTotalCount] = useState(0);
-  const [selectedComplaint, setSelectedComplaint] = useState<Complaint | undefined>();
+  const [selectedComplaint, setSelectedComplaint] = useState<
+    Complaint | undefined
+  >();
 
   useEffect(() => {
     setPreviousDocs([]);
@@ -112,7 +114,7 @@ export default function TenantAdmin() {
   const navBack = useCallback(() => {
     setStartAt(previousDocs[previousDocs.length - 2]);
     previousDocs.splice(previousDocs.length - 1, 1);
-    setPreviousDocs(previousDocs)
+    setPreviousDocs(previousDocs);
   }, [previousDocs]);
 
   const navFwd = useCallback(() => {
@@ -120,12 +122,20 @@ export default function TenantAdmin() {
     setPreviousDocs([...previousDocs, rightDoc!]);
   }, [rightDoc, previousDocs]);
 
-  const onEditComplaintClosed = useCallback((c?: Complaint | undefined) => {
-    if (c) {
-      console.log(c);
-    }
-    setSelectedComplaint(undefined);
-  }, []);
+  const onEditComplaintClosed = useCallback(
+    (c?: Complaint | undefined) => {
+      if (c && complaints) {
+        const idx = complaints.findIndex((x) => x.id === c.id);
+        if (idx > -1) {
+          const complaintsCopy = [...complaints];
+          complaintsCopy[idx] = c;
+          setComplaints(complaintsCopy);
+        }
+      }
+      setSelectedComplaint(undefined);
+    },
+    [complaints]
+  );
 
   return (
     <div className={classes.container}>
@@ -152,7 +162,11 @@ export default function TenantAdmin() {
             {complaints && (
               <>
                 {complaints.map((c) => (
-                  <TableRow className={classes.tr} onClick={() => setSelectedComplaint(c)} key={c.id!}>
+                  <TableRow
+                    className={classes.tr}
+                    onClick={() => setSelectedComplaint(c)}
+                    key={c.id!}
+                  >
                     <TableCell>
                       <TableCellLayout>
                         <Link className={classes.wb}>{c.id!}</Link>
@@ -235,7 +249,13 @@ export default function TenantAdmin() {
           </Dropdown>
         </div>
       </div>
-      {selectedComplaint && <EditComplaint onClose={onEditComplaintClosed} complaint={selectedComplaint} />}
+      {selectedComplaint && tenant && (
+        <EditComplaint
+          tenant={tenant}
+          onClose={onEditComplaintClosed}
+          complaint={selectedComplaint}
+        />
+      )}
     </div>
   );
 }

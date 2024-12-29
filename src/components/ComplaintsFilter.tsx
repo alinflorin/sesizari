@@ -26,7 +26,6 @@ export interface ComplaintsFilterProps {
 
 const useStyles = makeStyles({
   filterWrapper: {
-    padding: tokens.spacingVerticalS,
   },
   form: {
     width: "100%",

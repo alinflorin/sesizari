@@ -3,14 +3,17 @@ import { Complaint } from "../models/complaint";
 import {
   addDoc,
   collection,
+  doc,
   DocumentSnapshot,
   getCountFromServer,
+  getDoc,
   getDocs,
   limit,
   orderBy,
   query,
   QueryConstraint,
   serverTimestamp,
+  setDoc,
   startAfter,
   Timestamp,
   where,
@@ -87,13 +90,16 @@ export default function useComplaints() {
       if (lastDoc) {
         qc.push(startAfter(lastDoc));
       }
-      
+
       qc.push(limit(elementsPerPage));
 
       const q = query(collection(firebaseFirestore, "complaints"), ...qc);
       const results = await getDocs(q);
       return {
-        rightElement: results.size < elementsPerPage ? undefined : (results.docs[results.size - 1] as DocumentSnapshot),
+        rightElement:
+          results.size < elementsPerPage
+            ? undefined
+            : (results.docs[results.size - 1] as DocumentSnapshot),
         count: fullCount.data().count,
         data: results.docs.map((x) => {
           return {
@@ -106,5 +112,25 @@ export default function useComplaints() {
     []
   );
 
-  return { addComplaint, getComplaints, getComplaintsForAdmin };
+  const updateComplaint = useCallback(
+    async (id: string, complaint: Complaint) => {
+      await setDoc(
+        doc(firebaseFirestore, "complaints/" + id),
+        { ...complaint, lastUpdateAt: serverTimestamp() },
+        {
+          merge: true,
+        }
+      );
+      const docRef = await getDoc(doc(firebaseFirestore, "complaints/" + id));
+      return {...docRef.data(), id: docRef.id} as Complaint;
+    },
+    []
+  );
+
+  return {
+    addComplaint,
+    getComplaints,
+    getComplaintsForAdmin,
+    updateComplaint,
+  };
 }

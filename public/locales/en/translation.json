@@ -129,7 +129,27 @@
       "editComplaint": {
         "manageComplaint": "Manage complaint",
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "fileIsRequired": "File is required",
+        "categoryIsRequired": "Category is required",
+        "statusIsRequired": "Status is required",
+        "id": "ID",
+        "description": "Description",
+        "submittedAt": "Submitted at",
+        "lastUpdateAt": "Last update at",
+        "category": "Category",
+        "status": "Status",
+        "statuses": {
+          "submitted": "Submitted",
+          "accepted": "Accepted",
+          "rejected": "Rejected",
+          "in-planning": "In planning",
+          "in-progress": "In progress",
+          "solved": "Solved",
+          "answer-sent": "Answer sent"
+        },
+        "submissionPhotos": "Submission photos",
+        "resolutionPhotos": "Resolution photos"
       }
     },
     "routes": {
