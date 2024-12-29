@@ -79,7 +79,8 @@
         "categoryIsRequired": "Categoria este obligatorie",
         "category": "Categorie",
         "fileIsRequired": "Fișierul este obligatoriu",
-        "photos": "Fotografii"
+        "photos": "Fotografii",
+        "invalidCategory": "Categorie invalidă"
       },
       "fileUpload": {
         "upload": "Upload",
@@ -124,7 +125,9 @@
         "categoriesAreRequired": "Categoriile sunt obligatorii",
         "categories": "Categorii",
         "startDateIsRequired": "Data de start este obligatorie",
-        "endDateIsRequired": "Data de sfârșit este obligatorie"
+        "endDateIsRequired": "Data de sfârșit este obligatorie",
+        "invalidCategory": "Categorie invalidă",
+        "invalidStatus": "Stare invalidă"
       },
       "editComplaint": {
         "manageComplaint": "Administrare sesizare",
@@ -150,7 +153,9 @@
         },
         "submissionPhotos": "Fotografii autor",
         "resolutionPhotos": "Fotografii soluționare",
-        "author": "Autor"
+        "author": "Autor",
+        "invalidCategory": "Categorie invalidă",
+        "invalidStatus": "Stare invalidă"
       }
     },
     "routes": {

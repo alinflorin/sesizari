@@ -58,10 +58,14 @@ export default function AddEditTenant(props: AddEditTenantProps) {
       .string()
       .required(t("ui.components.addEditTenant.nameIsRequired")),
     id: props.tenant.id
-      ? yup.string().required(t("ui.components.addEditTenant.idIsRequired"))
+      ? yup
+          .string()
+          .required(t("ui.components.addEditTenant.idIsRequired"))
+          .trim(t("ui.components.addEditTenant.idIsRequired"))
       : yup
           .string()
           .required(t("ui.components.addEditTenant.idIsRequired"))
+          .trim(t("ui.components.addEditTenant.idIsRequired"))
           .test(
             "valid-id",
             t("ui.components.addEditTenant.idIsInvalid"),
@@ -103,6 +107,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
     mapCenter: yup
       .string()
       .required(t("ui.components.addEditTenant.mapCenterIsRequired"))
+      .trim(t("ui.components.addEditTenant.mapCenterIsRequired"))
       .test(
         "is-lat-long",
         t("ui.components.addEditTenant.mapCenterIsInvalid"),
@@ -118,6 +123,7 @@ export default function AddEditTenant(props: AddEditTenantProps) {
         yup
           .string()
           .required(t("ui.components.addEditTenant.categoryIsRequired"))
+          .trim(t("ui.components.addEditTenant.categoryIsRequired"))
       )
       .required(t("ui.components.addEditTenant.categoriesAreRequired"))
       .min(1, t("ui.components.addEditTenant.categoriesAreRequired")),

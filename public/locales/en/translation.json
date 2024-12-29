@@ -79,7 +79,8 @@
         "categoryIsRequired": "Category is required",
         "category": "Category",
         "fileIsRequired": "File is required",
-        "photos": "Photos"
+        "photos": "Photos",
+        "invalidCategory": "Invalid category"
       },
       "fileUpload": {
         "upload": "Upload",
@@ -124,7 +125,9 @@
         "categoriesAreRequired": "Categories are required",
         "categories": "Categories",
         "startDateIsRequired": "Start date is required",
-        "endDateIsRequired": "End date is required"
+        "endDateIsRequired": "End date is required",
+        "invalidCategory": "Invalid category",
+        "invalidStatus": "Invalid status"
       },
       "editComplaint": {
         "manageComplaint": "Manage complaint",
@@ -150,7 +153,9 @@
         },
         "submissionPhotos": "Submission photos",
         "resolutionPhotos": "Resolution photos",
-        "author": "Author"
+        "author": "Author",
+        "invalidCategory": "Invalid category",
+        "invalidStatus": "Invalid status"
       }
     },
     "routes": {

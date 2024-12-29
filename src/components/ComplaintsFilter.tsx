@@ -59,6 +59,7 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
         yup
           .string()
           .required(t("ui.components.complaintsFilter.statusIsRequired"))
+          .oneOf(allStatuses, t("ui.components.complaintsFilter.invalidStatus"))
       )
       .required(t("ui.components.complaintsFilter.statusesAreRequired")),
     startDate: yup
@@ -74,6 +75,7 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
         yup
           .string()
           .required(t("ui.components.complaintsFilter.categoryIsRequired"))
+          .oneOf(props.allCategories, t("ui.components.complaintsFilter.invalidCategory"))
       )
       .required(t("ui.components.complaintsFilter.categoriesAreRequired")),
   });

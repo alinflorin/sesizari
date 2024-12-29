@@ -37,6 +37,16 @@ export interface EditComplaintProps {
   tenant: Tenant;
 }
 
+const allStatuses: ComplaintStatus[] = [
+  "submitted",
+  "accepted",
+  "rejected",
+  "in-planning",
+  "in-progress",
+  "solved",
+  "answer-sent",
+];
+
 const useStyles = makeStyles({
   form: {
     width: "100%",
@@ -81,10 +91,15 @@ export default function EditComplaint(props: EditComplaintProps) {
   const schema = yup.object().shape({
     category: yup
       .string()
-      .required(t("ui.components.editComplaint.categoryIsRequired")),
+      .required(t("ui.components.editComplaint.categoryIsRequired"))
+      .oneOf(
+        props.tenant.categories,
+        t("ui.components.editComplaint.invalidCategory")
+      ),
     status: yup
       .string()
-      .required(t("ui.components.editComplaint.statusIsRequired")),
+      .required(t("ui.components.editComplaint.statusIsRequired"))
+      .oneOf(allStatuses, t("ui.components.editComplaint.invalidStatus")),
     resolutionPhotos: yup
       .array()
       .of(
@@ -304,15 +319,7 @@ export default function EditComplaint(props: EditComplaintProps) {
                         "ui.components.editComplaint.statuses." + field.value
                       )}
                     >
-                      {[
-                        "submitted",
-                        "accepted",
-                        "rejected",
-                        "in-planning",
-                        "in-progress",
-                        "solved",
-                        "answer-sent",
-                      ].map((c) => (
+                      {allStatuses.map((c) => (
                         <Option key={c} value={c}>
                           {t("ui.components.editComplaint.statuses." + c)}
                         </Option>

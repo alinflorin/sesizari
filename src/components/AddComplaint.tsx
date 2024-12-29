@@ -57,10 +57,12 @@ export default function AddComplaint(props: AddComplaintProps) {
   const schema = yup.object().shape({
     description: yup
       .string()
-      .required(t("ui.components.addComplaint.descriptionIsRequired")),
+      .required(t("ui.components.addComplaint.descriptionIsRequired"))
+      .trim(t("ui.components.addComplaint.descriptionIsRequired")),
     category: yup
       .string()
-      .required(t("ui.components.addComplaint.categoryIsRequired")),
+      .required(t("ui.components.addComplaint.categoryIsRequired"))
+      .oneOf(props.tenant.categories, t("ui.components.addComplaint.invalidCategory")),
     submissionPhotos: yup
       .array()
       .of(
