@@ -137,8 +137,8 @@ export default function EditComplaint(props: EditComplaintProps) {
             fileUrls.push(await uploadFile(f, f.name, "/", f.type));
           }
         }
-        let editedComplaint: Complaint = {
-          ...props.complaint,
+        
+        const editedComplaint: Partial<Complaint> = {
           category: data.category,
           resolutionPhotos:
             fileUrls && fileUrls.length
@@ -146,14 +146,13 @@ export default function EditComplaint(props: EditComplaintProps) {
               : [],
           status: data.status as ComplaintStatus,
         };
-        delete editedComplaint.id;
 
-        editedComplaint = await updateComplaint(
+        const finalComplaint = await updateComplaint(
           props.complaint.id!,
           editedComplaint
         );
 
-        props.onClose(editedComplaint);
+        props.onClose(finalComplaint);
         setLoading(false);
       } catch (err) {
         console.error(err);

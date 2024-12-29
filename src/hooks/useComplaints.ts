@@ -113,7 +113,7 @@ export default function useComplaints() {
   );
 
   const updateComplaint = useCallback(
-    async (id: string, complaint: Complaint) => {
+    async (id: string, complaint: Partial<Complaint>) => {
       await setDoc(
         doc(firebaseFirestore, "complaints/" + id),
         { ...complaint, lastUpdateAt: serverTimestamp() },
