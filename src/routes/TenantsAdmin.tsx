@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     gap: "1rem",
+    padding: "0.5rem"
   },
   grid: {
     display: "grid",
