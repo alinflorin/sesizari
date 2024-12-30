@@ -17,6 +17,7 @@ import { useCallback, useMemo } from "react";
 import { extractErrorMessages } from "../helpers/form-helpers";
 import { ComplaintStatus } from "../models/complaint-status";
 import { DatePicker } from "@fluentui/react-datepicker-compat";
+import deepEquals from "../helpers/object-helpers";
 
 export interface ComplaintsFilterProps {
   filter: GetComplaintsFilter;
@@ -130,7 +131,7 @@ export default function ComplaintsFilter(props: ComplaintsFilterProps) {
   );
 
   const isFilterChanged = useMemo(() => {
-    return JSON.stringify(props.filter) !== JSON.stringify(props.defaultFilter);
+    return deepEquals(props.filter, props.defaultFilter);
   }, [props]);
 
   return (

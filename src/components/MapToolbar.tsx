@@ -23,6 +23,7 @@ import { User } from "../models/user";
 import { Tenant } from "../models/tenant";
 import ComplaintsFilter from "./ComplaintsFilter";
 import { GetComplaintsFilter } from "../models/get-complaints-filter";
+import deepEquals from "../helpers/object-helpers";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -120,7 +121,7 @@ export default function MapToolbar(props: MapToolbarProps) {
 
     const isFilterChanged = useMemo(() => {
       return (
-        JSON.stringify(props.getComplaintsFilter) !== JSON.stringify(props.defaultFilter)
+        deepEquals(props.getComplaintsFilter, props.defaultFilter)
       );
     }, [props]);
 

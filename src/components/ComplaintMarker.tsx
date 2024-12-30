@@ -34,13 +34,7 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     alignItems: "flex-start",
     gap: "0.5rem",
-  },
-  taLeft: {
-    textAlign: "left",
-  },
-  taRight: {
-    textAlign: "right",
-  },
+  }
 });
 
 export default function ComplaintMarker(props: ComplaintMarkerProps) {
@@ -107,32 +101,32 @@ export default function ComplaintMarker(props: ComplaintMarkerProps) {
       >
         <div className={classes.popup}>
           <div className={classes.popupRow}>
-            <Caption2Strong className={classes.taRight}>
+            <Caption2Strong>
               {t("ui.components.complaintMarker.id")}:
             </Caption2Strong>
-            <Caption2 className={classes.taLeft}>{props.complaint.id}</Caption2>
+            <Caption2>{props.complaint.id}</Caption2>
           </div>
           <div className={classes.popupRow}>
-            <Caption2Strong className={classes.taRight}>
+            <Caption2Strong>
               {t("ui.components.complaintMarker.category")}:
             </Caption2Strong>
-            <Caption2 className={classes.taLeft}>
+            <Caption2>
               {props.complaint.category}
             </Caption2>
           </div>
           <div className={classes.popupRow}>
-            <Caption2Strong className={classes.taRight}>
+            <Caption2Strong>
               {t("ui.components.complaintMarker.description")}:
             </Caption2Strong>
-            <Caption2 className={classes.taLeft}>
+            <Caption2>
               {props.complaint.description}
             </Caption2>
           </div>
           <div className={classes.popupRow}>
-            <Caption2Strong className={classes.taRight}>
+            <Caption2Strong>
               {t("ui.components.complaintMarker.status")}:
             </Caption2Strong>
-            <Caption2 className={classes.taLeft}>
+            <Caption2>
               {t(
                 "ui.components.complaintMarker.statuses." +
                   props.complaint.status
@@ -140,18 +134,18 @@ export default function ComplaintMarker(props: ComplaintMarkerProps) {
             </Caption2>
           </div>
           <div className={classes.popupRow}>
-            <Caption2Strong className={classes.taRight}>
+            <Caption2Strong>
               {t("ui.components.complaintMarker.submittedAt")}:
             </Caption2Strong>
-            <Caption2 className={classes.taLeft}>
+            <Caption2>
               {props.complaint.submissionDate?.toDate().toLocaleString() || "-"}
             </Caption2>
           </div>
           <div className={classes.popupRow}>
-            <Caption2Strong className={classes.taRight}>
+            <Caption2Strong>
               {t("ui.components.complaintMarker.lastUpdateAt")}:
             </Caption2Strong>
-            <Caption2 className={classes.taLeft}>
+            <Caption2>
               {props.complaint.lastUpdateAt?.toDate().toLocaleString() || "-"}
             </Caption2>
           </div>
