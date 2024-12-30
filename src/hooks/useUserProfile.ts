@@ -13,7 +13,7 @@ export default function useUserProfile() {
   );
 
   const [onlineProfile] = useDocumentData(
-    doc(firebaseFirestore, `userProfiles/${user?.email}`)
+    doc(firebaseFirestore, user ? `userProfiles/${user.email}` : `test/test`)
   );
 
   useEffect(() => {
